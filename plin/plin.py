@@ -72,7 +72,6 @@ class PLINUSBFrameEntry(Structure):
     def __setattr__(self, name, value):
         if name == "d":
             buf = (c_uint8 * PLIN_DAT_LEN)(*value)
-            super().__setattr__("len", len(value))
             super().__setattr__(name, buf)
         else:
             super().__setattr__(name, value)
@@ -268,7 +267,6 @@ class PLINUSBUpdateData(Structure):
     def __setattr__(self, name, value):
         if name == "d":
             buf = (c_uint8 * PLIN_DAT_LEN)(*value)
-            super().__setattr__("len", len(buf))
             super().__setattr__(name, buf)
         else:
             super().__setattr__(name, value)
@@ -364,23 +362,34 @@ class PLIN:
         '''
         ioctl(self.fd, PLIORSTHW)
 
-    def set_frame_entry(self, id: int, direction: PLINFrameDirection, checksum_type: PLINFrameChecksumType, flags: PLINFrameFlag = PLINFrameFlag.NONE, data: bytearray = None):
+    def set_frame_entry(self, 
+                        id: int,
+                        direction: PLINFrameDirection,
+                        checksum_type: PLINFrameChecksumType,
+                        flags: PLINFrameFlag = PLINFrameFlag.NONE,
+                        data: bytearray = None,
+                        len: int = 0):
         '''
         Adds a frame entry for the specified ID.
 
         IMPORTANT NOTE: For a publisher frame, the flag PLINFrameFlag.RSP_ENABLE must be set in order to allow a slave response.
+        This flag is set by default if the frame direction is publisher for convenience.
         '''
         buffer = PLINUSBFrameEntry(
-            id=id, direction=direction, checksum=checksum_type, flags=flags)
+            id=id, direction=direction, checksum=checksum_type)
+        if direction == PLINFrameDirection.PUBLISHER:
+            buffer.flags = flags & PLINFrameFlag.RSP_ENABLE
         if data:
             buffer.d = data
+        if len > 0:
+            buffer.len = len
         ioctl(self.fd, PLIOSETFRMENTRY, buffer)
 
-    def set_frame_entry_data(self, id: int, index: int, data: bytearray):
+    def set_frame_entry_data(self, id: int, index: int, data: bytearray, len: int):
         '''
         Sets or updates the data for the frame entry corresponding to the specified ID.
         '''
-        buffer = PLINUSBUpdateData(id=id, idx=index, d=data)
+        buffer = PLINUSBUpdateData(id=id, idx=index, d=data, len=len)
         ioctl(self.fd, PLIOCHGBYTEARRAY, buffer)
 
     def get_frame_entry(self, id: int) -> PLINUSBFrameEntry:
