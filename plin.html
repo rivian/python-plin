@@ -1,0 +1,1762 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>plin package &mdash; python-plin 0.0.1 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Welcome to python-plin’s documentation!" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            python-plin
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">plin package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-plin.enums">plin.enums module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#plin.enums.PLINBaudrate"><code class="docutils literal notranslate"><span class="pre">PLINBaudrate</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#plin.enums.PLINBaudrate.MAX"><code class="docutils literal notranslate"><span class="pre">PLINBaudrate.MAX</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.enums.PLINBaudrate.MIN"><code class="docutils literal notranslate"><span class="pre">PLINBaudrate.MIN</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#plin.enums.PLINBusState"><code class="docutils literal notranslate"><span class="pre">PLINBusState</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#plin.enums.PLINBusState.ACTIVE"><code class="docutils literal notranslate"><span class="pre">PLINBusState.ACTIVE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.enums.PLINBusState.AUTOBAUD"><code class="docutils literal notranslate"><span class="pre">PLINBusState.AUTOBAUD</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.enums.PLINBusState.GND_SHORT"><code class="docutils literal notranslate"><span class="pre">PLINBusState.GND_SHORT</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.enums.PLINBusState.SLEEP"><code class="docutils literal notranslate"><span class="pre">PLINBusState.SLEEP</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.enums.PLINBusState.UNINIT"><code class="docutils literal notranslate"><span class="pre">PLINBusState.UNINIT</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.enums.PLINBusState.VBAT_MISSING"><code class="docutils literal notranslate"><span class="pre">PLINBusState.VBAT_MISSING</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#plin.enums.PLINError"><code class="docutils literal notranslate"><span class="pre">PLINError</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#plin.enums.PLINError.FAIL"><code class="docutils literal notranslate"><span class="pre">PLINError.FAIL</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.enums.PLINError.FRAME"><code class="docutils literal notranslate"><span class="pre">PLINError.FRAME</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.enums.PLINError.ILL_MODE"><code class="docutils literal notranslate"><span class="pre">PLINError.ILL_MODE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.enums.PLINError.ILL_SCHEDULE"><code class="docutils literal notranslate"><span class="pre">PLINError.ILL_SCHEDULE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.enums.PLINError.INITIALIZE"><code class="docutils literal notranslate"><span class="pre">PLINError.INITIALIZE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.enums.PLINError.OK"><code class="docutils literal notranslate"><span class="pre">PLINError.OK</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.enums.PLINError.SCHEDULER"><code class="docutils literal notranslate"><span class="pre">PLINError.SCHEDULER</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.enums.PLINError.SLOTPOOL"><code class="docutils literal notranslate"><span class="pre">PLINError.SLOTPOOL</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#plin.enums.PLINFrameChecksumType"><code class="docutils literal notranslate"><span class="pre">PLINFrameChecksumType</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#plin.enums.PLINFrameChecksumType.AUTO"><code class="docutils literal notranslate"><span class="pre">PLINFrameChecksumType.AUTO</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.enums.PLINFrameChecksumType.CLASSIC"><code class="docutils literal notranslate"><span class="pre">PLINFrameChecksumType.CLASSIC</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.enums.PLINFrameChecksumType.CUSTOM"><code class="docutils literal notranslate"><span class="pre">PLINFrameChecksumType.CUSTOM</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.enums.PLINFrameChecksumType.ENHANCED"><code class="docutils literal notranslate"><span class="pre">PLINFrameChecksumType.ENHANCED</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#plin.enums.PLINFrameDirection"><code class="docutils literal notranslate"><span class="pre">PLINFrameDirection</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#plin.enums.PLINFrameDirection.DISABLED"><code class="docutils literal notranslate"><span class="pre">PLINFrameDirection.DISABLED</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.enums.PLINFrameDirection.PUBLISHER"><code class="docutils literal notranslate"><span class="pre">PLINFrameDirection.PUBLISHER</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.enums.PLINFrameDirection.SUBSCRIBER"><code class="docutils literal notranslate"><span class="pre">PLINFrameDirection.SUBSCRIBER</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.enums.PLINFrameDirection.SUBSCRIBER_AUTO_LEN"><code class="docutils literal notranslate"><span class="pre">PLINFrameDirection.SUBSCRIBER_AUTO_LEN</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#plin.enums.PLINFrameErrorFlag"><code class="docutils literal notranslate"><span class="pre">PLINFrameErrorFlag</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#plin.enums.PLINFrameErrorFlag.BAD_CS"><code class="docutils literal notranslate"><span class="pre">PLINFrameErrorFlag.BAD_CS</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.enums.PLINFrameErrorFlag.BUS_SHORT_GND"><code class="docutils literal notranslate"><span class="pre">PLINFrameErrorFlag.BUS_SHORT_GND</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.enums.PLINFrameErrorFlag.BUS_SHORT_VBAT"><code class="docutils literal notranslate"><span class="pre">PLINFrameErrorFlag.BUS_SHORT_VBAT</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.enums.PLINFrameErrorFlag.INC_SYNC"><code class="docutils literal notranslate"><span class="pre">PLINFrameErrorFlag.INC_SYNC</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.enums.PLINFrameErrorFlag.OTHER_RSP"><code class="docutils literal notranslate"><span class="pre">PLINFrameErrorFlag.OTHER_RSP</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.enums.PLINFrameErrorFlag.PARITY0"><code class="docutils literal notranslate"><span class="pre">PLINFrameErrorFlag.PARITY0</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.enums.PLINFrameErrorFlag.PARITY1"><code class="docutils literal notranslate"><span class="pre">PLINFrameErrorFlag.PARITY1</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.enums.PLINFrameErrorFlag.RESERVED"><code class="docutils literal notranslate"><span class="pre">PLINFrameErrorFlag.RESERVED</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.enums.PLINFrameErrorFlag.SLV_NOT_RSP"><code class="docutils literal notranslate"><span class="pre">PLINFrameErrorFlag.SLV_NOT_RSP</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.enums.PLINFrameErrorFlag.TIMEOUT"><code class="docutils literal notranslate"><span class="pre">PLINFrameErrorFlag.TIMEOUT</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#plin.enums.PLINFrameFlag"><code class="docutils literal notranslate"><span class="pre">PLINFrameFlag</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#plin.enums.PLINFrameFlag.IGNORE_DATA"><code class="docutils literal notranslate"><span class="pre">PLINFrameFlag.IGNORE_DATA</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.enums.PLINFrameFlag.NONE"><code class="docutils literal notranslate"><span class="pre">PLINFrameFlag.NONE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.enums.PLINFrameFlag.RSP_ENABLE"><code class="docutils literal notranslate"><span class="pre">PLINFrameFlag.RSP_ENABLE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.enums.PLINFrameFlag.SINGLE_SHOT"><code class="docutils literal notranslate"><span class="pre">PLINFrameFlag.SINGLE_SHOT</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#plin.enums.PLINFrameID"><code class="docutils literal notranslate"><span class="pre">PLINFrameID</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#plin.enums.PLINFrameID.DIAG_MASTER_REQ"><code class="docutils literal notranslate"><span class="pre">PLINFrameID.DIAG_MASTER_REQ</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.enums.PLINFrameID.DIAG_SLAVE_RSP"><code class="docutils literal notranslate"><span class="pre">PLINFrameID.DIAG_SLAVE_RSP</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.enums.PLINFrameID.MAX"><code class="docutils literal notranslate"><span class="pre">PLINFrameID.MAX</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.enums.PLINFrameID.MIN"><code class="docutils literal notranslate"><span class="pre">PLINFrameID.MIN</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.enums.PLINFrameID.RESERVED"><code class="docutils literal notranslate"><span class="pre">PLINFrameID.RESERVED</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.enums.PLINFrameID.UNC_MAX"><code class="docutils literal notranslate"><span class="pre">PLINFrameID.UNC_MAX</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.enums.PLINFrameID.UNC_MIN"><code class="docutils literal notranslate"><span class="pre">PLINFrameID.UNC_MIN</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.enums.PLINFrameID.USER"><code class="docutils literal notranslate"><span class="pre">PLINFrameID.USER</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#plin.enums.PLINMessageType"><code class="docutils literal notranslate"><span class="pre">PLINMessageType</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#plin.enums.PLINMessageType.AUTOBAUD_OK"><code class="docutils literal notranslate"><span class="pre">PLINMessageType.AUTOBAUD_OK</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.enums.PLINMessageType.AUTOBAUD_TO"><code class="docutils literal notranslate"><span class="pre">PLINMessageType.AUTOBAUD_TO</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.enums.PLINMessageType.FRAME"><code class="docutils literal notranslate"><span class="pre">PLINMessageType.FRAME</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.enums.PLINMessageType.OVERRUN"><code class="docutils literal notranslate"><span class="pre">PLINMessageType.OVERRUN</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.enums.PLINMessageType.SLEEP"><code class="docutils literal notranslate"><span class="pre">PLINMessageType.SLEEP</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.enums.PLINMessageType.WAKEUP"><code class="docutils literal notranslate"><span class="pre">PLINMessageType.WAKEUP</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#plin.enums.PLINMode"><code class="docutils literal notranslate"><span class="pre">PLINMode</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#plin.enums.PLINMode.MASTER"><code class="docutils literal notranslate"><span class="pre">PLINMode.MASTER</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.enums.PLINMode.NONE"><code class="docutils literal notranslate"><span class="pre">PLINMode.NONE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.enums.PLINMode.SLAVE"><code class="docutils literal notranslate"><span class="pre">PLINMode.SLAVE</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#plin.enums.PLINScheduleIndex"><code class="docutils literal notranslate"><span class="pre">PLINScheduleIndex</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#plin.enums.PLINScheduleIndex.MAX"><code class="docutils literal notranslate"><span class="pre">PLINScheduleIndex.MAX</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.enums.PLINScheduleIndex.MIN"><code class="docutils literal notranslate"><span class="pre">PLINScheduleIndex.MIN</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#plin.enums.PLINUSBResponseRemapType"><code class="docutils literal notranslate"><span class="pre">PLINUSBResponseRemapType</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#plin.enums.PLINUSBResponseRemapType.GET"><code class="docutils literal notranslate"><span class="pre">PLINUSBResponseRemapType.GET</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.enums.PLINUSBResponseRemapType.SET"><code class="docutils literal notranslate"><span class="pre">PLINUSBResponseRemapType.SET</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#plin.enums.PLINUSBSlotNumber"><code class="docutils literal notranslate"><span class="pre">PLINUSBSlotNumber</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#plin.enums.PLINUSBSlotNumber.MAX"><code class="docutils literal notranslate"><span class="pre">PLINUSBSlotNumber.MAX</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.enums.PLINUSBSlotNumber.MIN"><code class="docutils literal notranslate"><span class="pre">PLINUSBSlotNumber.MIN</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#plin.enums.PLINUSBSlotType"><code class="docutils literal notranslate"><span class="pre">PLINUSBSlotType</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#plin.enums.PLINUSBSlotType.EVENT"><code class="docutils literal notranslate"><span class="pre">PLINUSBSlotType.EVENT</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.enums.PLINUSBSlotType.MASTER_REQ"><code class="docutils literal notranslate"><span class="pre">PLINUSBSlotType.MASTER_REQ</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.enums.PLINUSBSlotType.SLAVE_RSP"><code class="docutils literal notranslate"><span class="pre">PLINUSBSlotType.SLAVE_RSP</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.enums.PLINUSBSlotType.SPORADIC"><code class="docutils literal notranslate"><span class="pre">PLINUSBSlotType.SPORADIC</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.enums.PLINUSBSlotType.UNCOND"><code class="docutils literal notranslate"><span class="pre">PLINUSBSlotType.UNCOND</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-plin.plin">plin.plin module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#plin.plin.PLIN"><code class="docutils literal notranslate"><span class="pre">PLIN</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLIN.add_diagnostic_schedule_slot"><code class="docutils literal notranslate"><span class="pre">PLIN.add_diagnostic_schedule_slot()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLIN.add_event_triggered_schedule_slot"><code class="docutils literal notranslate"><span class="pre">PLIN.add_event_triggered_schedule_slot()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLIN.add_master_request_schedule_slot"><code class="docutils literal notranslate"><span class="pre">PLIN.add_master_request_schedule_slot()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLIN.add_slave_response_schedule_slot"><code class="docutils literal notranslate"><span class="pre">PLIN.add_slave_response_schedule_slot()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLIN.add_sporadic_schedule_slot"><code class="docutils literal notranslate"><span class="pre">PLIN.add_sporadic_schedule_slot()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLIN.add_unconditional_schedule_slot"><code class="docutils literal notranslate"><span class="pre">PLIN.add_unconditional_schedule_slot()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLIN.delete_schedule"><code class="docutils literal notranslate"><span class="pre">PLIN.delete_schedule()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLIN.get_baudrate"><code class="docutils literal notranslate"><span class="pre">PLIN.get_baudrate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLIN.get_firmware_version"><code class="docutils literal notranslate"><span class="pre">PLIN.get_firmware_version()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLIN.get_frame_entry"><code class="docutils literal notranslate"><span class="pre">PLIN.get_frame_entry()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLIN.get_id_filter"><code class="docutils literal notranslate"><span class="pre">PLIN.get_id_filter()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLIN.get_id_string"><code class="docutils literal notranslate"><span class="pre">PLIN.get_id_string()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLIN.get_mode"><code class="docutils literal notranslate"><span class="pre">PLIN.get_mode()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLIN.get_response_remap"><code class="docutils literal notranslate"><span class="pre">PLIN.get_response_remap()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLIN.get_schedule_slots"><code class="docutils literal notranslate"><span class="pre">PLIN.get_schedule_slots()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLIN.get_slot_count"><code class="docutils literal notranslate"><span class="pre">PLIN.get_slot_count()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLIN.get_status"><code class="docutils literal notranslate"><span class="pre">PLIN.get_status()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLIN.get_visual_response_remap"><code class="docutils literal notranslate"><span class="pre">PLIN.get_visual_response_remap()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLIN.identify"><code class="docutils literal notranslate"><span class="pre">PLIN.identify()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLIN.read"><code class="docutils literal notranslate"><span class="pre">PLIN.read()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLIN.reset"><code class="docutils literal notranslate"><span class="pre">PLIN.reset()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLIN.reset_tx_queue"><code class="docutils literal notranslate"><span class="pre">PLIN.reset_tx_queue()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLIN.resume_keep_alive"><code class="docutils literal notranslate"><span class="pre">PLIN.resume_keep_alive()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLIN.resume_schedule"><code class="docutils literal notranslate"><span class="pre">PLIN.resume_schedule()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLIN.set_frame_entry"><code class="docutils literal notranslate"><span class="pre">PLIN.set_frame_entry()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLIN.set_frame_entry_data"><code class="docutils literal notranslate"><span class="pre">PLIN.set_frame_entry_data()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLIN.set_id_filter"><code class="docutils literal notranslate"><span class="pre">PLIN.set_id_filter()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLIN.set_id_string"><code class="docutils literal notranslate"><span class="pre">PLIN.set_id_string()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLIN.set_led_state"><code class="docutils literal notranslate"><span class="pre">PLIN.set_led_state()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLIN.set_response_remap"><code class="docutils literal notranslate"><span class="pre">PLIN.set_response_remap()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLIN.set_schedule_breakpoint"><code class="docutils literal notranslate"><span class="pre">PLIN.set_schedule_breakpoint()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLIN.start"><code class="docutils literal notranslate"><span class="pre">PLIN.start()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLIN.start_autobaud"><code class="docutils literal notranslate"><span class="pre">PLIN.start_autobaud()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLIN.start_keep_alive"><code class="docutils literal notranslate"><span class="pre">PLIN.start_keep_alive()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLIN.start_schedule"><code class="docutils literal notranslate"><span class="pre">PLIN.start_schedule()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLIN.suspend_keep_alive"><code class="docutils literal notranslate"><span class="pre">PLIN.suspend_keep_alive()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLIN.suspend_schedule"><code class="docutils literal notranslate"><span class="pre">PLIN.suspend_schedule()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLIN.wakeup"><code class="docutils literal notranslate"><span class="pre">PLIN.wakeup()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLIN.write"><code class="docutils literal notranslate"><span class="pre">PLIN.write()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#plin.plin.PLINMessage"><code class="docutils literal notranslate"><span class="pre">PLINMessage</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLINMessage.buffer_length"><code class="docutils literal notranslate"><span class="pre">PLINMessage.buffer_length</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLINMessage.cs_type"><code class="docutils literal notranslate"><span class="pre">PLINMessage.cs_type</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLINMessage.data"><code class="docutils literal notranslate"><span class="pre">PLINMessage.data</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLINMessage.dir"><code class="docutils literal notranslate"><span class="pre">PLINMessage.dir</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLINMessage.flags"><code class="docutils literal notranslate"><span class="pre">PLINMessage.flags</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLINMessage.id"><code class="docutils literal notranslate"><span class="pre">PLINMessage.id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLINMessage.len"><code class="docutils literal notranslate"><span class="pre">PLINMessage.len</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLINMessage.reserved"><code class="docutils literal notranslate"><span class="pre">PLINMessage.reserved</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLINMessage.ts_us"><code class="docutils literal notranslate"><span class="pre">PLINMessage.ts_us</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLINMessage.type"><code class="docutils literal notranslate"><span class="pre">PLINMessage.type</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#plin.plin.PLINUSBAddScheduleSlot"><code class="docutils literal notranslate"><span class="pre">PLINUSBAddScheduleSlot</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLINUSBAddScheduleSlot.count_resolve"><code class="docutils literal notranslate"><span class="pre">PLINUSBAddScheduleSlot.count_resolve</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLINUSBAddScheduleSlot.delay"><code class="docutils literal notranslate"><span class="pre">PLINUSBAddScheduleSlot.delay</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLINUSBAddScheduleSlot.err"><code class="docutils literal notranslate"><span class="pre">PLINUSBAddScheduleSlot.err</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLINUSBAddScheduleSlot.handle"><code class="docutils literal notranslate"><span class="pre">PLINUSBAddScheduleSlot.handle</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLINUSBAddScheduleSlot.id"><code class="docutils literal notranslate"><span class="pre">PLINUSBAddScheduleSlot.id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLINUSBAddScheduleSlot.schedule"><code class="docutils literal notranslate"><span class="pre">PLINUSBAddScheduleSlot.schedule</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLINUSBAddScheduleSlot.type"><code class="docutils literal notranslate"><span class="pre">PLINUSBAddScheduleSlot.type</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLINUSBAddScheduleSlot.unused"><code class="docutils literal notranslate"><span class="pre">PLINUSBAddScheduleSlot.unused</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#plin.plin.PLINUSBAutoBaud"><code class="docutils literal notranslate"><span class="pre">PLINUSBAutoBaud</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLINUSBAutoBaud.err"><code class="docutils literal notranslate"><span class="pre">PLINUSBAutoBaud.err</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLINUSBAutoBaud.timeout"><code class="docutils literal notranslate"><span class="pre">PLINUSBAutoBaud.timeout</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLINUSBAutoBaud.unused"><code class="docutils literal notranslate"><span class="pre">PLINUSBAutoBaud.unused</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#plin.plin.PLINUSBDeleteSchedule"><code class="docutils literal notranslate"><span class="pre">PLINUSBDeleteSchedule</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLINUSBDeleteSchedule.err"><code class="docutils literal notranslate"><span class="pre">PLINUSBDeleteSchedule.err</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLINUSBDeleteSchedule.schedule"><code class="docutils literal notranslate"><span class="pre">PLINUSBDeleteSchedule.schedule</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLINUSBDeleteSchedule.unused"><code class="docutils literal notranslate"><span class="pre">PLINUSBDeleteSchedule.unused</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#plin.plin.PLINUSBFirmwareVersion"><code class="docutils literal notranslate"><span class="pre">PLINUSBFirmwareVersion</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLINUSBFirmwareVersion.major"><code class="docutils literal notranslate"><span class="pre">PLINUSBFirmwareVersion.major</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLINUSBFirmwareVersion.minor"><code class="docutils literal notranslate"><span class="pre">PLINUSBFirmwareVersion.minor</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLINUSBFirmwareVersion.sub"><code class="docutils literal notranslate"><span class="pre">PLINUSBFirmwareVersion.sub</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#plin.plin.PLINUSBFrameEntry"><code class="docutils literal notranslate"><span class="pre">PLINUSBFrameEntry</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLINUSBFrameEntry.checksum"><code class="docutils literal notranslate"><span class="pre">PLINUSBFrameEntry.checksum</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLINUSBFrameEntry.d"><code class="docutils literal notranslate"><span class="pre">PLINUSBFrameEntry.d</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLINUSBFrameEntry.direction"><code class="docutils literal notranslate"><span class="pre">PLINUSBFrameEntry.direction</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLINUSBFrameEntry.flags"><code class="docutils literal notranslate"><span class="pre">PLINUSBFrameEntry.flags</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLINUSBFrameEntry.id"><code class="docutils literal notranslate"><span class="pre">PLINUSBFrameEntry.id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLINUSBFrameEntry.len"><code class="docutils literal notranslate"><span class="pre">PLINUSBFrameEntry.len</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLINUSBFrameEntry.unused"><code class="docutils literal notranslate"><span class="pre">PLINUSBFrameEntry.unused</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#plin.plin.PLINUSBGetBaudrate"><code class="docutils literal notranslate"><span class="pre">PLINUSBGetBaudrate</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLINUSBGetBaudrate.baudrate"><code class="docutils literal notranslate"><span class="pre">PLINUSBGetBaudrate.baudrate</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLINUSBGetBaudrate.unused"><code class="docutils literal notranslate"><span class="pre">PLINUSBGetBaudrate.unused</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#plin.plin.PLINUSBGetMode"><code class="docutils literal notranslate"><span class="pre">PLINUSBGetMode</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLINUSBGetMode.mode"><code class="docutils literal notranslate"><span class="pre">PLINUSBGetMode.mode</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLINUSBGetMode.unused"><code class="docutils literal notranslate"><span class="pre">PLINUSBGetMode.unused</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#plin.plin.PLINUSBGetScheduleSlot"><code class="docutils literal notranslate"><span class="pre">PLINUSBGetScheduleSlot</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLINUSBGetScheduleSlot.count_resolve"><code class="docutils literal notranslate"><span class="pre">PLINUSBGetScheduleSlot.count_resolve</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLINUSBGetScheduleSlot.delay"><code class="docutils literal notranslate"><span class="pre">PLINUSBGetScheduleSlot.delay</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLINUSBGetScheduleSlot.err"><code class="docutils literal notranslate"><span class="pre">PLINUSBGetScheduleSlot.err</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLINUSBGetScheduleSlot.handle"><code class="docutils literal notranslate"><span class="pre">PLINUSBGetScheduleSlot.handle</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLINUSBGetScheduleSlot.id"><code class="docutils literal notranslate"><span class="pre">PLINUSBGetScheduleSlot.id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLINUSBGetScheduleSlot.schedule"><code class="docutils literal notranslate"><span class="pre">PLINUSBGetScheduleSlot.schedule</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLINUSBGetScheduleSlot.slot_idx"><code class="docutils literal notranslate"><span class="pre">PLINUSBGetScheduleSlot.slot_idx</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLINUSBGetScheduleSlot.type"><code class="docutils literal notranslate"><span class="pre">PLINUSBGetScheduleSlot.type</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLINUSBGetScheduleSlot.unused"><code class="docutils literal notranslate"><span class="pre">PLINUSBGetScheduleSlot.unused</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#plin.plin.PLINUSBGetSlotCount"><code class="docutils literal notranslate"><span class="pre">PLINUSBGetSlotCount</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLINUSBGetSlotCount.count"><code class="docutils literal notranslate"><span class="pre">PLINUSBGetSlotCount.count</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLINUSBGetSlotCount.schedule"><code class="docutils literal notranslate"><span class="pre">PLINUSBGetSlotCount.schedule</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLINUSBGetSlotCount.unused"><code class="docutils literal notranslate"><span class="pre">PLINUSBGetSlotCount.unused</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#plin.plin.PLINUSBGetStatus"><code class="docutils literal notranslate"><span class="pre">PLINUSBGetStatus</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLINUSBGetStatus.baudrate"><code class="docutils literal notranslate"><span class="pre">PLINUSBGetStatus.baudrate</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLINUSBGetStatus.bus_state"><code class="docutils literal notranslate"><span class="pre">PLINUSBGetStatus.bus_state</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLINUSBGetStatus.mode"><code class="docutils literal notranslate"><span class="pre">PLINUSBGetStatus.mode</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLINUSBGetStatus.schd_poolfree"><code class="docutils literal notranslate"><span class="pre">PLINUSBGetStatus.schd_poolfree</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLINUSBGetStatus.tx_qfree"><code class="docutils literal notranslate"><span class="pre">PLINUSBGetStatus.tx_qfree</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLINUSBGetStatus.unused"><code class="docutils literal notranslate"><span class="pre">PLINUSBGetStatus.unused</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLINUSBGetStatus.usb_filter"><code class="docutils literal notranslate"><span class="pre">PLINUSBGetStatus.usb_filter</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLINUSBGetStatus.usb_rx_ovr"><code class="docutils literal notranslate"><span class="pre">PLINUSBGetStatus.usb_rx_ovr</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#plin.plin.PLINUSBIDFilter"><code class="docutils literal notranslate"><span class="pre">PLINUSBIDFilter</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLINUSBIDFilter.id_mask"><code class="docutils literal notranslate"><span class="pre">PLINUSBIDFilter.id_mask</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#plin.plin.PLINUSBIDString"><code class="docutils literal notranslate"><span class="pre">PLINUSBIDString</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLINUSBIDString.str"><code class="docutils literal notranslate"><span class="pre">PLINUSBIDString.str</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#plin.plin.PLINUSBInitHardware"><code class="docutils literal notranslate"><span class="pre">PLINUSBInitHardware</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLINUSBInitHardware.baudrate"><code class="docutils literal notranslate"><span class="pre">PLINUSBInitHardware.baudrate</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLINUSBInitHardware.mode"><code class="docutils literal notranslate"><span class="pre">PLINUSBInitHardware.mode</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLINUSBInitHardware.unused"><code class="docutils literal notranslate"><span class="pre">PLINUSBInitHardware.unused</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#plin.plin.PLINUSBKeepAlive"><code class="docutils literal notranslate"><span class="pre">PLINUSBKeepAlive</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLINUSBKeepAlive.err"><code class="docutils literal notranslate"><span class="pre">PLINUSBKeepAlive.err</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLINUSBKeepAlive.id"><code class="docutils literal notranslate"><span class="pre">PLINUSBKeepAlive.id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLINUSBKeepAlive.period_ms"><code class="docutils literal notranslate"><span class="pre">PLINUSBKeepAlive.period_ms</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#plin.plin.PLINUSBLEDState"><code class="docutils literal notranslate"><span class="pre">PLINUSBLEDState</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLINUSBLEDState.on_off"><code class="docutils literal notranslate"><span class="pre">PLINUSBLEDState.on_off</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLINUSBLEDState.unused"><code class="docutils literal notranslate"><span class="pre">PLINUSBLEDState.unused</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#plin.plin.PLINUSBResponseRemap"><code class="docutils literal notranslate"><span class="pre">PLINUSBResponseRemap</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLINUSBResponseRemap.id"><code class="docutils literal notranslate"><span class="pre">PLINUSBResponseRemap.id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLINUSBResponseRemap.set_get"><code class="docutils literal notranslate"><span class="pre">PLINUSBResponseRemap.set_get</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLINUSBResponseRemap.unused"><code class="docutils literal notranslate"><span class="pre">PLINUSBResponseRemap.unused</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#plin.plin.PLINUSBResumeSchedule"><code class="docutils literal notranslate"><span class="pre">PLINUSBResumeSchedule</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLINUSBResumeSchedule.err"><code class="docutils literal notranslate"><span class="pre">PLINUSBResumeSchedule.err</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLINUSBResumeSchedule.unused"><code class="docutils literal notranslate"><span class="pre">PLINUSBResumeSchedule.unused</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#plin.plin.PLINUSBSetScheduleBreakpoint"><code class="docutils literal notranslate"><span class="pre">PLINUSBSetScheduleBreakpoint</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLINUSBSetScheduleBreakpoint.brkpt"><code class="docutils literal notranslate"><span class="pre">PLINUSBSetScheduleBreakpoint.brkpt</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLINUSBSetScheduleBreakpoint.handle"><code class="docutils literal notranslate"><span class="pre">PLINUSBSetScheduleBreakpoint.handle</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLINUSBSetScheduleBreakpoint.unused"><code class="docutils literal notranslate"><span class="pre">PLINUSBSetScheduleBreakpoint.unused</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#plin.plin.PLINUSBStartSchedule"><code class="docutils literal notranslate"><span class="pre">PLINUSBStartSchedule</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLINUSBStartSchedule.err"><code class="docutils literal notranslate"><span class="pre">PLINUSBStartSchedule.err</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLINUSBStartSchedule.schedule"><code class="docutils literal notranslate"><span class="pre">PLINUSBStartSchedule.schedule</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLINUSBStartSchedule.unused"><code class="docutils literal notranslate"><span class="pre">PLINUSBStartSchedule.unused</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#plin.plin.PLINUSBSuspendSchedule"><code class="docutils literal notranslate"><span class="pre">PLINUSBSuspendSchedule</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLINUSBSuspendSchedule.err"><code class="docutils literal notranslate"><span class="pre">PLINUSBSuspendSchedule.err</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLINUSBSuspendSchedule.handle"><code class="docutils literal notranslate"><span class="pre">PLINUSBSuspendSchedule.handle</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLINUSBSuspendSchedule.schedule"><code class="docutils literal notranslate"><span class="pre">PLINUSBSuspendSchedule.schedule</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLINUSBSuspendSchedule.unused"><code class="docutils literal notranslate"><span class="pre">PLINUSBSuspendSchedule.unused</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#plin.plin.PLINUSBUpdateData"><code class="docutils literal notranslate"><span class="pre">PLINUSBUpdateData</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLINUSBUpdateData.d"><code class="docutils literal notranslate"><span class="pre">PLINUSBUpdateData.d</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLINUSBUpdateData.id"><code class="docutils literal notranslate"><span class="pre">PLINUSBUpdateData.id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLINUSBUpdateData.idx"><code class="docutils literal notranslate"><span class="pre">PLINUSBUpdateData.idx</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLINUSBUpdateData.len"><code class="docutils literal notranslate"><span class="pre">PLINUSBUpdateData.len</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plin.plin.PLINUSBUpdateData.unused"><code class="docutils literal notranslate"><span class="pre">PLINUSBUpdateData.unused</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-plin">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">python-plin</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">plin package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/plin.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="plin-package">
+<h1>plin package<a class="headerlink" href="#plin-package" title="Permalink to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading"></a></h2>
+</section>
+<section id="module-plin.enums">
+<span id="plin-enums-module"></span><h2>plin.enums module<a class="headerlink" href="#module-plin.enums" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="plin.enums.PLINBaudrate">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">plin.enums.</span></span><span class="sig-name descname"><span class="pre">PLINBaudrate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qualname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">boundary</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/plin/enums.html#PLINBaudrate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plin.enums.PLINBaudrate" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">IntEnum</span></code></p>
+<p>LIN baudrate range.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.enums.PLINBaudrate.MAX">
+<span class="sig-name descname"><span class="pre">MAX</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">20000</span></em><a class="headerlink" href="#plin.enums.PLINBaudrate.MAX" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.enums.PLINBaudrate.MIN">
+<span class="sig-name descname"><span class="pre">MIN</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1000</span></em><a class="headerlink" href="#plin.enums.PLINBaudrate.MIN" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="plin.enums.PLINBusState">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">plin.enums.</span></span><span class="sig-name descname"><span class="pre">PLINBusState</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qualname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">boundary</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/plin/enums.html#PLINBusState"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plin.enums.PLINBusState" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">IntEnum</span></code></p>
+<p>LIN Bus hardware state.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.enums.PLINBusState.ACTIVE">
+<span class="sig-name descname"><span class="pre">ACTIVE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#plin.enums.PLINBusState.ACTIVE" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.enums.PLINBusState.AUTOBAUD">
+<span class="sig-name descname"><span class="pre">AUTOBAUD</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#plin.enums.PLINBusState.AUTOBAUD" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.enums.PLINBusState.GND_SHORT">
+<span class="sig-name descname"><span class="pre">GND_SHORT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">6</span></em><a class="headerlink" href="#plin.enums.PLINBusState.GND_SHORT" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.enums.PLINBusState.SLEEP">
+<span class="sig-name descname"><span class="pre">SLEEP</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">3</span></em><a class="headerlink" href="#plin.enums.PLINBusState.SLEEP" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.enums.PLINBusState.UNINIT">
+<span class="sig-name descname"><span class="pre">UNINIT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#plin.enums.PLINBusState.UNINIT" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.enums.PLINBusState.VBAT_MISSING">
+<span class="sig-name descname"><span class="pre">VBAT_MISSING</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">7</span></em><a class="headerlink" href="#plin.enums.PLINBusState.VBAT_MISSING" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="plin.enums.PLINError">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">plin.enums.</span></span><span class="sig-name descname"><span class="pre">PLINError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qualname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">boundary</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/plin/enums.html#PLINError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plin.enums.PLINError" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">IntEnum</span></code></p>
+<p>LIN error.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.enums.PLINError.FAIL">
+<span class="sig-name descname"><span class="pre">FAIL</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#plin.enums.PLINError.FAIL" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.enums.PLINError.FRAME">
+<span class="sig-name descname"><span class="pre">FRAME</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">4</span></em><a class="headerlink" href="#plin.enums.PLINError.FRAME" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.enums.PLINError.ILL_MODE">
+<span class="sig-name descname"><span class="pre">ILL_MODE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">7</span></em><a class="headerlink" href="#plin.enums.PLINError.ILL_MODE" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.enums.PLINError.ILL_SCHEDULE">
+<span class="sig-name descname"><span class="pre">ILL_SCHEDULE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">6</span></em><a class="headerlink" href="#plin.enums.PLINError.ILL_SCHEDULE" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.enums.PLINError.INITIALIZE">
+<span class="sig-name descname"><span class="pre">INITIALIZE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#plin.enums.PLINError.INITIALIZE" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.enums.PLINError.OK">
+<span class="sig-name descname"><span class="pre">OK</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#plin.enums.PLINError.OK" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.enums.PLINError.SCHEDULER">
+<span class="sig-name descname"><span class="pre">SCHEDULER</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">3</span></em><a class="headerlink" href="#plin.enums.PLINError.SCHEDULER" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.enums.PLINError.SLOTPOOL">
+<span class="sig-name descname"><span class="pre">SLOTPOOL</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">5</span></em><a class="headerlink" href="#plin.enums.PLINError.SLOTPOOL" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="plin.enums.PLINFrameChecksumType">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">plin.enums.</span></span><span class="sig-name descname"><span class="pre">PLINFrameChecksumType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qualname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">boundary</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/plin/enums.html#PLINFrameChecksumType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plin.enums.PLINFrameChecksumType" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">IntEnum</span></code></p>
+<p>LIN frame checksum type.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.enums.PLINFrameChecksumType.AUTO">
+<span class="sig-name descname"><span class="pre">AUTO</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">3</span></em><a class="headerlink" href="#plin.enums.PLINFrameChecksumType.AUTO" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.enums.PLINFrameChecksumType.CLASSIC">
+<span class="sig-name descname"><span class="pre">CLASSIC</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#plin.enums.PLINFrameChecksumType.CLASSIC" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.enums.PLINFrameChecksumType.CUSTOM">
+<span class="sig-name descname"><span class="pre">CUSTOM</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#plin.enums.PLINFrameChecksumType.CUSTOM" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.enums.PLINFrameChecksumType.ENHANCED">
+<span class="sig-name descname"><span class="pre">ENHANCED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#plin.enums.PLINFrameChecksumType.ENHANCED" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="plin.enums.PLINFrameDirection">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">plin.enums.</span></span><span class="sig-name descname"><span class="pre">PLINFrameDirection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qualname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">boundary</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/plin/enums.html#PLINFrameDirection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plin.enums.PLINFrameDirection" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">IntEnum</span></code></p>
+<p>LIN frame direction.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.enums.PLINFrameDirection.DISABLED">
+<span class="sig-name descname"><span class="pre">DISABLED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#plin.enums.PLINFrameDirection.DISABLED" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.enums.PLINFrameDirection.PUBLISHER">
+<span class="sig-name descname"><span class="pre">PUBLISHER</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#plin.enums.PLINFrameDirection.PUBLISHER" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.enums.PLINFrameDirection.SUBSCRIBER">
+<span class="sig-name descname"><span class="pre">SUBSCRIBER</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#plin.enums.PLINFrameDirection.SUBSCRIBER" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.enums.PLINFrameDirection.SUBSCRIBER_AUTO_LEN">
+<span class="sig-name descname"><span class="pre">SUBSCRIBER_AUTO_LEN</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">3</span></em><a class="headerlink" href="#plin.enums.PLINFrameDirection.SUBSCRIBER_AUTO_LEN" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="plin.enums.PLINFrameErrorFlag">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">plin.enums.</span></span><span class="sig-name descname"><span class="pre">PLINFrameErrorFlag</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qualname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">boundary</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/plin/enums.html#PLINFrameErrorFlag"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plin.enums.PLINFrameErrorFlag" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">IntFlag</span></code></p>
+<p>LIN frame received (error) flags.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.enums.PLINFrameErrorFlag.BAD_CS">
+<span class="sig-name descname"><span class="pre">BAD_CS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">32</span></em><a class="headerlink" href="#plin.enums.PLINFrameErrorFlag.BAD_CS" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.enums.PLINFrameErrorFlag.BUS_SHORT_GND">
+<span class="sig-name descname"><span class="pre">BUS_SHORT_GND</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">64</span></em><a class="headerlink" href="#plin.enums.PLINFrameErrorFlag.BUS_SHORT_GND" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.enums.PLINFrameErrorFlag.BUS_SHORT_VBAT">
+<span class="sig-name descname"><span class="pre">BUS_SHORT_VBAT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">128</span></em><a class="headerlink" href="#plin.enums.PLINFrameErrorFlag.BUS_SHORT_VBAT" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.enums.PLINFrameErrorFlag.INC_SYNC">
+<span class="sig-name descname"><span class="pre">INC_SYNC</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#plin.enums.PLINFrameErrorFlag.INC_SYNC" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.enums.PLINFrameErrorFlag.OTHER_RSP">
+<span class="sig-name descname"><span class="pre">OTHER_RSP</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">512</span></em><a class="headerlink" href="#plin.enums.PLINFrameErrorFlag.OTHER_RSP" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.enums.PLINFrameErrorFlag.PARITY0">
+<span class="sig-name descname"><span class="pre">PARITY0</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#plin.enums.PLINFrameErrorFlag.PARITY0" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.enums.PLINFrameErrorFlag.PARITY1">
+<span class="sig-name descname"><span class="pre">PARITY1</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">4</span></em><a class="headerlink" href="#plin.enums.PLINFrameErrorFlag.PARITY1" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.enums.PLINFrameErrorFlag.RESERVED">
+<span class="sig-name descname"><span class="pre">RESERVED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">256</span></em><a class="headerlink" href="#plin.enums.PLINFrameErrorFlag.RESERVED" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.enums.PLINFrameErrorFlag.SLV_NOT_RSP">
+<span class="sig-name descname"><span class="pre">SLV_NOT_RSP</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">8</span></em><a class="headerlink" href="#plin.enums.PLINFrameErrorFlag.SLV_NOT_RSP" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.enums.PLINFrameErrorFlag.TIMEOUT">
+<span class="sig-name descname"><span class="pre">TIMEOUT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">16</span></em><a class="headerlink" href="#plin.enums.PLINFrameErrorFlag.TIMEOUT" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="plin.enums.PLINFrameFlag">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">plin.enums.</span></span><span class="sig-name descname"><span class="pre">PLINFrameFlag</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qualname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">boundary</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/plin/enums.html#PLINFrameFlag"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plin.enums.PLINFrameFlag" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">IntFlag</span></code></p>
+<p>LIN frame flags for frame table entry.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.enums.PLINFrameFlag.IGNORE_DATA">
+<span class="sig-name descname"><span class="pre">IGNORE_DATA</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">4</span></em><a class="headerlink" href="#plin.enums.PLINFrameFlag.IGNORE_DATA" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.enums.PLINFrameFlag.NONE">
+<span class="sig-name descname"><span class="pre">NONE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#plin.enums.PLINFrameFlag.NONE" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.enums.PLINFrameFlag.RSP_ENABLE">
+<span class="sig-name descname"><span class="pre">RSP_ENABLE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#plin.enums.PLINFrameFlag.RSP_ENABLE" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.enums.PLINFrameFlag.SINGLE_SHOT">
+<span class="sig-name descname"><span class="pre">SINGLE_SHOT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#plin.enums.PLINFrameFlag.SINGLE_SHOT" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="plin.enums.PLINFrameID">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">plin.enums.</span></span><span class="sig-name descname"><span class="pre">PLINFrameID</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qualname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">boundary</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/plin/enums.html#PLINFrameID"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plin.enums.PLINFrameID" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">IntEnum</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.enums.PLINFrameID.DIAG_MASTER_REQ">
+<span class="sig-name descname"><span class="pre">DIAG_MASTER_REQ</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">60</span></em><a class="headerlink" href="#plin.enums.PLINFrameID.DIAG_MASTER_REQ" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.enums.PLINFrameID.DIAG_SLAVE_RSP">
+<span class="sig-name descname"><span class="pre">DIAG_SLAVE_RSP</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">61</span></em><a class="headerlink" href="#plin.enums.PLINFrameID.DIAG_SLAVE_RSP" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.enums.PLINFrameID.MAX">
+<span class="sig-name descname"><span class="pre">MAX</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">63</span></em><a class="headerlink" href="#plin.enums.PLINFrameID.MAX" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.enums.PLINFrameID.MIN">
+<span class="sig-name descname"><span class="pre">MIN</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#plin.enums.PLINFrameID.MIN" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.enums.PLINFrameID.RESERVED">
+<span class="sig-name descname"><span class="pre">RESERVED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">63</span></em><a class="headerlink" href="#plin.enums.PLINFrameID.RESERVED" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.enums.PLINFrameID.UNC_MAX">
+<span class="sig-name descname"><span class="pre">UNC_MAX</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">59</span></em><a class="headerlink" href="#plin.enums.PLINFrameID.UNC_MAX" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.enums.PLINFrameID.UNC_MIN">
+<span class="sig-name descname"><span class="pre">UNC_MIN</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#plin.enums.PLINFrameID.UNC_MIN" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.enums.PLINFrameID.USER">
+<span class="sig-name descname"><span class="pre">USER</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">62</span></em><a class="headerlink" href="#plin.enums.PLINFrameID.USER" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="plin.enums.PLINMessageType">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">plin.enums.</span></span><span class="sig-name descname"><span class="pre">PLINMessageType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qualname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">boundary</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/plin/enums.html#PLINMessageType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plin.enums.PLINMessageType" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">IntEnum</span></code></p>
+<p>LIN message type.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.enums.PLINMessageType.AUTOBAUD_OK">
+<span class="sig-name descname"><span class="pre">AUTOBAUD_OK</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">4</span></em><a class="headerlink" href="#plin.enums.PLINMessageType.AUTOBAUD_OK" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.enums.PLINMessageType.AUTOBAUD_TO">
+<span class="sig-name descname"><span class="pre">AUTOBAUD_TO</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">3</span></em><a class="headerlink" href="#plin.enums.PLINMessageType.AUTOBAUD_TO" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.enums.PLINMessageType.FRAME">
+<span class="sig-name descname"><span class="pre">FRAME</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#plin.enums.PLINMessageType.FRAME" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.enums.PLINMessageType.OVERRUN">
+<span class="sig-name descname"><span class="pre">OVERRUN</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">5</span></em><a class="headerlink" href="#plin.enums.PLINMessageType.OVERRUN" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.enums.PLINMessageType.SLEEP">
+<span class="sig-name descname"><span class="pre">SLEEP</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#plin.enums.PLINMessageType.SLEEP" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.enums.PLINMessageType.WAKEUP">
+<span class="sig-name descname"><span class="pre">WAKEUP</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#plin.enums.PLINMessageType.WAKEUP" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="plin.enums.PLINMode">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">plin.enums.</span></span><span class="sig-name descname"><span class="pre">PLINMode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qualname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">boundary</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/plin/enums.html#PLINMode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plin.enums.PLINMode" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">IntEnum</span></code></p>
+<p>LIN mode.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.enums.PLINMode.MASTER">
+<span class="sig-name descname"><span class="pre">MASTER</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#plin.enums.PLINMode.MASTER" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.enums.PLINMode.NONE">
+<span class="sig-name descname"><span class="pre">NONE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#plin.enums.PLINMode.NONE" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.enums.PLINMode.SLAVE">
+<span class="sig-name descname"><span class="pre">SLAVE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#plin.enums.PLINMode.SLAVE" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="plin.enums.PLINScheduleIndex">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">plin.enums.</span></span><span class="sig-name descname"><span class="pre">PLINScheduleIndex</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qualname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">boundary</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/plin/enums.html#PLINScheduleIndex"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plin.enums.PLINScheduleIndex" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">IntEnum</span></code></p>
+<p>LIN schedule index range.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.enums.PLINScheduleIndex.MAX">
+<span class="sig-name descname"><span class="pre">MAX</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">7</span></em><a class="headerlink" href="#plin.enums.PLINScheduleIndex.MAX" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.enums.PLINScheduleIndex.MIN">
+<span class="sig-name descname"><span class="pre">MIN</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#plin.enums.PLINScheduleIndex.MIN" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="plin.enums.PLINUSBResponseRemapType">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">plin.enums.</span></span><span class="sig-name descname"><span class="pre">PLINUSBResponseRemapType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qualname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">boundary</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/plin/enums.html#PLINUSBResponseRemapType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plin.enums.PLINUSBResponseRemapType" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">IntEnum</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.enums.PLINUSBResponseRemapType.GET">
+<span class="sig-name descname"><span class="pre">GET</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#plin.enums.PLINUSBResponseRemapType.GET" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.enums.PLINUSBResponseRemapType.SET">
+<span class="sig-name descname"><span class="pre">SET</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#plin.enums.PLINUSBResponseRemapType.SET" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="plin.enums.PLINUSBSlotNumber">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">plin.enums.</span></span><span class="sig-name descname"><span class="pre">PLINUSBSlotNumber</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qualname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">boundary</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/plin/enums.html#PLINUSBSlotNumber"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plin.enums.PLINUSBSlotNumber" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">IntEnum</span></code></p>
+<p>Slot number range.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.enums.PLINUSBSlotNumber.MAX">
+<span class="sig-name descname"><span class="pre">MAX</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">8</span></em><a class="headerlink" href="#plin.enums.PLINUSBSlotNumber.MAX" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.enums.PLINUSBSlotNumber.MIN">
+<span class="sig-name descname"><span class="pre">MIN</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#plin.enums.PLINUSBSlotNumber.MIN" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="plin.enums.PLINUSBSlotType">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">plin.enums.</span></span><span class="sig-name descname"><span class="pre">PLINUSBSlotType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qualname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">boundary</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/plin/enums.html#PLINUSBSlotType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plin.enums.PLINUSBSlotType" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">IntEnum</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.enums.PLINUSBSlotType.EVENT">
+<span class="sig-name descname"><span class="pre">EVENT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#plin.enums.PLINUSBSlotType.EVENT" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.enums.PLINUSBSlotType.MASTER_REQ">
+<span class="sig-name descname"><span class="pre">MASTER_REQ</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">3</span></em><a class="headerlink" href="#plin.enums.PLINUSBSlotType.MASTER_REQ" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.enums.PLINUSBSlotType.SLAVE_RSP">
+<span class="sig-name descname"><span class="pre">SLAVE_RSP</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">4</span></em><a class="headerlink" href="#plin.enums.PLINUSBSlotType.SLAVE_RSP" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.enums.PLINUSBSlotType.SPORADIC">
+<span class="sig-name descname"><span class="pre">SPORADIC</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#plin.enums.PLINUSBSlotType.SPORADIC" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.enums.PLINUSBSlotType.UNCOND">
+<span class="sig-name descname"><span class="pre">UNCOND</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#plin.enums.PLINUSBSlotType.UNCOND" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-plin.plin">
+<span id="plin-plin-module"></span><h2>plin.plin module<a class="headerlink" href="#module-plin.plin" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="plin.plin.PLIN">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">plin.plin.</span></span><span class="sig-name descname"><span class="pre">PLIN</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">interface</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/plin/plin.html#PLIN"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plin.plin.PLIN" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="plin.plin.PLIN.add_diagnostic_schedule_slot">
+<span class="sig-name descname"><span class="pre">add_diagnostic_schedule_slot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">schedule</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delay_ms</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#plin.enums.PLINUSBSlotType" title="plin.enums.PLINUSBSlotType"><span class="pre">PLINUSBSlotType</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/plin/plin.html#PLIN.add_diagnostic_schedule_slot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plin.plin.PLIN.add_diagnostic_schedule_slot" title="Permalink to this definition"></a></dt>
+<dd><p>Generic function for adding a diagnostic schedule slot (either master request or slave response).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="plin.plin.PLIN.add_event_triggered_schedule_slot">
+<span class="sig-name descname"><span class="pre">add_event_triggered_schedule_slot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">schedule</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delay_ms</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">count_resolve</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/plin/plin.html#PLIN.add_event_triggered_schedule_slot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plin.plin.PLIN.add_event_triggered_schedule_slot" title="Permalink to this definition"></a></dt>
+<dd><p>Adds an event-triggered schedule slot for the specified ID.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="plin.plin.PLIN.add_master_request_schedule_slot">
+<span class="sig-name descname"><span class="pre">add_master_request_schedule_slot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">schedule</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delay_ms</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/plin/plin.html#PLIN.add_master_request_schedule_slot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plin.plin.PLIN.add_master_request_schedule_slot" title="Permalink to this definition"></a></dt>
+<dd><p>Adds a master request schedule slot.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="plin.plin.PLIN.add_slave_response_schedule_slot">
+<span class="sig-name descname"><span class="pre">add_slave_response_schedule_slot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">schedule</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delay_ms</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/plin/plin.html#PLIN.add_slave_response_schedule_slot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plin.plin.PLIN.add_slave_response_schedule_slot" title="Permalink to this definition"></a></dt>
+<dd><p>Adds a slave response schedule slot.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="plin.plin.PLIN.add_sporadic_schedule_slot">
+<span class="sig-name descname"><span class="pre">add_sporadic_schedule_slot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">schedule</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delay_ms</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ids</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">count_resolve</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/plin/plin.html#PLIN.add_sporadic_schedule_slot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plin.plin.PLIN.add_sporadic_schedule_slot" title="Permalink to this definition"></a></dt>
+<dd><p>Adds a sporadic schedule slot for the specified ID.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="plin.plin.PLIN.add_unconditional_schedule_slot">
+<span class="sig-name descname"><span class="pre">add_unconditional_schedule_slot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">schedule</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delay_ms</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="reference internal" href="_modules/plin/plin.html#PLIN.add_unconditional_schedule_slot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plin.plin.PLIN.add_unconditional_schedule_slot" title="Permalink to this definition"></a></dt>
+<dd><p>Adds an unconditional schedule slot for the specified ID.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="plin.plin.PLIN.delete_schedule">
+<span class="sig-name descname"><span class="pre">delete_schedule</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">schedule</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="reference internal" href="_modules/plin/plin.html#PLIN.delete_schedule"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plin.plin.PLIN.delete_schedule" title="Permalink to this definition"></a></dt>
+<dd><p>Removes all slots in the specified schedule.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="plin.plin.PLIN.get_baudrate">
+<span class="sig-name descname"><span class="pre">get_baudrate</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="reference internal" href="_modules/plin/plin.html#PLIN.get_baudrate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plin.plin.PLIN.get_baudrate" title="Permalink to this definition"></a></dt>
+<dd><p>Gets the baudrate.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="plin.plin.PLIN.get_firmware_version">
+<span class="sig-name descname"><span class="pre">get_firmware_version</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/plin/plin.html#PLIN.get_firmware_version"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plin.plin.PLIN.get_firmware_version" title="Permalink to this definition"></a></dt>
+<dd><p>Gets the firmware version.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="plin.plin.PLIN.get_frame_entry">
+<span class="sig-name descname"><span class="pre">get_frame_entry</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#plin.plin.PLINUSBFrameEntry" title="plin.plin.PLINUSBFrameEntry"><span class="pre">PLINUSBFrameEntry</span></a></span></span><a class="reference internal" href="_modules/plin/plin.html#PLIN.get_frame_entry"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plin.plin.PLIN.get_frame_entry" title="Permalink to this definition"></a></dt>
+<dd><p>Gets the frame entry corresponding to the specified ID.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="plin.plin.PLIN.get_id_filter">
+<span class="sig-name descname"><span class="pre">get_id_filter</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bytearray</span></span></span><a class="reference internal" href="_modules/plin/plin.html#PLIN.get_id_filter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plin.plin.PLIN.get_id_filter" title="Permalink to this definition"></a></dt>
+<dd><p>Gets the ID filter.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="plin.plin.PLIN.get_id_string">
+<span class="sig-name descname"><span class="pre">get_id_string</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/plin/plin.html#PLIN.get_id_string"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plin.plin.PLIN.get_id_string" title="Permalink to this definition"></a></dt>
+<dd><p>Gets the ID string.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="plin.plin.PLIN.get_mode">
+<span class="sig-name descname"><span class="pre">get_mode</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#plin.enums.PLINMode" title="plin.enums.PLINMode"><span class="pre">PLINMode</span></a></span></span><a class="reference internal" href="_modules/plin/plin.html#PLIN.get_mode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plin.plin.PLIN.get_mode" title="Permalink to this definition"></a></dt>
+<dd><p>Gets the mode.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="plin.plin.PLIN.get_response_remap">
+<span class="sig-name descname"><span class="pre">get_response_remap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">visual_output</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/plin/plin.html#PLIN.get_response_remap"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plin.plin.PLIN.get_response_remap" title="Permalink to this definition"></a></dt>
+<dd><p>Gets the publisher response remap.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="plin.plin.PLIN.get_schedule_slots">
+<span class="sig-name descname"><span class="pre">get_schedule_slots</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">schedule</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">bytearray</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/plin/plin.html#PLIN.get_schedule_slots"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plin.plin.PLIN.get_schedule_slots" title="Permalink to this definition"></a></dt>
+<dd><p>Gets the slots in a specified schedule.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="plin.plin.PLIN.get_slot_count">
+<span class="sig-name descname"><span class="pre">get_slot_count</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">schedule</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="reference internal" href="_modules/plin/plin.html#PLIN.get_slot_count"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plin.plin.PLIN.get_slot_count" title="Permalink to this definition"></a></dt>
+<dd><p>Gets the number of slots in the specified schedule.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="plin.plin.PLIN.get_status">
+<span class="sig-name descname"><span class="pre">get_status</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/plin/plin.html#PLIN.get_status"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plin.plin.PLIN.get_status" title="Permalink to this definition"></a></dt>
+<dd><p>Gets the status of the PLIN device.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="plin.plin.PLIN.get_visual_response_remap">
+<span class="sig-name descname"><span class="pre">get_visual_response_remap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">buffer_id_map</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/plin/plin.html#PLIN.get_visual_response_remap"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plin.plin.PLIN.get_visual_response_remap" title="Permalink to this definition"></a></dt>
+<dd><p>Builds a visual representation of remapped IDs.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="plin.plin.PLIN.identify">
+<span class="sig-name descname"><span class="pre">identify</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/plin/plin.html#PLIN.identify"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plin.plin.PLIN.identify" title="Permalink to this definition"></a></dt>
+<dd><p>Identifies the PLIN device by flashing the LED.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="plin.plin.PLIN.read">
+<span class="sig-name descname"><span class="pre">read</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#plin.plin.PLINMessage" title="plin.plin.PLINMessage"><span class="pre">PLINMessage</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="reference internal" href="_modules/plin/plin.html#PLIN.read"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plin.plin.PLIN.read" title="Permalink to this definition"></a></dt>
+<dd><p>Reads a PLINMessage from the LIN bus with an optional timeout in seconds.</p>
+<p>A timeout value of 0 blocks until data is read. If the timeout is reached before data is read, None is returned.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="plin.plin.PLIN.reset">
+<span class="sig-name descname"><span class="pre">reset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/plin/plin.html#PLIN.reset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plin.plin.PLIN.reset" title="Permalink to this definition"></a></dt>
+<dd><p>Resets the PLIN device.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="plin.plin.PLIN.reset_tx_queue">
+<span class="sig-name descname"><span class="pre">reset_tx_queue</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/plin/plin.html#PLIN.reset_tx_queue"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plin.plin.PLIN.reset_tx_queue" title="Permalink to this definition"></a></dt>
+<dd><p>Resets the outgoing queue.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="plin.plin.PLIN.resume_keep_alive">
+<span class="sig-name descname"><span class="pre">resume_keep_alive</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="reference internal" href="_modules/plin/plin.html#PLIN.resume_keep_alive"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plin.plin.PLIN.resume_keep_alive" title="Permalink to this definition"></a></dt>
+<dd><p>Resumes the sending of keep-alive frames.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="plin.plin.PLIN.resume_schedule">
+<span class="sig-name descname"><span class="pre">resume_schedule</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="reference internal" href="_modules/plin/plin.html#PLIN.resume_schedule"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plin.plin.PLIN.resume_schedule" title="Permalink to this definition"></a></dt>
+<dd><p>Resumes the specified schedule.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="plin.plin.PLIN.set_frame_entry">
+<span class="sig-name descname"><span class="pre">set_frame_entry</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">direction</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#plin.enums.PLINFrameDirection" title="plin.enums.PLINFrameDirection"><span class="pre">PLINFrameDirection</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">checksum_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#plin.enums.PLINFrameChecksumType" title="plin.enums.PLINFrameChecksumType"><span class="pre">PLINFrameChecksumType</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">flags</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#plin.enums.PLINFrameFlag" title="plin.enums.PLINFrameFlag"><span class="pre">PLINFrameFlag</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">PLINFrameFlag.NONE</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytearray</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">len</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/plin/plin.html#PLIN.set_frame_entry"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plin.plin.PLIN.set_frame_entry" title="Permalink to this definition"></a></dt>
+<dd><p>Adds a frame entry for the specified ID.</p>
+<p>IMPORTANT NOTE: For a publisher frame, the flag PLINFrameFlag.RSP_ENABLE must be set in order to allow a slave response.
+This flag is set by default if the frame direction is publisher for convenience.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="plin.plin.PLIN.set_frame_entry_data">
+<span class="sig-name descname"><span class="pre">set_frame_entry_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytearray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">len</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/plin/plin.html#PLIN.set_frame_entry_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plin.plin.PLIN.set_frame_entry_data" title="Permalink to this definition"></a></dt>
+<dd><p>Sets or updates the data for the frame entry corresponding to the specified ID.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="plin.plin.PLIN.set_id_filter">
+<span class="sig-name descname"><span class="pre">set_id_filter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytearray</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/plin/plin.html#PLIN.set_id_filter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plin.plin.PLIN.set_id_filter" title="Permalink to this definition"></a></dt>
+<dd><p>Sets the ID filter.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="plin.plin.PLIN.set_id_string">
+<span class="sig-name descname"><span class="pre">set_id_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id_string</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/plin/plin.html#PLIN.set_id_string"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plin.plin.PLIN.set_id_string" title="Permalink to this definition"></a></dt>
+<dd><p>Sets the ID string.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="plin.plin.PLIN.set_led_state">
+<span class="sig-name descname"><span class="pre">set_led_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">enable</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/plin/plin.html#PLIN.set_led_state"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plin.plin.PLIN.set_led_state" title="Permalink to this definition"></a></dt>
+<dd><p>Sets the state of the LED on the PLIN device.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="plin.plin.PLIN.set_response_remap">
+<span class="sig-name descname"><span class="pre">set_response_remap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id_map</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/plin/plin.html#PLIN.set_response_remap"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plin.plin.PLIN.set_response_remap" title="Permalink to this definition"></a></dt>
+<dd><p>Sets the publisher response remap. Only valid in slave mode. Setting the remap will override the old mapping. 
+All pending responses for single shot frames will be killed and therefore be lost.</p>
+<p>An example remapping of ID x to ID y: when ID x is received, the frame settings are taken from ID x, but the data itself is taken from ID y.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="plin.plin.PLIN.set_schedule_breakpoint">
+<span class="sig-name descname"><span class="pre">set_schedule_breakpoint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">handle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">enable</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/plin/plin.html#PLIN.set_schedule_breakpoint"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plin.plin.PLIN.set_schedule_breakpoint" title="Permalink to this definition"></a></dt>
+<dd><p>Enables or disables a breakpoint on a schedule slot with the given handle.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="plin.plin.PLIN.start">
+<span class="sig-name descname"><span class="pre">start</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#plin.enums.PLINMode" title="plin.enums.PLINMode"><span class="pre">PLINMode</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">baudrate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">19200</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/plin/plin.html#PLIN.start"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plin.plin.PLIN.start" title="Permalink to this definition"></a></dt>
+<dd><p>Connects to and configures the PLIN device with the specified mode and baudrate.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="plin.plin.PLIN.start_autobaud">
+<span class="sig-name descname"><span class="pre">start_autobaud</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="reference internal" href="_modules/plin/plin.html#PLIN.start_autobaud"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plin.plin.PLIN.start_autobaud" title="Permalink to this definition"></a></dt>
+<dd><p>Starts process to detect the baudrate of the connected LIN bus.</p>
+<p>IMPORTANT NOTE: The LIN hardware must not be active (i.e. start() has not been called yet).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="plin.plin.PLIN.start_keep_alive">
+<span class="sig-name descname"><span class="pre">start_keep_alive</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">period_ms</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="reference internal" href="_modules/plin/plin.html#PLIN.start_keep_alive"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plin.plin.PLIN.start_keep_alive" title="Permalink to this definition"></a></dt>
+<dd><p>Sets the specified ID as a keep-alive frame and starts sending it with the specified period.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="plin.plin.PLIN.start_schedule">
+<span class="sig-name descname"><span class="pre">start_schedule</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">schedule</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="reference internal" href="_modules/plin/plin.html#PLIN.start_schedule"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plin.plin.PLIN.start_schedule" title="Permalink to this definition"></a></dt>
+<dd><p>Starts the specified schedule.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="plin.plin.PLIN.suspend_keep_alive">
+<span class="sig-name descname"><span class="pre">suspend_keep_alive</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="reference internal" href="_modules/plin/plin.html#PLIN.suspend_keep_alive"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plin.plin.PLIN.suspend_keep_alive" title="Permalink to this definition"></a></dt>
+<dd><p>Suspends the sending of keep-alive frames.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="plin.plin.PLIN.suspend_schedule">
+<span class="sig-name descname"><span class="pre">suspend_schedule</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">schedule</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="reference internal" href="_modules/plin/plin.html#PLIN.suspend_schedule"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plin.plin.PLIN.suspend_schedule" title="Permalink to this definition"></a></dt>
+<dd><p>Suspends the specified schedule.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="plin.plin.PLIN.wakeup">
+<span class="sig-name descname"><span class="pre">wakeup</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/plin/plin.html#PLIN.wakeup"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plin.plin.PLIN.wakeup" title="Permalink to this definition"></a></dt>
+<dd><p>Wakes up the LIN bus.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="plin.plin.PLIN.write">
+<span class="sig-name descname"><span class="pre">write</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#plin.plin.PLINMessage" title="plin.plin.PLINMessage"><span class="pre">PLINMessage</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/plin/plin.html#PLIN.write"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plin.plin.PLIN.write" title="Permalink to this definition"></a></dt>
+<dd><p>Writes a PLINMessage to the LIN bus.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="plin.plin.PLINMessage">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">plin.plin.</span></span><span class="sig-name descname"><span class="pre">PLINMessage</span></span><a class="reference internal" href="_modules/plin/plin.html#PLINMessage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plin.plin.PLINMessage" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Structure</span></code></p>
+<p>Class representing a LIN message.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.plin.PLINMessage.buffer_length">
+<span class="sig-name descname"><span class="pre">buffer_length</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">32</span></em><a class="headerlink" href="#plin.plin.PLINMessage.buffer_length" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.plin.PLINMessage.cs_type">
+<span class="sig-name descname"><span class="pre">cs_type</span></span><a class="headerlink" href="#plin.plin.PLINMessage.cs_type" title="Permalink to this definition"></a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.plin.PLINMessage.data">
+<span class="sig-name descname"><span class="pre">data</span></span><a class="headerlink" href="#plin.plin.PLINMessage.data" title="Permalink to this definition"></a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.plin.PLINMessage.dir">
+<span class="sig-name descname"><span class="pre">dir</span></span><a class="headerlink" href="#plin.plin.PLINMessage.dir" title="Permalink to this definition"></a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.plin.PLINMessage.flags">
+<span class="sig-name descname"><span class="pre">flags</span></span><a class="headerlink" href="#plin.plin.PLINMessage.flags" title="Permalink to this definition"></a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.plin.PLINMessage.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#plin.plin.PLINMessage.id" title="Permalink to this definition"></a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.plin.PLINMessage.len">
+<span class="sig-name descname"><span class="pre">len</span></span><a class="headerlink" href="#plin.plin.PLINMessage.len" title="Permalink to this definition"></a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.plin.PLINMessage.reserved">
+<span class="sig-name descname"><span class="pre">reserved</span></span><a class="headerlink" href="#plin.plin.PLINMessage.reserved" title="Permalink to this definition"></a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.plin.PLINMessage.ts_us">
+<span class="sig-name descname"><span class="pre">ts_us</span></span><a class="headerlink" href="#plin.plin.PLINMessage.ts_us" title="Permalink to this definition"></a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.plin.PLINMessage.type">
+<span class="sig-name descname"><span class="pre">type</span></span><a class="headerlink" href="#plin.plin.PLINMessage.type" title="Permalink to this definition"></a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="plin.plin.PLINUSBAddScheduleSlot">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">plin.plin.</span></span><span class="sig-name descname"><span class="pre">PLINUSBAddScheduleSlot</span></span><a class="reference internal" href="_modules/plin/plin.html#PLINUSBAddScheduleSlot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plin.plin.PLINUSBAddScheduleSlot" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Structure</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.plin.PLINUSBAddScheduleSlot.count_resolve">
+<span class="sig-name descname"><span class="pre">count_resolve</span></span><a class="headerlink" href="#plin.plin.PLINUSBAddScheduleSlot.count_resolve" title="Permalink to this definition"></a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.plin.PLINUSBAddScheduleSlot.delay">
+<span class="sig-name descname"><span class="pre">delay</span></span><a class="headerlink" href="#plin.plin.PLINUSBAddScheduleSlot.delay" title="Permalink to this definition"></a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.plin.PLINUSBAddScheduleSlot.err">
+<span class="sig-name descname"><span class="pre">err</span></span><a class="headerlink" href="#plin.plin.PLINUSBAddScheduleSlot.err" title="Permalink to this definition"></a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.plin.PLINUSBAddScheduleSlot.handle">
+<span class="sig-name descname"><span class="pre">handle</span></span><a class="headerlink" href="#plin.plin.PLINUSBAddScheduleSlot.handle" title="Permalink to this definition"></a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.plin.PLINUSBAddScheduleSlot.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#plin.plin.PLINUSBAddScheduleSlot.id" title="Permalink to this definition"></a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.plin.PLINUSBAddScheduleSlot.schedule">
+<span class="sig-name descname"><span class="pre">schedule</span></span><a class="headerlink" href="#plin.plin.PLINUSBAddScheduleSlot.schedule" title="Permalink to this definition"></a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.plin.PLINUSBAddScheduleSlot.type">
+<span class="sig-name descname"><span class="pre">type</span></span><a class="headerlink" href="#plin.plin.PLINUSBAddScheduleSlot.type" title="Permalink to this definition"></a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.plin.PLINUSBAddScheduleSlot.unused">
+<span class="sig-name descname"><span class="pre">unused</span></span><a class="headerlink" href="#plin.plin.PLINUSBAddScheduleSlot.unused" title="Permalink to this definition"></a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="plin.plin.PLINUSBAutoBaud">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">plin.plin.</span></span><span class="sig-name descname"><span class="pre">PLINUSBAutoBaud</span></span><a class="reference internal" href="_modules/plin/plin.html#PLINUSBAutoBaud"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plin.plin.PLINUSBAutoBaud" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Structure</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.plin.PLINUSBAutoBaud.err">
+<span class="sig-name descname"><span class="pre">err</span></span><a class="headerlink" href="#plin.plin.PLINUSBAutoBaud.err" title="Permalink to this definition"></a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.plin.PLINUSBAutoBaud.timeout">
+<span class="sig-name descname"><span class="pre">timeout</span></span><a class="headerlink" href="#plin.plin.PLINUSBAutoBaud.timeout" title="Permalink to this definition"></a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.plin.PLINUSBAutoBaud.unused">
+<span class="sig-name descname"><span class="pre">unused</span></span><a class="headerlink" href="#plin.plin.PLINUSBAutoBaud.unused" title="Permalink to this definition"></a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="plin.plin.PLINUSBDeleteSchedule">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">plin.plin.</span></span><span class="sig-name descname"><span class="pre">PLINUSBDeleteSchedule</span></span><a class="reference internal" href="_modules/plin/plin.html#PLINUSBDeleteSchedule"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plin.plin.PLINUSBDeleteSchedule" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Structure</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.plin.PLINUSBDeleteSchedule.err">
+<span class="sig-name descname"><span class="pre">err</span></span><a class="headerlink" href="#plin.plin.PLINUSBDeleteSchedule.err" title="Permalink to this definition"></a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.plin.PLINUSBDeleteSchedule.schedule">
+<span class="sig-name descname"><span class="pre">schedule</span></span><a class="headerlink" href="#plin.plin.PLINUSBDeleteSchedule.schedule" title="Permalink to this definition"></a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.plin.PLINUSBDeleteSchedule.unused">
+<span class="sig-name descname"><span class="pre">unused</span></span><a class="headerlink" href="#plin.plin.PLINUSBDeleteSchedule.unused" title="Permalink to this definition"></a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="plin.plin.PLINUSBFirmwareVersion">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">plin.plin.</span></span><span class="sig-name descname"><span class="pre">PLINUSBFirmwareVersion</span></span><a class="reference internal" href="_modules/plin/plin.html#PLINUSBFirmwareVersion"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plin.plin.PLINUSBFirmwareVersion" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Structure</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.plin.PLINUSBFirmwareVersion.major">
+<span class="sig-name descname"><span class="pre">major</span></span><a class="headerlink" href="#plin.plin.PLINUSBFirmwareVersion.major" title="Permalink to this definition"></a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.plin.PLINUSBFirmwareVersion.minor">
+<span class="sig-name descname"><span class="pre">minor</span></span><a class="headerlink" href="#plin.plin.PLINUSBFirmwareVersion.minor" title="Permalink to this definition"></a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.plin.PLINUSBFirmwareVersion.sub">
+<span class="sig-name descname"><span class="pre">sub</span></span><a class="headerlink" href="#plin.plin.PLINUSBFirmwareVersion.sub" title="Permalink to this definition"></a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="plin.plin.PLINUSBFrameEntry">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">plin.plin.</span></span><span class="sig-name descname"><span class="pre">PLINUSBFrameEntry</span></span><a class="reference internal" href="_modules/plin/plin.html#PLINUSBFrameEntry"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plin.plin.PLINUSBFrameEntry" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Structure</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.plin.PLINUSBFrameEntry.checksum">
+<span class="sig-name descname"><span class="pre">checksum</span></span><a class="headerlink" href="#plin.plin.PLINUSBFrameEntry.checksum" title="Permalink to this definition"></a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.plin.PLINUSBFrameEntry.d">
+<span class="sig-name descname"><span class="pre">d</span></span><a class="headerlink" href="#plin.plin.PLINUSBFrameEntry.d" title="Permalink to this definition"></a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.plin.PLINUSBFrameEntry.direction">
+<span class="sig-name descname"><span class="pre">direction</span></span><a class="headerlink" href="#plin.plin.PLINUSBFrameEntry.direction" title="Permalink to this definition"></a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.plin.PLINUSBFrameEntry.flags">
+<span class="sig-name descname"><span class="pre">flags</span></span><a class="headerlink" href="#plin.plin.PLINUSBFrameEntry.flags" title="Permalink to this definition"></a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.plin.PLINUSBFrameEntry.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#plin.plin.PLINUSBFrameEntry.id" title="Permalink to this definition"></a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.plin.PLINUSBFrameEntry.len">
+<span class="sig-name descname"><span class="pre">len</span></span><a class="headerlink" href="#plin.plin.PLINUSBFrameEntry.len" title="Permalink to this definition"></a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.plin.PLINUSBFrameEntry.unused">
+<span class="sig-name descname"><span class="pre">unused</span></span><a class="headerlink" href="#plin.plin.PLINUSBFrameEntry.unused" title="Permalink to this definition"></a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="plin.plin.PLINUSBGetBaudrate">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">plin.plin.</span></span><span class="sig-name descname"><span class="pre">PLINUSBGetBaudrate</span></span><a class="reference internal" href="_modules/plin/plin.html#PLINUSBGetBaudrate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plin.plin.PLINUSBGetBaudrate" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Structure</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.plin.PLINUSBGetBaudrate.baudrate">
+<span class="sig-name descname"><span class="pre">baudrate</span></span><a class="headerlink" href="#plin.plin.PLINUSBGetBaudrate.baudrate" title="Permalink to this definition"></a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.plin.PLINUSBGetBaudrate.unused">
+<span class="sig-name descname"><span class="pre">unused</span></span><a class="headerlink" href="#plin.plin.PLINUSBGetBaudrate.unused" title="Permalink to this definition"></a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="plin.plin.PLINUSBGetMode">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">plin.plin.</span></span><span class="sig-name descname"><span class="pre">PLINUSBGetMode</span></span><a class="reference internal" href="_modules/plin/plin.html#PLINUSBGetMode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plin.plin.PLINUSBGetMode" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Structure</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.plin.PLINUSBGetMode.mode">
+<span class="sig-name descname"><span class="pre">mode</span></span><a class="headerlink" href="#plin.plin.PLINUSBGetMode.mode" title="Permalink to this definition"></a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.plin.PLINUSBGetMode.unused">
+<span class="sig-name descname"><span class="pre">unused</span></span><a class="headerlink" href="#plin.plin.PLINUSBGetMode.unused" title="Permalink to this definition"></a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="plin.plin.PLINUSBGetScheduleSlot">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">plin.plin.</span></span><span class="sig-name descname"><span class="pre">PLINUSBGetScheduleSlot</span></span><a class="reference internal" href="_modules/plin/plin.html#PLINUSBGetScheduleSlot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plin.plin.PLINUSBGetScheduleSlot" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Structure</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.plin.PLINUSBGetScheduleSlot.count_resolve">
+<span class="sig-name descname"><span class="pre">count_resolve</span></span><a class="headerlink" href="#plin.plin.PLINUSBGetScheduleSlot.count_resolve" title="Permalink to this definition"></a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.plin.PLINUSBGetScheduleSlot.delay">
+<span class="sig-name descname"><span class="pre">delay</span></span><a class="headerlink" href="#plin.plin.PLINUSBGetScheduleSlot.delay" title="Permalink to this definition"></a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.plin.PLINUSBGetScheduleSlot.err">
+<span class="sig-name descname"><span class="pre">err</span></span><a class="headerlink" href="#plin.plin.PLINUSBGetScheduleSlot.err" title="Permalink to this definition"></a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.plin.PLINUSBGetScheduleSlot.handle">
+<span class="sig-name descname"><span class="pre">handle</span></span><a class="headerlink" href="#plin.plin.PLINUSBGetScheduleSlot.handle" title="Permalink to this definition"></a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.plin.PLINUSBGetScheduleSlot.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#plin.plin.PLINUSBGetScheduleSlot.id" title="Permalink to this definition"></a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.plin.PLINUSBGetScheduleSlot.schedule">
+<span class="sig-name descname"><span class="pre">schedule</span></span><a class="headerlink" href="#plin.plin.PLINUSBGetScheduleSlot.schedule" title="Permalink to this definition"></a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.plin.PLINUSBGetScheduleSlot.slot_idx">
+<span class="sig-name descname"><span class="pre">slot_idx</span></span><a class="headerlink" href="#plin.plin.PLINUSBGetScheduleSlot.slot_idx" title="Permalink to this definition"></a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.plin.PLINUSBGetScheduleSlot.type">
+<span class="sig-name descname"><span class="pre">type</span></span><a class="headerlink" href="#plin.plin.PLINUSBGetScheduleSlot.type" title="Permalink to this definition"></a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.plin.PLINUSBGetScheduleSlot.unused">
+<span class="sig-name descname"><span class="pre">unused</span></span><a class="headerlink" href="#plin.plin.PLINUSBGetScheduleSlot.unused" title="Permalink to this definition"></a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="plin.plin.PLINUSBGetSlotCount">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">plin.plin.</span></span><span class="sig-name descname"><span class="pre">PLINUSBGetSlotCount</span></span><a class="reference internal" href="_modules/plin/plin.html#PLINUSBGetSlotCount"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plin.plin.PLINUSBGetSlotCount" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Structure</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.plin.PLINUSBGetSlotCount.count">
+<span class="sig-name descname"><span class="pre">count</span></span><a class="headerlink" href="#plin.plin.PLINUSBGetSlotCount.count" title="Permalink to this definition"></a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.plin.PLINUSBGetSlotCount.schedule">
+<span class="sig-name descname"><span class="pre">schedule</span></span><a class="headerlink" href="#plin.plin.PLINUSBGetSlotCount.schedule" title="Permalink to this definition"></a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.plin.PLINUSBGetSlotCount.unused">
+<span class="sig-name descname"><span class="pre">unused</span></span><a class="headerlink" href="#plin.plin.PLINUSBGetSlotCount.unused" title="Permalink to this definition"></a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="plin.plin.PLINUSBGetStatus">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">plin.plin.</span></span><span class="sig-name descname"><span class="pre">PLINUSBGetStatus</span></span><a class="reference internal" href="_modules/plin/plin.html#PLINUSBGetStatus"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plin.plin.PLINUSBGetStatus" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Structure</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.plin.PLINUSBGetStatus.baudrate">
+<span class="sig-name descname"><span class="pre">baudrate</span></span><a class="headerlink" href="#plin.plin.PLINUSBGetStatus.baudrate" title="Permalink to this definition"></a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.plin.PLINUSBGetStatus.bus_state">
+<span class="sig-name descname"><span class="pre">bus_state</span></span><a class="headerlink" href="#plin.plin.PLINUSBGetStatus.bus_state" title="Permalink to this definition"></a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.plin.PLINUSBGetStatus.mode">
+<span class="sig-name descname"><span class="pre">mode</span></span><a class="headerlink" href="#plin.plin.PLINUSBGetStatus.mode" title="Permalink to this definition"></a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.plin.PLINUSBGetStatus.schd_poolfree">
+<span class="sig-name descname"><span class="pre">schd_poolfree</span></span><a class="headerlink" href="#plin.plin.PLINUSBGetStatus.schd_poolfree" title="Permalink to this definition"></a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.plin.PLINUSBGetStatus.tx_qfree">
+<span class="sig-name descname"><span class="pre">tx_qfree</span></span><a class="headerlink" href="#plin.plin.PLINUSBGetStatus.tx_qfree" title="Permalink to this definition"></a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.plin.PLINUSBGetStatus.unused">
+<span class="sig-name descname"><span class="pre">unused</span></span><a class="headerlink" href="#plin.plin.PLINUSBGetStatus.unused" title="Permalink to this definition"></a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.plin.PLINUSBGetStatus.usb_filter">
+<span class="sig-name descname"><span class="pre">usb_filter</span></span><a class="headerlink" href="#plin.plin.PLINUSBGetStatus.usb_filter" title="Permalink to this definition"></a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.plin.PLINUSBGetStatus.usb_rx_ovr">
+<span class="sig-name descname"><span class="pre">usb_rx_ovr</span></span><a class="headerlink" href="#plin.plin.PLINUSBGetStatus.usb_rx_ovr" title="Permalink to this definition"></a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="plin.plin.PLINUSBIDFilter">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">plin.plin.</span></span><span class="sig-name descname"><span class="pre">PLINUSBIDFilter</span></span><a class="reference internal" href="_modules/plin/plin.html#PLINUSBIDFilter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plin.plin.PLINUSBIDFilter" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Structure</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.plin.PLINUSBIDFilter.id_mask">
+<span class="sig-name descname"><span class="pre">id_mask</span></span><a class="headerlink" href="#plin.plin.PLINUSBIDFilter.id_mask" title="Permalink to this definition"></a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="plin.plin.PLINUSBIDString">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">plin.plin.</span></span><span class="sig-name descname"><span class="pre">PLINUSBIDString</span></span><a class="reference internal" href="_modules/plin/plin.html#PLINUSBIDString"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plin.plin.PLINUSBIDString" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Structure</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.plin.PLINUSBIDString.str">
+<span class="sig-name descname"><span class="pre">str</span></span><a class="headerlink" href="#plin.plin.PLINUSBIDString.str" title="Permalink to this definition"></a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="plin.plin.PLINUSBInitHardware">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">plin.plin.</span></span><span class="sig-name descname"><span class="pre">PLINUSBInitHardware</span></span><a class="reference internal" href="_modules/plin/plin.html#PLINUSBInitHardware"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plin.plin.PLINUSBInitHardware" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Structure</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.plin.PLINUSBInitHardware.baudrate">
+<span class="sig-name descname"><span class="pre">baudrate</span></span><a class="headerlink" href="#plin.plin.PLINUSBInitHardware.baudrate" title="Permalink to this definition"></a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.plin.PLINUSBInitHardware.mode">
+<span class="sig-name descname"><span class="pre">mode</span></span><a class="headerlink" href="#plin.plin.PLINUSBInitHardware.mode" title="Permalink to this definition"></a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.plin.PLINUSBInitHardware.unused">
+<span class="sig-name descname"><span class="pre">unused</span></span><a class="headerlink" href="#plin.plin.PLINUSBInitHardware.unused" title="Permalink to this definition"></a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="plin.plin.PLINUSBKeepAlive">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">plin.plin.</span></span><span class="sig-name descname"><span class="pre">PLINUSBKeepAlive</span></span><a class="reference internal" href="_modules/plin/plin.html#PLINUSBKeepAlive"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plin.plin.PLINUSBKeepAlive" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Structure</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.plin.PLINUSBKeepAlive.err">
+<span class="sig-name descname"><span class="pre">err</span></span><a class="headerlink" href="#plin.plin.PLINUSBKeepAlive.err" title="Permalink to this definition"></a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.plin.PLINUSBKeepAlive.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#plin.plin.PLINUSBKeepAlive.id" title="Permalink to this definition"></a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.plin.PLINUSBKeepAlive.period_ms">
+<span class="sig-name descname"><span class="pre">period_ms</span></span><a class="headerlink" href="#plin.plin.PLINUSBKeepAlive.period_ms" title="Permalink to this definition"></a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="plin.plin.PLINUSBLEDState">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">plin.plin.</span></span><span class="sig-name descname"><span class="pre">PLINUSBLEDState</span></span><a class="reference internal" href="_modules/plin/plin.html#PLINUSBLEDState"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plin.plin.PLINUSBLEDState" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Structure</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.plin.PLINUSBLEDState.on_off">
+<span class="sig-name descname"><span class="pre">on_off</span></span><a class="headerlink" href="#plin.plin.PLINUSBLEDState.on_off" title="Permalink to this definition"></a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.plin.PLINUSBLEDState.unused">
+<span class="sig-name descname"><span class="pre">unused</span></span><a class="headerlink" href="#plin.plin.PLINUSBLEDState.unused" title="Permalink to this definition"></a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="plin.plin.PLINUSBResponseRemap">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">plin.plin.</span></span><span class="sig-name descname"><span class="pre">PLINUSBResponseRemap</span></span><a class="reference internal" href="_modules/plin/plin.html#PLINUSBResponseRemap"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plin.plin.PLINUSBResponseRemap" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Structure</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.plin.PLINUSBResponseRemap.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#plin.plin.PLINUSBResponseRemap.id" title="Permalink to this definition"></a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.plin.PLINUSBResponseRemap.set_get">
+<span class="sig-name descname"><span class="pre">set_get</span></span><a class="headerlink" href="#plin.plin.PLINUSBResponseRemap.set_get" title="Permalink to this definition"></a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.plin.PLINUSBResponseRemap.unused">
+<span class="sig-name descname"><span class="pre">unused</span></span><a class="headerlink" href="#plin.plin.PLINUSBResponseRemap.unused" title="Permalink to this definition"></a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="plin.plin.PLINUSBResumeSchedule">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">plin.plin.</span></span><span class="sig-name descname"><span class="pre">PLINUSBResumeSchedule</span></span><a class="reference internal" href="_modules/plin/plin.html#PLINUSBResumeSchedule"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plin.plin.PLINUSBResumeSchedule" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Structure</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.plin.PLINUSBResumeSchedule.err">
+<span class="sig-name descname"><span class="pre">err</span></span><a class="headerlink" href="#plin.plin.PLINUSBResumeSchedule.err" title="Permalink to this definition"></a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.plin.PLINUSBResumeSchedule.unused">
+<span class="sig-name descname"><span class="pre">unused</span></span><a class="headerlink" href="#plin.plin.PLINUSBResumeSchedule.unused" title="Permalink to this definition"></a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="plin.plin.PLINUSBSetScheduleBreakpoint">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">plin.plin.</span></span><span class="sig-name descname"><span class="pre">PLINUSBSetScheduleBreakpoint</span></span><a class="reference internal" href="_modules/plin/plin.html#PLINUSBSetScheduleBreakpoint"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plin.plin.PLINUSBSetScheduleBreakpoint" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Structure</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.plin.PLINUSBSetScheduleBreakpoint.brkpt">
+<span class="sig-name descname"><span class="pre">brkpt</span></span><a class="headerlink" href="#plin.plin.PLINUSBSetScheduleBreakpoint.brkpt" title="Permalink to this definition"></a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.plin.PLINUSBSetScheduleBreakpoint.handle">
+<span class="sig-name descname"><span class="pre">handle</span></span><a class="headerlink" href="#plin.plin.PLINUSBSetScheduleBreakpoint.handle" title="Permalink to this definition"></a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.plin.PLINUSBSetScheduleBreakpoint.unused">
+<span class="sig-name descname"><span class="pre">unused</span></span><a class="headerlink" href="#plin.plin.PLINUSBSetScheduleBreakpoint.unused" title="Permalink to this definition"></a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="plin.plin.PLINUSBStartSchedule">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">plin.plin.</span></span><span class="sig-name descname"><span class="pre">PLINUSBStartSchedule</span></span><a class="reference internal" href="_modules/plin/plin.html#PLINUSBStartSchedule"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plin.plin.PLINUSBStartSchedule" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Structure</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.plin.PLINUSBStartSchedule.err">
+<span class="sig-name descname"><span class="pre">err</span></span><a class="headerlink" href="#plin.plin.PLINUSBStartSchedule.err" title="Permalink to this definition"></a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.plin.PLINUSBStartSchedule.schedule">
+<span class="sig-name descname"><span class="pre">schedule</span></span><a class="headerlink" href="#plin.plin.PLINUSBStartSchedule.schedule" title="Permalink to this definition"></a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.plin.PLINUSBStartSchedule.unused">
+<span class="sig-name descname"><span class="pre">unused</span></span><a class="headerlink" href="#plin.plin.PLINUSBStartSchedule.unused" title="Permalink to this definition"></a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="plin.plin.PLINUSBSuspendSchedule">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">plin.plin.</span></span><span class="sig-name descname"><span class="pre">PLINUSBSuspendSchedule</span></span><a class="reference internal" href="_modules/plin/plin.html#PLINUSBSuspendSchedule"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plin.plin.PLINUSBSuspendSchedule" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Structure</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.plin.PLINUSBSuspendSchedule.err">
+<span class="sig-name descname"><span class="pre">err</span></span><a class="headerlink" href="#plin.plin.PLINUSBSuspendSchedule.err" title="Permalink to this definition"></a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.plin.PLINUSBSuspendSchedule.handle">
+<span class="sig-name descname"><span class="pre">handle</span></span><a class="headerlink" href="#plin.plin.PLINUSBSuspendSchedule.handle" title="Permalink to this definition"></a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.plin.PLINUSBSuspendSchedule.schedule">
+<span class="sig-name descname"><span class="pre">schedule</span></span><a class="headerlink" href="#plin.plin.PLINUSBSuspendSchedule.schedule" title="Permalink to this definition"></a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.plin.PLINUSBSuspendSchedule.unused">
+<span class="sig-name descname"><span class="pre">unused</span></span><a class="headerlink" href="#plin.plin.PLINUSBSuspendSchedule.unused" title="Permalink to this definition"></a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="plin.plin.PLINUSBUpdateData">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">plin.plin.</span></span><span class="sig-name descname"><span class="pre">PLINUSBUpdateData</span></span><a class="reference internal" href="_modules/plin/plin.html#PLINUSBUpdateData"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plin.plin.PLINUSBUpdateData" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Structure</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.plin.PLINUSBUpdateData.d">
+<span class="sig-name descname"><span class="pre">d</span></span><a class="headerlink" href="#plin.plin.PLINUSBUpdateData.d" title="Permalink to this definition"></a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.plin.PLINUSBUpdateData.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#plin.plin.PLINUSBUpdateData.id" title="Permalink to this definition"></a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.plin.PLINUSBUpdateData.idx">
+<span class="sig-name descname"><span class="pre">idx</span></span><a class="headerlink" href="#plin.plin.PLINUSBUpdateData.idx" title="Permalink to this definition"></a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.plin.PLINUSBUpdateData.len">
+<span class="sig-name descname"><span class="pre">len</span></span><a class="headerlink" href="#plin.plin.PLINUSBUpdateData.len" title="Permalink to this definition"></a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="plin.plin.PLINUSBUpdateData.unused">
+<span class="sig-name descname"><span class="pre">unused</span></span><a class="headerlink" href="#plin.plin.PLINUSBUpdateData.unused" title="Permalink to this definition"></a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-plin">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-plin" title="Permalink to this heading"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Welcome to python-plin’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Rivian Automotive, Inc..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

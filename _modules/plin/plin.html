@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>plin.plin &mdash; python-plin 0.0.1 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            python-plin
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../plin.html">plin package</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">python-plin</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">plin.plin</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for plin.plin</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">fcntl</span> <span class="k">as</span> <span class="nn">fnctl</span>
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">from</span> <span class="nn">ctypes</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="kn">from</span> <span class="nn">ioctl_opt</span> <span class="kn">import</span> <span class="n">IO</span><span class="p">,</span> <span class="n">IOW</span><span class="p">,</span> <span class="n">IOWR</span>
+
+<span class="kn">from</span> <span class="nn">plin.enums</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="n">PLIN_DAT_LEN</span> <span class="o">=</span> <span class="mi">8</span>
+
+
+<div class="viewcode-block" id="PLINMessage"><a class="viewcode-back" href="../../plin.html#plin.plin.PLINMessage">[docs]</a><span class="k">class</span> <span class="nc">PLINMessage</span><span class="p">(</span><span class="n">Structure</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Class representing a LIN message. </span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">buffer_length</span> <span class="o">=</span> <span class="mi">32</span>
+    <span class="n">_fields_</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">(</span><span class="s2">&quot;type&quot;</span><span class="p">,</span> <span class="n">c_uint16</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;flags&quot;</span><span class="p">,</span> <span class="n">c_uint16</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="n">c_uint8</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;len&quot;</span><span class="p">,</span> <span class="n">c_uint8</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;dir&quot;</span><span class="p">,</span> <span class="n">c_uint8</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;cs_type&quot;</span><span class="p">,</span> <span class="n">c_uint8</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;ts_us&quot;</span><span class="p">,</span> <span class="n">c_uint64</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;data&quot;</span><span class="p">,</span> <span class="n">c_uint8</span> <span class="o">*</span> <span class="n">PLIN_DAT_LEN</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;reserved&quot;</span><span class="p">,</span> <span class="n">c_uint8</span> <span class="o">*</span> <span class="mi">8</span><span class="p">)</span>
+    <span class="p">]</span>
+
+    <span class="k">def</span> <span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;data&quot;</span><span class="p">:</span>
+            <span class="n">buf</span> <span class="o">=</span> <span class="p">(</span><span class="n">c_uint8</span> <span class="o">*</span> <span class="n">PLIN_DAT_LEN</span><span class="p">)(</span><span class="o">*</span><span class="n">value</span><span class="p">)</span>
+            <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="s2">&quot;len&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">value</span><span class="p">))</span>
+            <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">buf</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_asdict</span><span class="p">())</span>
+
+    <span class="k">def</span> <span class="nf">_asdict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="p">{</span><span class="n">field</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                  <span class="k">for</span> <span class="n">field</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fields_</span><span class="p">[:</span><span class="o">-</span><span class="mi">2</span><span class="p">]}</span>
+        <span class="n">result</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">PLINMessageType</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">type</span><span class="p">)</span>
+        <span class="n">result</span><span class="p">[</span><span class="s2">&quot;dir&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">PLINFrameDirection</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dir</span><span class="p">)</span>
+        <span class="n">result</span><span class="p">[</span><span class="s2">&quot;flags&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">PLINFrameFlag</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">flags</span><span class="p">)</span>
+        <span class="n">result</span><span class="p">[</span><span class="s2">&quot;cs_type&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">PLINFrameChecksumType</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cs_type</span><span class="p">)</span>
+        <span class="n">result</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">bytearray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">result</span></div>
+
+
+<div class="viewcode-block" id="PLINUSBInitHardware"><a class="viewcode-back" href="../../plin.html#plin.plin.PLINUSBInitHardware">[docs]</a><span class="k">class</span> <span class="nc">PLINUSBInitHardware</span><span class="p">(</span><span class="n">Structure</span><span class="p">):</span>
+    <span class="n">_fields_</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">(</span><span class="s2">&quot;baudrate&quot;</span><span class="p">,</span> <span class="n">c_uint16</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;mode&quot;</span><span class="p">,</span> <span class="n">c_uint8</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;unused&quot;</span><span class="p">,</span> <span class="n">c_uint8</span><span class="p">)</span>
+    <span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="PLINUSBFrameEntry"><a class="viewcode-back" href="../../plin.html#plin.plin.PLINUSBFrameEntry">[docs]</a><span class="k">class</span> <span class="nc">PLINUSBFrameEntry</span><span class="p">(</span><span class="n">Structure</span><span class="p">):</span>
+    <span class="n">_fields_</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="n">c_uint8</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;len&quot;</span><span class="p">,</span> <span class="n">c_uint8</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;direction&quot;</span><span class="p">,</span> <span class="n">c_uint8</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;checksum&quot;</span><span class="p">,</span> <span class="n">c_uint8</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;flags&quot;</span><span class="p">,</span> <span class="n">c_uint16</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;unused&quot;</span><span class="p">,</span> <span class="n">c_uint16</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;d&quot;</span><span class="p">,</span> <span class="n">c_uint8</span> <span class="o">*</span> <span class="n">PLIN_DAT_LEN</span><span class="p">)</span>
+    <span class="p">]</span>
+
+    <span class="k">def</span> <span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;d&quot;</span><span class="p">:</span>
+            <span class="n">buf</span> <span class="o">=</span> <span class="p">(</span><span class="n">c_uint8</span> <span class="o">*</span> <span class="n">PLIN_DAT_LEN</span><span class="p">)(</span><span class="o">*</span><span class="n">value</span><span class="p">)</span>
+            <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">buf</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_asdict</span><span class="p">())</span>
+
+    <span class="k">def</span> <span class="nf">_asdict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="p">{</span><span class="n">field</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field</span><span class="p">)</span>
+                  <span class="k">for</span> <span class="n">field</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fields_</span><span class="p">}</span>
+        <span class="n">result</span><span class="p">[</span><span class="s2">&quot;direction&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">PLINFrameDirection</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">direction</span><span class="p">)</span>
+        <span class="n">result</span><span class="p">[</span><span class="s2">&quot;checksum&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">PLINFrameChecksumType</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">checksum</span><span class="p">)</span>
+        <span class="n">result</span><span class="p">[</span><span class="s2">&quot;flags&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">PLINFrameFlag</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">flags</span><span class="p">)</span>
+        <span class="n">result</span><span class="p">[</span><span class="s2">&quot;d&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">bytearray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">d</span><span class="p">)</span>
+        <span class="k">del</span> <span class="n">result</span><span class="p">[</span><span class="s2">&quot;unused&quot;</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">result</span></div>
+
+
+<div class="viewcode-block" id="PLINUSBAutoBaud"><a class="viewcode-back" href="../../plin.html#plin.plin.PLINUSBAutoBaud">[docs]</a><span class="k">class</span> <span class="nc">PLINUSBAutoBaud</span><span class="p">(</span><span class="n">Structure</span><span class="p">):</span>
+    <span class="n">_fields_</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">(</span><span class="s2">&quot;timeout&quot;</span><span class="p">,</span> <span class="n">c_uint16</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;err&quot;</span><span class="p">,</span> <span class="n">c_uint8</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;unused&quot;</span><span class="p">,</span> <span class="n">c_uint8</span><span class="p">)</span>
+    <span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="PLINUSBGetBaudrate"><a class="viewcode-back" href="../../plin.html#plin.plin.PLINUSBGetBaudrate">[docs]</a><span class="k">class</span> <span class="nc">PLINUSBGetBaudrate</span><span class="p">(</span><span class="n">Structure</span><span class="p">):</span>
+    <span class="n">_fields_</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">(</span><span class="s2">&quot;baudrate&quot;</span><span class="p">,</span> <span class="n">c_uint16</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;unused&quot;</span><span class="p">,</span> <span class="n">c_uint16</span><span class="p">)</span>
+    <span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="PLINUSBIDFilter"><a class="viewcode-back" href="../../plin.html#plin.plin.PLINUSBIDFilter">[docs]</a><span class="k">class</span> <span class="nc">PLINUSBIDFilter</span><span class="p">(</span><span class="n">Structure</span><span class="p">):</span>
+    <span class="n">_fields_</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">(</span><span class="s2">&quot;id_mask&quot;</span><span class="p">,</span> <span class="n">c_uint8</span> <span class="o">*</span> <span class="mi">8</span><span class="p">)</span>
+    <span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="PLINUSBGetMode"><a class="viewcode-back" href="../../plin.html#plin.plin.PLINUSBGetMode">[docs]</a><span class="k">class</span> <span class="nc">PLINUSBGetMode</span><span class="p">(</span><span class="n">Structure</span><span class="p">):</span>
+    <span class="n">_fields_</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">(</span><span class="s2">&quot;mode&quot;</span><span class="p">,</span> <span class="n">c_uint8</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;unused&quot;</span><span class="p">,</span> <span class="n">c_uint8</span> <span class="o">*</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="PLINUSBIDString"><a class="viewcode-back" href="../../plin.html#plin.plin.PLINUSBIDString">[docs]</a><span class="k">class</span> <span class="nc">PLINUSBIDString</span><span class="p">(</span><span class="n">Structure</span><span class="p">):</span>
+    <span class="n">_fields_</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">(</span><span class="s2">&quot;str&quot;</span><span class="p">,</span> <span class="n">c_char</span> <span class="o">*</span> <span class="mi">48</span><span class="p">)</span>
+    <span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="PLINUSBFirmwareVersion"><a class="viewcode-back" href="../../plin.html#plin.plin.PLINUSBFirmwareVersion">[docs]</a><span class="k">class</span> <span class="nc">PLINUSBFirmwareVersion</span><span class="p">(</span><span class="n">Structure</span><span class="p">):</span>
+    <span class="n">_fields_</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">(</span><span class="s2">&quot;major&quot;</span><span class="p">,</span> <span class="n">c_uint8</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;minor&quot;</span><span class="p">,</span> <span class="n">c_uint8</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;sub&quot;</span><span class="p">,</span> <span class="n">c_uint16</span><span class="p">)</span>
+    <span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="PLINUSBKeepAlive"><a class="viewcode-back" href="../../plin.html#plin.plin.PLINUSBKeepAlive">[docs]</a><span class="k">class</span> <span class="nc">PLINUSBKeepAlive</span><span class="p">(</span><span class="n">Structure</span><span class="p">):</span>
+    <span class="n">_fields_</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">(</span><span class="s2">&quot;err&quot;</span><span class="p">,</span> <span class="n">c_uint8</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="n">c_uint8</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;period_ms&quot;</span><span class="p">,</span> <span class="n">c_uint16</span><span class="p">)</span>
+    <span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="PLINUSBAddScheduleSlot"><a class="viewcode-back" href="../../plin.html#plin.plin.PLINUSBAddScheduleSlot">[docs]</a><span class="k">class</span> <span class="nc">PLINUSBAddScheduleSlot</span><span class="p">(</span><span class="n">Structure</span><span class="p">):</span>
+    <span class="n">_fields_</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">(</span><span class="s2">&quot;schedule&quot;</span><span class="p">,</span> <span class="n">c_uint8</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;err&quot;</span><span class="p">,</span> <span class="n">c_uint8</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;unused&quot;</span><span class="p">,</span> <span class="n">c_uint16</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;type&quot;</span><span class="p">,</span> <span class="n">c_uint8</span><span class="p">),</span>              <span class="c1"># PLIN_USB_SLOT_xxx</span>
+        <span class="p">(</span><span class="s2">&quot;count_resolve&quot;</span><span class="p">,</span> <span class="n">c_uint8</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;delay&quot;</span><span class="p">,</span> <span class="n">c_uint16</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="n">c_uint8</span> <span class="o">*</span> <span class="n">PLINUSBSlotNumber</span><span class="o">.</span><span class="n">MAX</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;handle&quot;</span><span class="p">,</span> <span class="n">c_uint32</span><span class="p">)</span>
+    <span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="PLINUSBDeleteSchedule"><a class="viewcode-back" href="../../plin.html#plin.plin.PLINUSBDeleteSchedule">[docs]</a><span class="k">class</span> <span class="nc">PLINUSBDeleteSchedule</span><span class="p">(</span><span class="n">Structure</span><span class="p">):</span>
+    <span class="n">_fields_</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">(</span><span class="s2">&quot;schedule&quot;</span><span class="p">,</span> <span class="n">c_uint8</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;err&quot;</span><span class="p">,</span> <span class="n">c_uint8</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;unused&quot;</span><span class="p">,</span> <span class="n">c_uint16</span><span class="p">),</span>
+    <span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="PLINUSBGetSlotCount"><a class="viewcode-back" href="../../plin.html#plin.plin.PLINUSBGetSlotCount">[docs]</a><span class="k">class</span> <span class="nc">PLINUSBGetSlotCount</span><span class="p">(</span><span class="n">Structure</span><span class="p">):</span>
+    <span class="n">_fields_</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">(</span><span class="s2">&quot;schedule&quot;</span><span class="p">,</span> <span class="n">c_uint8</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;unused&quot;</span><span class="p">,</span> <span class="n">c_uint8</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;count&quot;</span><span class="p">,</span> <span class="n">c_uint16</span><span class="p">)</span>
+    <span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="PLINUSBGetScheduleSlot"><a class="viewcode-back" href="../../plin.html#plin.plin.PLINUSBGetScheduleSlot">[docs]</a><span class="k">class</span> <span class="nc">PLINUSBGetScheduleSlot</span><span class="p">(</span><span class="n">Structure</span><span class="p">):</span>
+    <span class="n">_fields_</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">(</span><span class="s2">&quot;schedule&quot;</span><span class="p">,</span> <span class="n">c_uint8</span><span class="p">),</span>          <span class="c1"># schedule from which the slot is returned</span>
+        <span class="p">(</span><span class="s2">&quot;slot_idx&quot;</span><span class="p">,</span> <span class="n">c_uint8</span><span class="p">),</span>          <span class="c1"># slot index returned</span>
+        <span class="p">(</span><span class="s2">&quot;err&quot;</span><span class="p">,</span> <span class="n">c_uint8</span><span class="p">),</span>               <span class="c1"># if 1, no schedule present</span>
+        <span class="p">(</span><span class="s2">&quot;unused&quot;</span><span class="p">,</span> <span class="n">c_uint8</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;type&quot;</span><span class="p">,</span> <span class="n">c_uint8</span><span class="p">),</span>              <span class="c1"># PLIN_USB_SLOT_xxx</span>
+        <span class="p">(</span><span class="s2">&quot;count_resolve&quot;</span><span class="p">,</span> <span class="n">c_uint8</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;delay&quot;</span><span class="p">,</span> <span class="n">c_uint16</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="n">c_uint8</span> <span class="o">*</span> <span class="n">PLINUSBSlotNumber</span><span class="o">.</span><span class="n">MAX</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;handle&quot;</span><span class="p">,</span> <span class="n">c_uint32</span><span class="p">)</span>
+    <span class="p">]</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_asdict</span><span class="p">())</span>
+
+    <span class="k">def</span> <span class="nf">_asdict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="p">{</span><span class="n">field</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field</span><span class="p">)</span>
+                  <span class="k">for</span> <span class="n">field</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fields_</span><span class="p">}</span>
+        <span class="n">result</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">PLINUSBSlotType</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">type</span><span class="p">)</span>
+        <span class="n">result</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+        <span class="k">del</span> <span class="n">result</span><span class="p">[</span><span class="s2">&quot;unused&quot;</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">result</span></div>
+
+
+<div class="viewcode-block" id="PLINUSBSetScheduleBreakpoint"><a class="viewcode-back" href="../../plin.html#plin.plin.PLINUSBSetScheduleBreakpoint">[docs]</a><span class="k">class</span> <span class="nc">PLINUSBSetScheduleBreakpoint</span><span class="p">(</span><span class="n">Structure</span><span class="p">):</span>
+    <span class="n">_fields_</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">(</span><span class="s2">&quot;brkpt&quot;</span><span class="p">,</span> <span class="n">c_uint8</span><span class="p">),</span>             <span class="c1"># either 0 or 1</span>
+        <span class="p">(</span><span class="s2">&quot;unused&quot;</span><span class="p">,</span> <span class="n">c_uint8</span> <span class="o">*</span> <span class="mi">3</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;handle&quot;</span><span class="p">,</span> <span class="n">c_uint32</span><span class="p">)</span>            <span class="c1"># slot handle returned</span>
+    <span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="PLINUSBStartSchedule"><a class="viewcode-back" href="../../plin.html#plin.plin.PLINUSBStartSchedule">[docs]</a><span class="k">class</span> <span class="nc">PLINUSBStartSchedule</span><span class="p">(</span><span class="n">Structure</span><span class="p">):</span>
+    <span class="n">_fields_</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">(</span><span class="s2">&quot;schedule&quot;</span><span class="p">,</span> <span class="n">c_uint8</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;err&quot;</span><span class="p">,</span> <span class="n">c_uint8</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;unused&quot;</span><span class="p">,</span> <span class="n">c_uint16</span><span class="p">),</span>
+    <span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="PLINUSBResumeSchedule"><a class="viewcode-back" href="../../plin.html#plin.plin.PLINUSBResumeSchedule">[docs]</a><span class="k">class</span> <span class="nc">PLINUSBResumeSchedule</span><span class="p">(</span><span class="n">Structure</span><span class="p">):</span>
+    <span class="n">_fields_</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">(</span><span class="s2">&quot;err&quot;</span><span class="p">,</span> <span class="n">c_uint8</span><span class="p">),</span>               <span class="c1"># if 1, not master / no schedule started</span>
+        <span class="p">(</span><span class="s2">&quot;unused&quot;</span><span class="p">,</span> <span class="n">c_uint8</span> <span class="o">*</span> <span class="mi">3</span><span class="p">),</span>
+    <span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="PLINUSBSuspendSchedule"><a class="viewcode-back" href="../../plin.html#plin.plin.PLINUSBSuspendSchedule">[docs]</a><span class="k">class</span> <span class="nc">PLINUSBSuspendSchedule</span><span class="p">(</span><span class="n">Structure</span><span class="p">):</span>
+    <span class="n">_fields_</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">(</span><span class="s2">&quot;err&quot;</span><span class="p">,</span> <span class="n">c_uint8</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;schedule&quot;</span><span class="p">,</span> <span class="n">c_uint8</span><span class="p">),</span>          <span class="c1"># suspended schedule index [0..7]</span>
+        <span class="p">(</span><span class="s2">&quot;unused&quot;</span><span class="p">,</span> <span class="n">c_uint8</span> <span class="o">*</span> <span class="mi">2</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;handle&quot;</span><span class="p">,</span> <span class="n">c_uint32</span><span class="p">)</span>
+    <span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="PLINUSBGetStatus"><a class="viewcode-back" href="../../plin.html#plin.plin.PLINUSBGetStatus">[docs]</a><span class="k">class</span> <span class="nc">PLINUSBGetStatus</span><span class="p">(</span><span class="n">Structure</span><span class="p">):</span>
+    <span class="n">_fields_</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">(</span><span class="s2">&quot;mode&quot;</span><span class="p">,</span> <span class="n">c_uint8</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;tx_qfree&quot;</span><span class="p">,</span> <span class="n">c_uint8</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;schd_poolfree&quot;</span><span class="p">,</span> <span class="n">c_uint16</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;baudrate&quot;</span><span class="p">,</span> <span class="n">c_uint16</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;usb_rx_ovr&quot;</span><span class="p">,</span> <span class="n">c_uint16</span><span class="p">),</span>       <span class="c1"># USB data overrun counter</span>
+        <span class="p">(</span><span class="s2">&quot;usb_filter&quot;</span><span class="p">,</span> <span class="n">c_uint64</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;bus_state&quot;</span><span class="p">,</span> <span class="n">c_uint8</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;unused&quot;</span><span class="p">,</span> <span class="n">c_uint8</span> <span class="o">*</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="p">]</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_asdict</span><span class="p">())</span>
+
+    <span class="k">def</span> <span class="nf">_asdict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="p">{</span><span class="n">field</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field</span><span class="p">)</span>
+                  <span class="k">for</span> <span class="n">field</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fields_</span><span class="p">}</span>
+        <span class="n">result</span><span class="p">[</span><span class="s2">&quot;mode&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">PLINMode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mode</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">usb_filter</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">result</span><span class="p">[</span><span class="s2">&quot;usb_filter&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">bytearray</span><span class="p">([</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="mi">8</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">result</span><span class="p">[</span><span class="s2">&quot;usb_filter&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">bytearray</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">usb_filter</span><span class="si">:</span><span class="s2">x</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">ljust</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="sa">b</span><span class="s1">&#39;</span><span class="se">\x00</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">result</span><span class="p">[</span><span class="s2">&quot;bus_state&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">PLINBusState</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bus_state</span><span class="p">)</span>
+        <span class="k">del</span> <span class="n">result</span><span class="p">[</span><span class="s2">&quot;unused&quot;</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">result</span></div>
+
+
+<div class="viewcode-block" id="PLINUSBUpdateData"><a class="viewcode-back" href="../../plin.html#plin.plin.PLINUSBUpdateData">[docs]</a><span class="k">class</span> <span class="nc">PLINUSBUpdateData</span><span class="p">(</span><span class="n">Structure</span><span class="p">):</span>
+    <span class="n">_fields_</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="n">c_uint8</span><span class="p">),</span>                <span class="c1"># frame ID to update [0..63]</span>
+        <span class="p">(</span><span class="s2">&quot;len&quot;</span><span class="p">,</span> <span class="n">c_uint8</span><span class="p">),</span>               <span class="c1"># count of data bytes to update [1..8]</span>
+        <span class="p">(</span><span class="s2">&quot;idx&quot;</span><span class="p">,</span> <span class="n">c_uint8</span><span class="p">),</span>               <span class="c1"># data offset [0..7]</span>
+        <span class="p">(</span><span class="s2">&quot;unused&quot;</span><span class="p">,</span> <span class="n">c_uint8</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;d&quot;</span><span class="p">,</span> <span class="n">c_uint8</span> <span class="o">*</span> <span class="n">PLIN_DAT_LEN</span><span class="p">)</span>   <span class="c1"># new data bytes</span>
+    <span class="p">]</span>
+
+    <span class="k">def</span> <span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;d&quot;</span><span class="p">:</span>
+            <span class="n">buf</span> <span class="o">=</span> <span class="p">(</span><span class="n">c_uint8</span> <span class="o">*</span> <span class="n">PLIN_DAT_LEN</span><span class="p">)(</span><span class="o">*</span><span class="n">value</span><span class="p">)</span>
+            <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">buf</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_asdict</span><span class="p">())</span>
+
+    <span class="k">def</span> <span class="nf">_asdict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="p">{</span><span class="n">field</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field</span><span class="p">)</span>
+                  <span class="k">for</span> <span class="n">field</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fields_</span><span class="p">}</span>
+        <span class="n">result</span><span class="p">[</span><span class="s2">&quot;d&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">bytearray</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s2">&quot;d&quot;</span><span class="p">])</span>
+        <span class="k">del</span> <span class="n">result</span><span class="p">[</span><span class="s2">&quot;unused&quot;</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">result</span></div>
+
+
+<span class="n">PLIN_USB_RSP_REMAP_ID_LEN</span> <span class="o">=</span> <span class="p">(</span><span class="n">PLINFrameID</span><span class="o">.</span><span class="n">MAX</span> <span class="o">-</span> <span class="n">PLINFrameID</span><span class="o">.</span><span class="n">MIN</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="PLINUSBResponseRemap"><a class="viewcode-back" href="../../plin.html#plin.plin.PLINUSBResponseRemap">[docs]</a><span class="k">class</span> <span class="nc">PLINUSBResponseRemap</span><span class="p">(</span><span class="n">Structure</span><span class="p">):</span>
+    <span class="n">_fields_</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">(</span><span class="s2">&quot;set_get&quot;</span><span class="p">,</span> <span class="n">c_uint8</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;unused&quot;</span><span class="p">,</span> <span class="n">c_uint8</span> <span class="o">*</span> <span class="mi">3</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="n">c_uint8</span> <span class="o">*</span> <span class="n">PLIN_USB_RSP_REMAP_ID_LEN</span><span class="p">)</span>
+    <span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="PLINUSBLEDState"><a class="viewcode-back" href="../../plin.html#plin.plin.PLINUSBLEDState">[docs]</a><span class="k">class</span> <span class="nc">PLINUSBLEDState</span><span class="p">(</span><span class="n">Structure</span><span class="p">):</span>
+    <span class="n">_fields_</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">(</span><span class="s2">&quot;on_off&quot;</span><span class="p">,</span> <span class="n">c_uint8</span><span class="p">),</span>            <span class="c1"># PLIN_USB_LEDS_xxx</span>
+        <span class="p">(</span><span class="s2">&quot;unused&quot;</span><span class="p">,</span> <span class="n">c_uint8</span> <span class="o">*</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="p">]</span></div>
+
+
+<span class="n">PLIOHWINIT</span> <span class="o">=</span> <span class="n">IOW</span><span class="p">(</span><span class="nb">ord</span><span class="p">(</span><span class="s1">&#39;u&#39;</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="n">PLINUSBInitHardware</span><span class="p">)</span>
+<span class="n">PLIORSTHW</span> <span class="o">=</span> <span class="n">IO</span><span class="p">(</span><span class="nb">ord</span><span class="p">(</span><span class="s1">&#39;u&#39;</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">PLIOSETFRMENTRY</span> <span class="o">=</span> <span class="n">IOW</span><span class="p">(</span><span class="nb">ord</span><span class="p">(</span><span class="s1">&#39;u&#39;</span><span class="p">),</span> <span class="mi">2</span><span class="p">,</span> <span class="n">PLINUSBFrameEntry</span><span class="p">)</span>
+<span class="n">PLIOGETFRMENTRY</span> <span class="o">=</span> <span class="n">IOWR</span><span class="p">(</span><span class="nb">ord</span><span class="p">(</span><span class="s1">&#39;u&#39;</span><span class="p">),</span> <span class="mi">3</span><span class="p">,</span> <span class="n">PLINUSBFrameEntry</span><span class="p">)</span>
+<span class="n">PLIOSTARTAUTOBAUD</span> <span class="o">=</span> <span class="n">IOWR</span><span class="p">(</span><span class="nb">ord</span><span class="p">(</span><span class="s1">&#39;u&#39;</span><span class="p">),</span> <span class="mi">4</span><span class="p">,</span> <span class="n">PLINUSBAutoBaud</span><span class="p">)</span>
+<span class="n">PLIOGETBAUDRATE</span> <span class="o">=</span> <span class="n">IOWR</span><span class="p">(</span><span class="nb">ord</span><span class="p">(</span><span class="s1">&#39;u&#39;</span><span class="p">),</span> <span class="mi">5</span><span class="p">,</span> <span class="n">PLINUSBGetBaudrate</span><span class="p">)</span>
+<span class="n">PLIOSETIDFILTER</span> <span class="o">=</span> <span class="n">IOW</span><span class="p">(</span><span class="nb">ord</span><span class="p">(</span><span class="s1">&#39;u&#39;</span><span class="p">),</span> <span class="mi">6</span><span class="p">,</span> <span class="n">PLINUSBIDFilter</span><span class="p">)</span>
+<span class="n">PLIOGETIDFILTER</span> <span class="o">=</span> <span class="n">IOWR</span><span class="p">(</span><span class="nb">ord</span><span class="p">(</span><span class="s1">&#39;u&#39;</span><span class="p">),</span> <span class="mi">7</span><span class="p">,</span> <span class="n">PLINUSBIDFilter</span><span class="p">)</span>
+<span class="n">PLIOGETMODE</span> <span class="o">=</span> <span class="n">IOWR</span><span class="p">(</span><span class="nb">ord</span><span class="p">(</span><span class="s1">&#39;u&#39;</span><span class="p">),</span> <span class="mi">8</span><span class="p">,</span> <span class="n">PLINUSBGetMode</span><span class="p">)</span>
+<span class="n">PLIOSETIDSTR</span> <span class="o">=</span> <span class="n">IOW</span><span class="p">(</span><span class="nb">ord</span><span class="p">(</span><span class="s1">&#39;u&#39;</span><span class="p">),</span> <span class="mi">9</span><span class="p">,</span> <span class="n">PLINUSBIDString</span><span class="p">)</span>
+<span class="n">PLIOGETIDSTR</span> <span class="o">=</span> <span class="n">IOWR</span><span class="p">(</span><span class="nb">ord</span><span class="p">(</span><span class="s1">&#39;u&#39;</span><span class="p">),</span> <span class="mi">10</span><span class="p">,</span> <span class="n">PLINUSBIDString</span><span class="p">)</span>
+<span class="n">PLIOIDENTIFY</span> <span class="o">=</span> <span class="n">IO</span><span class="p">(</span><span class="nb">ord</span><span class="p">(</span><span class="s1">&#39;u&#39;</span><span class="p">),</span> <span class="mi">11</span><span class="p">)</span>
+<span class="n">PLIOGETFWVER</span> <span class="o">=</span> <span class="n">IOWR</span><span class="p">(</span><span class="nb">ord</span><span class="p">(</span><span class="s1">&#39;u&#39;</span><span class="p">),</span> <span class="mi">12</span><span class="p">,</span> <span class="n">PLINUSBFirmwareVersion</span><span class="p">)</span>
+<span class="n">PLIOSTARTHB</span> <span class="o">=</span> <span class="n">IOWR</span><span class="p">(</span><span class="nb">ord</span><span class="p">(</span><span class="s1">&#39;u&#39;</span><span class="p">),</span> <span class="mi">13</span><span class="p">,</span> <span class="n">PLINUSBKeepAlive</span><span class="p">)</span>
+<span class="n">PLIORESUMEHB</span> <span class="o">=</span> <span class="n">IOWR</span><span class="p">(</span><span class="nb">ord</span><span class="p">(</span><span class="s1">&#39;u&#39;</span><span class="p">),</span> <span class="mi">14</span><span class="p">,</span> <span class="n">PLINUSBKeepAlive</span><span class="p">)</span>
+<span class="n">PLIOPAUSEHB</span> <span class="o">=</span> <span class="n">IOW</span><span class="p">(</span><span class="nb">ord</span><span class="p">(</span><span class="s1">&#39;u&#39;</span><span class="p">),</span> <span class="mi">15</span><span class="p">,</span> <span class="n">PLINUSBKeepAlive</span><span class="p">)</span>
+<span class="n">PLIOADDSCHDSLOT</span> <span class="o">=</span> <span class="n">IOWR</span><span class="p">(</span><span class="nb">ord</span><span class="p">(</span><span class="s1">&#39;u&#39;</span><span class="p">),</span> <span class="mi">16</span><span class="p">,</span> <span class="n">PLINUSBAddScheduleSlot</span><span class="p">)</span>
+<span class="n">PLIODELSCHD</span> <span class="o">=</span> <span class="n">IOWR</span><span class="p">(</span><span class="nb">ord</span><span class="p">(</span><span class="s1">&#39;u&#39;</span><span class="p">),</span> <span class="mi">17</span><span class="p">,</span> <span class="n">PLINUSBDeleteSchedule</span><span class="p">)</span>
+<span class="n">PLIOGETSLOTSCNT</span> <span class="o">=</span> <span class="n">IOWR</span><span class="p">(</span><span class="nb">ord</span><span class="p">(</span><span class="s1">&#39;u&#39;</span><span class="p">),</span> <span class="mi">18</span><span class="p">,</span> <span class="n">PLINUSBGetSlotCount</span><span class="p">)</span>
+<span class="n">PLIOGETSCHDSLOT</span> <span class="o">=</span> <span class="n">IOWR</span><span class="p">(</span><span class="nb">ord</span><span class="p">(</span><span class="s1">&#39;u&#39;</span><span class="p">),</span> <span class="mi">19</span><span class="p">,</span> <span class="n">PLINUSBGetScheduleSlot</span><span class="p">)</span>
+<span class="n">PLIOSETSCHDBP</span> <span class="o">=</span> <span class="n">IOWR</span><span class="p">(</span><span class="nb">ord</span><span class="p">(</span><span class="s1">&#39;u&#39;</span><span class="p">),</span> <span class="mi">20</span><span class="p">,</span> <span class="n">PLINUSBSetScheduleBreakpoint</span><span class="p">)</span>
+<span class="n">PLIOSTARTSCHD</span> <span class="o">=</span> <span class="n">IOWR</span><span class="p">(</span><span class="nb">ord</span><span class="p">(</span><span class="s1">&#39;u&#39;</span><span class="p">),</span> <span class="mi">21</span><span class="p">,</span> <span class="n">PLINUSBStartSchedule</span><span class="p">)</span>
+<span class="n">PLIORESUMESCHD</span> <span class="o">=</span> <span class="n">IOWR</span><span class="p">(</span><span class="nb">ord</span><span class="p">(</span><span class="s1">&#39;u&#39;</span><span class="p">),</span> <span class="mi">22</span><span class="p">,</span> <span class="n">PLINUSBResumeSchedule</span><span class="p">)</span>
+<span class="n">PLIOPAUSESCHD</span> <span class="o">=</span> <span class="n">IOWR</span><span class="p">(</span><span class="nb">ord</span><span class="p">(</span><span class="s1">&#39;u&#39;</span><span class="p">),</span> <span class="mi">23</span><span class="p">,</span> <span class="n">PLINUSBSuspendSchedule</span><span class="p">)</span>
+<span class="n">PLIOGETSTATUS</span> <span class="o">=</span> <span class="n">IOWR</span><span class="p">(</span><span class="nb">ord</span><span class="p">(</span><span class="s1">&#39;u&#39;</span><span class="p">),</span> <span class="mi">24</span><span class="p">,</span> <span class="n">PLINUSBGetStatus</span><span class="p">)</span>
+<span class="n">PLIORSTUSBTX</span> <span class="o">=</span> <span class="n">IO</span><span class="p">(</span><span class="nb">ord</span><span class="p">(</span><span class="s1">&#39;u&#39;</span><span class="p">),</span> <span class="mi">30</span><span class="p">)</span>
+<span class="n">PLIOCHGBYTEARRAY</span> <span class="o">=</span> <span class="n">IOW</span><span class="p">(</span><span class="nb">ord</span><span class="p">(</span><span class="s1">&#39;u&#39;</span><span class="p">),</span> <span class="mi">31</span><span class="p">,</span> <span class="n">PLINUSBUpdateData</span><span class="p">)</span>
+<span class="n">PLIOXMTWAKEUP</span> <span class="o">=</span> <span class="n">IO</span><span class="p">(</span><span class="nb">ord</span><span class="p">(</span><span class="s1">&#39;u&#39;</span><span class="p">),</span> <span class="mi">33</span><span class="p">)</span>
+<span class="n">PLIOSETGETRSPMAP</span> <span class="o">=</span> <span class="n">IOWR</span><span class="p">(</span><span class="nb">ord</span><span class="p">(</span><span class="s1">&#39;u&#39;</span><span class="p">),</span> <span class="mi">39</span><span class="p">,</span> <span class="n">PLINUSBResponseRemap</span><span class="p">)</span>
+<span class="n">PLIOSETLEDSTATE</span> <span class="o">=</span> <span class="n">IOW</span><span class="p">(</span><span class="nb">ord</span><span class="p">(</span><span class="s1">&#39;u&#39;</span><span class="p">),</span> <span class="mi">40</span><span class="p">,</span> <span class="n">PLINUSBLEDState</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="PLIN"><a class="viewcode-back" href="../../plin.html#plin.plin.PLIN">[docs]</a><span class="k">class</span> <span class="nc">PLIN</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">interface</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">interface</span> <span class="o">=</span> <span class="n">interface</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">response_remap</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">PLIN_USB_RSP_REMAP_ID_LEN</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">_ioctl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Generic ioctl function to wrap open/closing the file descriptor.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">fd</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">interface</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">O_RDWR</span><span class="p">)</span>
+        <span class="n">fnctl</span><span class="o">.</span><span class="n">ioctl</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">fd</span><span class="p">)</span>
+
+<div class="viewcode-block" id="PLIN.start"><a class="viewcode-back" href="../../plin.html#plin.plin.PLIN.start">[docs]</a>    <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="p">:</span> <span class="n">PLINMode</span><span class="p">,</span> <span class="n">baudrate</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">19200</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Connects to and configures the PLIN device with the specified mode and baudrate.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">=</span> <span class="n">mode</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">baudrate</span> <span class="o">=</span> <span class="n">baudrate</span>
+
+        <span class="n">buffer</span> <span class="o">=</span> <span class="n">PLINUSBInitHardware</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">baudrate</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ioctl</span><span class="p">(</span><span class="n">PLIOHWINIT</span><span class="p">,</span> <span class="n">buffer</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="PLIN.reset"><a class="viewcode-back" href="../../plin.html#plin.plin.PLIN.reset">[docs]</a>    <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Resets the PLIN device.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ioctl</span><span class="p">(</span><span class="n">PLIORSTHW</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="PLIN.set_frame_entry"><a class="viewcode-back" href="../../plin.html#plin.plin.PLIN.set_frame_entry">[docs]</a>    <span class="k">def</span> <span class="nf">set_frame_entry</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                        <span class="nb">id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+                        <span class="n">direction</span><span class="p">:</span> <span class="n">PLINFrameDirection</span><span class="p">,</span>
+                        <span class="n">checksum_type</span><span class="p">:</span> <span class="n">PLINFrameChecksumType</span><span class="p">,</span>
+                        <span class="n">flags</span><span class="p">:</span> <span class="n">PLINFrameFlag</span> <span class="o">=</span> <span class="n">PLINFrameFlag</span><span class="o">.</span><span class="n">NONE</span><span class="p">,</span>
+                        <span class="n">data</span><span class="p">:</span> <span class="nb">bytearray</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                        <span class="nb">len</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Adds a frame entry for the specified ID.</span>
+
+<span class="sd">        IMPORTANT NOTE: For a publisher frame, the flag PLINFrameFlag.RSP_ENABLE must be set in order to allow a slave response.</span>
+<span class="sd">        This flag is set by default if the frame direction is publisher for convenience.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">buffer</span> <span class="o">=</span> <span class="n">PLINUSBFrameEntry</span><span class="p">(</span>
+            <span class="nb">id</span><span class="o">=</span><span class="nb">id</span><span class="p">,</span> <span class="n">direction</span><span class="o">=</span><span class="n">direction</span><span class="p">,</span> <span class="n">checksum</span><span class="o">=</span><span class="n">checksum_type</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">direction</span> <span class="o">==</span> <span class="n">PLINFrameDirection</span><span class="o">.</span><span class="n">PUBLISHER</span><span class="p">:</span>
+            <span class="n">buffer</span><span class="o">.</span><span class="n">flags</span> <span class="o">=</span> <span class="n">flags</span> <span class="o">&amp;</span> <span class="n">PLINFrameFlag</span><span class="o">.</span><span class="n">RSP_ENABLE</span>
+        <span class="k">if</span> <span class="n">data</span><span class="p">:</span>
+            <span class="n">buffer</span><span class="o">.</span><span class="n">d</span> <span class="o">=</span> <span class="n">data</span>
+        <span class="k">if</span> <span class="nb">len</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">buffer</span><span class="o">.</span><span class="n">len</span> <span class="o">=</span> <span class="nb">len</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ioctl</span><span class="p">(</span><span class="n">PLIOSETFRMENTRY</span><span class="p">,</span> <span class="n">buffer</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="PLIN.set_frame_entry_data"><a class="viewcode-back" href="../../plin.html#plin.plin.PLIN.set_frame_entry_data">[docs]</a>    <span class="k">def</span> <span class="nf">set_frame_entry_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="nb">bytearray</span><span class="p">,</span> <span class="nb">len</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Sets or updates the data for the frame entry corresponding to the specified ID.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">buffer</span> <span class="o">=</span> <span class="n">PLINUSBUpdateData</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="nb">id</span><span class="p">,</span> <span class="n">idx</span><span class="o">=</span><span class="n">index</span><span class="p">,</span> <span class="n">d</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="nb">len</span><span class="o">=</span><span class="nb">len</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ioctl</span><span class="p">(</span><span class="n">PLIOCHGBYTEARRAY</span><span class="p">,</span> <span class="n">buffer</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="PLIN.get_frame_entry"><a class="viewcode-back" href="../../plin.html#plin.plin.PLIN.get_frame_entry">[docs]</a>    <span class="k">def</span> <span class="nf">get_frame_entry</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PLINUSBFrameEntry</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Gets the frame entry corresponding to the specified ID.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">buffer</span> <span class="o">=</span> <span class="n">PLINUSBFrameEntry</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="nb">id</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ioctl</span><span class="p">(</span><span class="n">PLIOGETFRMENTRY</span><span class="p">,</span> <span class="n">buffer</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">buffer</span></div>
+
+<div class="viewcode-block" id="PLIN.start_autobaud"><a class="viewcode-back" href="../../plin.html#plin.plin.PLIN.start_autobaud">[docs]</a>    <span class="k">def</span> <span class="nf">start_autobaud</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">timeout</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Starts process to detect the baudrate of the connected LIN bus.</span>
+
+<span class="sd">        IMPORTANT NOTE: The LIN hardware must not be active (i.e. start() has not been called yet).</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">buffer</span> <span class="o">=</span> <span class="n">PLINUSBAutoBaud</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="n">timeout</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ioctl</span><span class="p">(</span><span class="n">PLIOSTARTAUTOBAUD</span><span class="p">,</span> <span class="n">buffer</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">buffer</span><span class="o">.</span><span class="n">err</span></div>
+
+<div class="viewcode-block" id="PLIN.get_baudrate"><a class="viewcode-back" href="../../plin.html#plin.plin.PLIN.get_baudrate">[docs]</a>    <span class="k">def</span> <span class="nf">get_baudrate</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Gets the baudrate.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">buffer</span> <span class="o">=</span> <span class="n">PLINUSBGetBaudrate</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ioctl</span><span class="p">(</span><span class="n">PLIOGETBAUDRATE</span><span class="p">,</span> <span class="n">buffer</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">buffer</span><span class="o">.</span><span class="n">baudrate</span></div>
+
+<div class="viewcode-block" id="PLIN.set_id_filter"><a class="viewcode-back" href="../../plin.html#plin.plin.PLIN.set_id_filter">[docs]</a>    <span class="k">def</span> <span class="nf">set_id_filter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="nb">bytearray</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Sets the ID filter.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">buffer</span> <span class="o">=</span> <span class="n">PLINUSBIDFilter</span><span class="p">()</span>
+        <span class="n">buffer</span><span class="o">.</span><span class="n">id_mask</span> <span class="o">=</span> <span class="p">(</span><span class="n">c_ubyte</span> <span class="o">*</span> <span class="mi">8</span><span class="p">)(</span><span class="o">*</span><span class="nb">filter</span><span class="o">.</span><span class="n">ljust</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="sa">b</span><span class="s1">&#39;</span><span class="se">\x00</span><span class="s1">&#39;</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ioctl</span><span class="p">(</span><span class="n">PLIOSETIDFILTER</span><span class="p">,</span> <span class="n">buffer</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="PLIN.get_id_filter"><a class="viewcode-back" href="../../plin.html#plin.plin.PLIN.get_id_filter">[docs]</a>    <span class="k">def</span> <span class="nf">get_id_filter</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytearray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Gets the ID filter.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">buffer</span> <span class="o">=</span> <span class="n">PLINUSBIDFilter</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ioctl</span><span class="p">(</span><span class="n">PLIOGETIDFILTER</span><span class="p">,</span> <span class="n">buffer</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">bytearray</span><span class="p">(</span><span class="n">buffer</span><span class="o">.</span><span class="n">id_mask</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="PLIN.get_mode"><a class="viewcode-back" href="../../plin.html#plin.plin.PLIN.get_mode">[docs]</a>    <span class="k">def</span> <span class="nf">get_mode</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PLINMode</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Gets the mode.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">buffer</span> <span class="o">=</span> <span class="n">PLINUSBGetMode</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ioctl</span><span class="p">(</span><span class="n">PLIOGETMODE</span><span class="p">,</span> <span class="n">buffer</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">PLINMode</span><span class="p">(</span><span class="n">buffer</span><span class="o">.</span><span class="n">mode</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="PLIN.set_id_string"><a class="viewcode-back" href="../../plin.html#plin.plin.PLIN.set_id_string">[docs]</a>    <span class="k">def</span> <span class="nf">set_id_string</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">id_string</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Sets the ID string.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">buffer</span> <span class="o">=</span> <span class="n">PLINUSBIDString</span><span class="p">()</span>
+        <span class="n">buffer</span><span class="o">.</span><span class="n">str</span> <span class="o">=</span> <span class="n">id_string</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ioctl</span><span class="p">(</span><span class="n">PLIOSETIDSTR</span><span class="p">,</span> <span class="n">buffer</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="PLIN.get_id_string"><a class="viewcode-back" href="../../plin.html#plin.plin.PLIN.get_id_string">[docs]</a>    <span class="k">def</span> <span class="nf">get_id_string</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Gets the ID string.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">buffer</span> <span class="o">=</span> <span class="n">PLINUSBIDString</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ioctl</span><span class="p">(</span><span class="n">PLIOGETIDSTR</span><span class="p">,</span> <span class="n">buffer</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">buffer</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="PLIN.identify"><a class="viewcode-back" href="../../plin.html#plin.plin.PLIN.identify">[docs]</a>    <span class="k">def</span> <span class="nf">identify</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Identifies the PLIN device by flashing the LED.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ioctl</span><span class="p">(</span><span class="n">PLIOIDENTIFY</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="PLIN.get_firmware_version"><a class="viewcode-back" href="../../plin.html#plin.plin.PLIN.get_firmware_version">[docs]</a>    <span class="k">def</span> <span class="nf">get_firmware_version</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Gets the firmware version.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">buffer</span> <span class="o">=</span> <span class="n">PLINUSBFirmwareVersion</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ioctl</span><span class="p">(</span><span class="n">PLIOGETFWVER</span><span class="p">,</span> <span class="n">buffer</span><span class="p">)</span>
+        <span class="k">return</span> <span class="s1">&#39;.&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">buffer</span><span class="o">.</span><span class="n">major</span><span class="p">),</span> <span class="nb">str</span><span class="p">(</span><span class="n">buffer</span><span class="o">.</span><span class="n">minor</span><span class="p">),</span> <span class="nb">str</span><span class="p">(</span><span class="n">buffer</span><span class="o">.</span><span class="n">sub</span><span class="p">)])</span></div>
+
+<div class="viewcode-block" id="PLIN.start_keep_alive"><a class="viewcode-back" href="../../plin.html#plin.plin.PLIN.start_keep_alive">[docs]</a>    <span class="k">def</span> <span class="nf">start_keep_alive</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">period_ms</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Sets the specified ID as a keep-alive frame and starts sending it with the specified period.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">buffer</span> <span class="o">=</span> <span class="n">PLINUSBKeepAlive</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="nb">id</span><span class="p">,</span> <span class="n">period_ms</span><span class="o">=</span><span class="n">period_ms</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ioctl</span><span class="p">(</span><span class="n">PLIOSTARTHB</span><span class="p">,</span> <span class="n">buffer</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">buffer</span><span class="o">.</span><span class="n">err</span></div>
+
+<div class="viewcode-block" id="PLIN.resume_keep_alive"><a class="viewcode-back" href="../../plin.html#plin.plin.PLIN.resume_keep_alive">[docs]</a>    <span class="k">def</span> <span class="nf">resume_keep_alive</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Resumes the sending of keep-alive frames.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">buffer</span> <span class="o">=</span> <span class="n">PLINUSBKeepAlive</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ioctl</span><span class="p">(</span><span class="n">PLIORESUMEHB</span><span class="p">,</span> <span class="n">buffer</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">buffer</span><span class="o">.</span><span class="n">err</span></div>
+
+<div class="viewcode-block" id="PLIN.suspend_keep_alive"><a class="viewcode-back" href="../../plin.html#plin.plin.PLIN.suspend_keep_alive">[docs]</a>    <span class="k">def</span> <span class="nf">suspend_keep_alive</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Suspends the sending of keep-alive frames.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">buffer</span> <span class="o">=</span> <span class="n">PLINUSBKeepAlive</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ioctl</span><span class="p">(</span><span class="n">PLIOPAUSEHB</span><span class="p">,</span> <span class="n">buffer</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">buffer</span><span class="o">.</span><span class="n">err</span></div>
+
+<div class="viewcode-block" id="PLIN.add_unconditional_schedule_slot"><a class="viewcode-back" href="../../plin.html#plin.plin.PLIN.add_unconditional_schedule_slot">[docs]</a>    <span class="k">def</span> <span class="nf">add_unconditional_schedule_slot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">schedule</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">delay_ms</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Adds an unconditional schedule slot for the specified ID.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="n">schedule</span> <span class="o">&lt;</span> <span class="n">PLINScheduleIndex</span><span class="o">.</span><span class="n">MIN</span> <span class="ow">or</span> <span class="n">schedule</span> <span class="o">&gt;</span> <span class="n">PLINScheduleIndex</span><span class="o">.</span><span class="n">MAX</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Schedule out of range [</span><span class="si">{</span><span class="n">PLINScheduleIndex</span><span class="o">.</span><span class="n">MIN</span><span class="si">}</span><span class="s2">..</span><span class="si">{</span><span class="n">PLINScheduleIndex</span><span class="o">.</span><span class="n">MAX</span><span class="si">}</span><span class="s2">].&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">id</span> <span class="o">&gt;</span> <span class="n">PLINFrameID</span><span class="o">.</span><span class="n">UNC_MAX</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;ID </span><span class="si">{</span><span class="nb">id</span><span class="si">}</span><span class="s2"> out of range [</span><span class="si">{</span><span class="n">PLINFrameID</span><span class="o">.</span><span class="n">UNC_MIN</span><span class="si">}</span><span class="s2">..</span><span class="si">{</span><span class="n">PLINFrameID</span><span class="o">.</span><span class="n">UNC_MAX</span><span class="si">}</span><span class="s2">].&quot;</span><span class="p">)</span>
+        <span class="n">buffer</span> <span class="o">=</span> <span class="n">PLINUSBAddScheduleSlot</span><span class="p">(</span>
+            <span class="n">schedule</span><span class="o">=</span><span class="n">schedule</span><span class="p">,</span> <span class="n">delay</span><span class="o">=</span><span class="n">delay_ms</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">PLINUSBSlotType</span><span class="o">.</span><span class="n">UNCOND</span><span class="p">)</span>
+        <span class="c1"># ID idx 1 - 7 reserved for sporadic frames only.</span>
+        <span class="n">buffer</span><span class="o">.</span><span class="n">id</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="nb">id</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ioctl</span><span class="p">(</span><span class="n">PLIOADDSCHDSLOT</span><span class="p">,</span> <span class="n">buffer</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">buffer</span><span class="o">.</span><span class="n">err</span></div>
+
+<div class="viewcode-block" id="PLIN.add_event_triggered_schedule_slot"><a class="viewcode-back" href="../../plin.html#plin.plin.PLIN.add_event_triggered_schedule_slot">[docs]</a>    <span class="k">def</span> <span class="nf">add_event_triggered_schedule_slot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">schedule</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">delay_ms</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">count_resolve</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Adds an event-triggered schedule slot for the specified ID.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="n">schedule</span> <span class="o">&lt;</span> <span class="n">PLINScheduleIndex</span><span class="o">.</span><span class="n">MIN</span> <span class="ow">or</span> <span class="n">schedule</span> <span class="o">&gt;</span> <span class="n">PLINScheduleIndex</span><span class="o">.</span><span class="n">MAX</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Schedule out of range [</span><span class="si">{</span><span class="n">PLINScheduleIndex</span><span class="o">.</span><span class="n">MIN</span><span class="si">}</span><span class="s2">..</span><span class="si">{</span><span class="n">PLINScheduleIndex</span><span class="o">.</span><span class="n">MAX</span><span class="si">}</span><span class="s2">].&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">id</span> <span class="o">&gt;</span> <span class="n">PLINFrameID</span><span class="o">.</span><span class="n">UNC_MAX</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;ID </span><span class="si">{</span><span class="nb">id</span><span class="si">}</span><span class="s2"> out of range [</span><span class="si">{</span><span class="n">PLINFrameID</span><span class="o">.</span><span class="n">UNC_MIN</span><span class="si">}</span><span class="s2">..</span><span class="si">{</span><span class="n">PLINFrameID</span><span class="o">.</span><span class="n">UNC_MAX</span><span class="si">}</span><span class="s2">].&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">count_resolve</span> <span class="o">&gt;</span> <span class="n">PLINScheduleIndex</span><span class="o">.</span><span class="n">MAX</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Resolve schedule </span><span class="si">{</span><span class="n">count_resolve</span><span class="si">}</span><span class="s2"> out of range [</span><span class="si">{</span><span class="n">PLINScheduleIndex</span><span class="o">.</span><span class="n">MIN</span><span class="si">}</span><span class="s2">..</span><span class="si">{</span><span class="n">PLINScheduleIndex</span><span class="o">.</span><span class="n">MAX</span><span class="si">}</span><span class="s2">].&quot;</span><span class="p">)</span>
+
+        <span class="n">buffer</span> <span class="o">=</span> <span class="n">PLINUSBAddScheduleSlot</span><span class="p">(</span>
+            <span class="n">schedule</span><span class="o">=</span><span class="n">schedule</span><span class="p">,</span> <span class="n">delay</span><span class="o">=</span><span class="n">delay_ms</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">PLINUSBSlotType</span><span class="o">.</span><span class="n">EVENT</span><span class="p">,</span> <span class="n">count_resolve</span><span class="o">=</span><span class="n">count_resolve</span><span class="p">)</span>
+        <span class="c1"># ID idx 1 - 7 reserved for sporadic frames only.</span>
+        <span class="n">buffer</span><span class="o">.</span><span class="n">id</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="nb">id</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ioctl</span><span class="p">(</span><span class="n">PLIOADDSCHDSLOT</span><span class="p">,</span> <span class="n">buffer</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">buffer</span><span class="o">.</span><span class="n">err</span></div>
+
+<div class="viewcode-block" id="PLIN.add_sporadic_schedule_slot"><a class="viewcode-back" href="../../plin.html#plin.plin.PLIN.add_sporadic_schedule_slot">[docs]</a>    <span class="k">def</span> <span class="nf">add_sporadic_schedule_slot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">schedule</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">delay_ms</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">ids</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">count_resolve</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Adds a sporadic schedule slot for the specified ID.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="n">schedule</span> <span class="o">&lt;</span> <span class="n">PLINScheduleIndex</span><span class="o">.</span><span class="n">MIN</span> <span class="ow">or</span> <span class="n">schedule</span> <span class="o">&gt;</span> <span class="n">PLINScheduleIndex</span><span class="o">.</span><span class="n">MAX</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Schedule out of range [</span><span class="si">{</span><span class="n">PLINScheduleIndex</span><span class="o">.</span><span class="n">MIN</span><span class="si">}</span><span class="s2">..</span><span class="si">{</span><span class="n">PLINScheduleIndex</span><span class="o">.</span><span class="n">MAX</span><span class="si">}</span><span class="s2">].&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">ids</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">PLINUSBSlotNumber</span><span class="o">.</span><span class="n">MIN</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">ids</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">PLINUSBSlotNumber</span><span class="o">.</span><span class="n">MAX</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Invalid number of IDs [</span><span class="si">{</span><span class="n">PLINUSBSlotNumber</span><span class="o">.</span><span class="n">MIN</span><span class="si">}</span><span class="s2">..</span><span class="si">{</span><span class="n">PLINUSBSlotNumber</span><span class="o">.</span><span class="n">MAX</span><span class="si">}</span><span class="s2">].&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="nb">id</span> <span class="ow">in</span> <span class="n">ids</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">id</span> <span class="o">&gt;</span> <span class="n">PLINFrameID</span><span class="o">.</span><span class="n">UNC_MAX</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;ID </span><span class="si">{</span><span class="nb">id</span><span class="si">}</span><span class="s2"> out of range [</span><span class="si">{</span><span class="n">PLINFrameID</span><span class="o">.</span><span class="n">UNC_MIN</span><span class="si">}</span><span class="s2">..</span><span class="si">{</span><span class="n">PLINFrameID</span><span class="o">.</span><span class="n">UNC_MAX</span><span class="si">}</span><span class="s2">].&quot;</span><span class="p">)</span>
+
+        <span class="n">buffer</span> <span class="o">=</span> <span class="n">PLINUSBAddScheduleSlot</span><span class="p">(</span>
+            <span class="n">schedule</span><span class="o">=</span><span class="n">schedule</span><span class="p">,</span> <span class="n">delay</span><span class="o">=</span><span class="n">delay_ms</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">PLINUSBSlotType</span><span class="o">.</span><span class="n">SPORADIC</span><span class="p">,</span> <span class="n">count_resolve</span><span class="o">=</span><span class="n">count_resolve</span><span class="p">)</span>
+        <span class="n">buffer</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="p">(</span><span class="n">c_uint8</span> <span class="o">*</span> <span class="n">PLINUSBSlotNumber</span><span class="o">.</span><span class="n">MAX</span><span class="p">)(</span><span class="o">*</span><span class="n">ids</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ioctl</span><span class="p">(</span><span class="n">PLIOADDSCHDSLOT</span><span class="p">,</span> <span class="n">buffer</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">buffer</span><span class="o">.</span><span class="n">err</span></div>
+
+<div class="viewcode-block" id="PLIN.add_diagnostic_schedule_slot"><a class="viewcode-back" href="../../plin.html#plin.plin.PLIN.add_diagnostic_schedule_slot">[docs]</a>    <span class="k">def</span> <span class="nf">add_diagnostic_schedule_slot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">schedule</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">delay_ms</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="n">PLINUSBSlotType</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Generic function for adding a diagnostic schedule slot (either master request or slave response).</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="n">schedule</span> <span class="o">&lt;</span> <span class="n">PLINScheduleIndex</span><span class="o">.</span><span class="n">MIN</span> <span class="ow">or</span> <span class="n">schedule</span> <span class="o">&gt;</span> <span class="n">PLINScheduleIndex</span><span class="o">.</span><span class="n">MAX</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Schedule out of range [</span><span class="si">{</span><span class="n">PLINScheduleIndex</span><span class="o">.</span><span class="n">MIN</span><span class="si">}</span><span class="s2">..</span><span class="si">{</span><span class="n">PLINScheduleIndex</span><span class="o">.</span><span class="n">MAX</span><span class="si">}</span><span class="s2">].&quot;</span><span class="p">)</span>
+        <span class="n">buffer</span> <span class="o">=</span> <span class="n">PLINUSBAddScheduleSlot</span><span class="p">(</span>
+            <span class="n">schedule</span><span class="o">=</span><span class="n">schedule</span><span class="p">,</span> <span class="n">delay</span><span class="o">=</span><span class="n">delay_ms</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">type</span><span class="p">)</span>
+        <span class="c1"># ID idx 1 - 7 reserved for sporadic frames only.</span>
+        <span class="n">buffer</span><span class="o">.</span><span class="n">id</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">PLINFrameID</span><span class="o">.</span><span class="n">DIAG_MASTER_REQ</span> <span class="k">if</span> <span class="nb">type</span> <span class="o">==</span> <span class="n">PLINUSBSlotType</span><span class="o">.</span><span class="n">MASTER_REQ</span> <span class="k">else</span> <span class="n">PLINFrameID</span><span class="o">.</span><span class="n">DIAG_SLAVE_RSP</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ioctl</span><span class="p">(</span><span class="n">PLIOADDSCHDSLOT</span><span class="p">,</span> <span class="n">buffer</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">buffer</span><span class="o">.</span><span class="n">err</span></div>
+
+<div class="viewcode-block" id="PLIN.add_master_request_schedule_slot"><a class="viewcode-back" href="../../plin.html#plin.plin.PLIN.add_master_request_schedule_slot">[docs]</a>    <span class="k">def</span> <span class="nf">add_master_request_schedule_slot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">schedule</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">delay_ms</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Adds a master request schedule slot.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_diagnostic_schedule_slot</span><span class="p">(</span><span class="n">schedule</span><span class="o">=</span><span class="n">schedule</span><span class="p">,</span> <span class="n">delay_ms</span><span class="o">=</span><span class="n">delay_ms</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">PLINUSBSlotType</span><span class="o">.</span><span class="n">MASTER_REQ</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="PLIN.add_slave_response_schedule_slot"><a class="viewcode-back" href="../../plin.html#plin.plin.PLIN.add_slave_response_schedule_slot">[docs]</a>    <span class="k">def</span> <span class="nf">add_slave_response_schedule_slot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">schedule</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">delay_ms</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Adds a slave response schedule slot.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_diagnostic_schedule_slot</span><span class="p">(</span><span class="n">schedule</span><span class="o">=</span><span class="n">schedule</span><span class="p">,</span> <span class="n">delay_ms</span><span class="o">=</span><span class="n">delay_ms</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">PLINUSBSlotType</span><span class="o">.</span><span class="n">SLAVE_RSP</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="PLIN.delete_schedule"><a class="viewcode-back" href="../../plin.html#plin.plin.PLIN.delete_schedule">[docs]</a>    <span class="k">def</span> <span class="nf">delete_schedule</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">schedule</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Removes all slots in the specified schedule.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="n">schedule</span> <span class="o">&lt;</span> <span class="n">PLINScheduleIndex</span><span class="o">.</span><span class="n">MIN</span> <span class="ow">or</span> <span class="n">schedule</span> <span class="o">&gt;</span> <span class="n">PLINScheduleIndex</span><span class="o">.</span><span class="n">MAX</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Schedule out of range [</span><span class="si">{</span><span class="n">PLINScheduleIndex</span><span class="o">.</span><span class="n">MIN</span><span class="si">}</span><span class="s2">..</span><span class="si">{</span><span class="n">PLINScheduleIndex</span><span class="o">.</span><span class="n">MAX</span><span class="si">}</span><span class="s2">].&quot;</span><span class="p">)</span>
+        <span class="n">buffer</span> <span class="o">=</span> <span class="n">PLINUSBDeleteSchedule</span><span class="p">(</span><span class="n">schedule</span><span class="o">=</span><span class="n">schedule</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ioctl</span><span class="p">(</span><span class="n">PLIODELSCHD</span><span class="p">,</span> <span class="n">buffer</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">buffer</span><span class="o">.</span><span class="n">err</span></div>
+
+<div class="viewcode-block" id="PLIN.get_slot_count"><a class="viewcode-back" href="../../plin.html#plin.plin.PLIN.get_slot_count">[docs]</a>    <span class="k">def</span> <span class="nf">get_slot_count</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">schedule</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Gets the number of slots in the specified schedule.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="n">schedule</span> <span class="o">&lt;</span> <span class="n">PLINScheduleIndex</span><span class="o">.</span><span class="n">MIN</span> <span class="ow">or</span> <span class="n">schedule</span> <span class="o">&gt;</span> <span class="n">PLINScheduleIndex</span><span class="o">.</span><span class="n">MAX</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Schedule out of range [</span><span class="si">{</span><span class="n">PLINScheduleIndex</span><span class="o">.</span><span class="n">MIN</span><span class="si">}</span><span class="s2">..</span><span class="si">{</span><span class="n">PLINScheduleIndex</span><span class="o">.</span><span class="n">MAX</span><span class="si">}</span><span class="s2">].&quot;</span><span class="p">)</span>
+        <span class="n">buffer</span> <span class="o">=</span> <span class="n">PLINUSBGetSlotCount</span><span class="p">(</span><span class="n">schedule</span><span class="o">=</span><span class="n">schedule</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ioctl</span><span class="p">(</span><span class="n">PLIOGETSLOTSCNT</span><span class="p">,</span> <span class="n">buffer</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">buffer</span><span class="o">.</span><span class="n">count</span></div>
+
+<div class="viewcode-block" id="PLIN.get_schedule_slots"><a class="viewcode-back" href="../../plin.html#plin.plin.PLIN.get_schedule_slots">[docs]</a>    <span class="k">def</span> <span class="nf">get_schedule_slots</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">schedule</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">bytearray</span><span class="p">]]]:</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Gets the slots in a specified schedule.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="n">schedule</span> <span class="o">&lt;</span> <span class="n">PLINScheduleIndex</span><span class="o">.</span><span class="n">MIN</span> <span class="ow">or</span> <span class="n">schedule</span> <span class="o">&gt;</span> <span class="n">PLINScheduleIndex</span><span class="o">.</span><span class="n">MAX</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Schedule out of range [</span><span class="si">{</span><span class="n">PLINScheduleIndex</span><span class="o">.</span><span class="n">MIN</span><span class="si">}</span><span class="s2">..</span><span class="si">{</span><span class="n">PLINScheduleIndex</span><span class="o">.</span><span class="n">MAX</span><span class="si">}</span><span class="s2">].&quot;</span><span class="p">)</span>
+
+        <span class="n">count</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_slot_count</span><span class="p">(</span><span class="n">schedule</span><span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">count</span><span class="p">):</span>
+            <span class="n">buffer</span> <span class="o">=</span> <span class="n">PLINUSBGetScheduleSlot</span><span class="p">(</span><span class="n">schedule</span><span class="o">=</span><span class="n">schedule</span><span class="p">,</span> <span class="n">slot_idx</span><span class="o">=</span><span class="n">i</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_ioctl</span><span class="p">(</span><span class="n">PLIOGETSCHDSLOT</span><span class="p">,</span> <span class="n">buffer</span><span class="p">)</span>
+            <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">buffer</span><span class="o">.</span><span class="n">_asdict</span><span class="p">())</span>
+        <span class="k">return</span> <span class="n">result</span></div>
+
+<div class="viewcode-block" id="PLIN.set_schedule_breakpoint"><a class="viewcode-back" href="../../plin.html#plin.plin.PLIN.set_schedule_breakpoint">[docs]</a>    <span class="k">def</span> <span class="nf">set_schedule_breakpoint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">handle</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">enable</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Enables or disables a breakpoint on a schedule slot with the given handle.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">buffer</span> <span class="o">=</span> <span class="n">PLINUSBSetScheduleBreakpoint</span><span class="p">(</span><span class="n">brkpt</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">enable</span><span class="p">),</span> <span class="n">handle</span><span class="o">=</span><span class="n">handle</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ioctl</span><span class="p">(</span><span class="n">PLIOSETSCHDBP</span><span class="p">,</span> <span class="n">buffer</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="PLIN.start_schedule"><a class="viewcode-back" href="../../plin.html#plin.plin.PLIN.start_schedule">[docs]</a>    <span class="k">def</span> <span class="nf">start_schedule</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">schedule</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Starts the specified schedule.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="n">schedule</span> <span class="o">&lt;</span> <span class="n">PLINScheduleIndex</span><span class="o">.</span><span class="n">MIN</span> <span class="ow">or</span> <span class="n">schedule</span> <span class="o">&gt;</span> <span class="n">PLINScheduleIndex</span><span class="o">.</span><span class="n">MAX</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Schedule out of range [</span><span class="si">{</span><span class="n">PLINScheduleIndex</span><span class="o">.</span><span class="n">MIN</span><span class="si">}</span><span class="s2">..</span><span class="si">{</span><span class="n">PLINScheduleIndex</span><span class="o">.</span><span class="n">MAX</span><span class="si">}</span><span class="s2">].&quot;</span><span class="p">)</span>
+        <span class="n">buffer</span> <span class="o">=</span> <span class="n">PLINUSBStartSchedule</span><span class="p">(</span><span class="n">schedule</span><span class="o">=</span><span class="n">schedule</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ioctl</span><span class="p">(</span><span class="n">PLIOSTARTSCHD</span><span class="p">,</span> <span class="n">buffer</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">buffer</span><span class="o">.</span><span class="n">err</span></div>
+
+<div class="viewcode-block" id="PLIN.resume_schedule"><a class="viewcode-back" href="../../plin.html#plin.plin.PLIN.resume_schedule">[docs]</a>    <span class="k">def</span> <span class="nf">resume_schedule</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Resumes the specified schedule.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">buffer</span> <span class="o">=</span> <span class="n">PLINUSBResumeSchedule</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ioctl</span><span class="p">(</span><span class="n">PLIORESUMESCHD</span><span class="p">,</span> <span class="n">buffer</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">buffer</span><span class="o">.</span><span class="n">err</span></div>
+
+<div class="viewcode-block" id="PLIN.suspend_schedule"><a class="viewcode-back" href="../../plin.html#plin.plin.PLIN.suspend_schedule">[docs]</a>    <span class="k">def</span> <span class="nf">suspend_schedule</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">schedule</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Suspends the specified schedule.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="n">schedule</span> <span class="o">&lt;</span> <span class="n">PLINScheduleIndex</span><span class="o">.</span><span class="n">MIN</span> <span class="ow">or</span> <span class="n">schedule</span> <span class="o">&gt;</span> <span class="n">PLINScheduleIndex</span><span class="o">.</span><span class="n">MAX</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Schedule out of range [</span><span class="si">{</span><span class="n">PLINScheduleIndex</span><span class="o">.</span><span class="n">MIN</span><span class="si">}</span><span class="s2">..</span><span class="si">{</span><span class="n">PLINScheduleIndex</span><span class="o">.</span><span class="n">MAX</span><span class="si">}</span><span class="s2">].&quot;</span><span class="p">)</span>
+        <span class="n">buffer</span> <span class="o">=</span> <span class="n">PLINUSBSuspendSchedule</span><span class="p">(</span><span class="n">schedule</span><span class="o">=</span><span class="n">schedule</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ioctl</span><span class="p">(</span><span class="n">PLIOPAUSESCHD</span><span class="p">,</span> <span class="n">buffer</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">buffer</span><span class="o">.</span><span class="n">err</span></div>
+
+<div class="viewcode-block" id="PLIN.get_status"><a class="viewcode-back" href="../../plin.html#plin.plin.PLIN.get_status">[docs]</a>    <span class="k">def</span> <span class="nf">get_status</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Gets the status of the PLIN device.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">buffer</span> <span class="o">=</span> <span class="n">PLINUSBGetStatus</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ioctl</span><span class="p">(</span><span class="n">PLIOGETSTATUS</span><span class="p">,</span> <span class="n">buffer</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">buffer</span><span class="o">.</span><span class="n">_asdict</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="PLIN.reset_tx_queue"><a class="viewcode-back" href="../../plin.html#plin.plin.PLIN.reset_tx_queue">[docs]</a>    <span class="k">def</span> <span class="nf">reset_tx_queue</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Resets the outgoing queue.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ioctl</span><span class="p">(</span><span class="n">PLIORSTUSBTX</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="PLIN.wakeup"><a class="viewcode-back" href="../../plin.html#plin.plin.PLIN.wakeup">[docs]</a>    <span class="k">def</span> <span class="nf">wakeup</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Wakes up the LIN bus.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ioctl</span><span class="p">(</span><span class="n">PLIOXMTWAKEUP</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="PLIN.set_response_remap"><a class="viewcode-back" href="../../plin.html#plin.plin.PLIN.set_response_remap">[docs]</a>    <span class="k">def</span> <span class="nf">set_response_remap</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">id_map</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Sets the publisher response remap. Only valid in slave mode. Setting the remap will override the old mapping. </span>
+<span class="sd">        All pending responses for single shot frames will be killed and therefore be lost.</span>
+
+<span class="sd">        An example remapping of ID x to ID y: when ID x is received, the frame settings are taken from ID x, but the data itself is taken from ID y.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">!=</span> <span class="n">PLINMode</span><span class="o">.</span><span class="n">SLAVE</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Response remap only valid in slave mode.&quot;</span><span class="p">)</span>
+        <span class="n">buffer</span> <span class="o">=</span> <span class="n">PLINUSBResponseRemap</span><span class="p">()</span>
+        <span class="n">buffer</span><span class="o">.</span><span class="n">set_get</span> <span class="o">=</span> <span class="n">PLINUSBResponseRemapType</span><span class="o">.</span><span class="n">SET</span>
+
+        <span class="k">for</span> <span class="nb">id</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">id_map</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="nb">id</span> <span class="o">&lt;</span> <span class="n">PLINFrameID</span><span class="o">.</span><span class="n">MIN</span> <span class="ow">or</span> <span class="nb">id</span> <span class="o">&gt;</span> <span class="n">PLINFrameID</span><span class="o">.</span><span class="n">MAX</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;ID key </span><span class="si">{</span><span class="nb">id</span><span class="si">}</span><span class="s2"> out of range [</span><span class="si">{</span><span class="n">PLINFrameID</span><span class="o">.</span><span class="n">MIN</span><span class="si">}</span><span class="s2">..</span><span class="si">{</span><span class="n">PLINFrameID</span><span class="o">.</span><span class="n">MAX</span><span class="si">}</span><span class="s2">].&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">v</span> <span class="o">&lt;</span> <span class="n">PLINFrameID</span><span class="o">.</span><span class="n">MIN</span> <span class="ow">or</span> <span class="n">v</span> <span class="o">&gt;</span> <span class="n">PLINFrameID</span><span class="o">.</span><span class="n">MAX</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;ID value </span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2"> out of range [</span><span class="si">{</span><span class="n">PLINFrameID</span><span class="o">.</span><span class="n">MIN</span><span class="si">}</span><span class="s2">..</span><span class="si">{</span><span class="n">PLINFrameID</span><span class="o">.</span><span class="n">MAX</span><span class="si">}</span><span class="s2">].&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">response_remap</span><span class="p">[</span><span class="nb">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">PLIN_USB_RSP_REMAP_ID_LEN</span><span class="p">):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">response_remap</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">buffer</span><span class="o">.</span><span class="n">id</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">response_remap</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ioctl</span><span class="p">(</span><span class="n">PLIOSETGETRSPMAP</span><span class="p">,</span> <span class="n">buffer</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="PLIN.get_visual_response_remap"><a class="viewcode-back" href="../../plin.html#plin.plin.PLIN.get_visual_response_remap">[docs]</a>    <span class="k">def</span> <span class="nf">get_visual_response_remap</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">buffer_id_map</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Builds a visual representation of remapped IDs.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">ID  &quot;</span>
+        <span class="n">side</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">PLIN_USB_RSP_REMAP_ID_LEN</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">side</span><span class="p">):</span>
+            <span class="n">output</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">i</span><span class="si">:</span><span class="s2">2d</span><span class="si">}</span><span class="s2"> &quot;</span>
+        <span class="n">output</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">---+--+--+--+--+--+--+--+--</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">side</span><span class="p">):</span>
+            <span class="n">output</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">i</span><span class="o">*</span><span class="mi">8</span><span class="si">:</span><span class="s2">2d</span><span class="si">}</span><span class="s2">  &quot;</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">side</span><span class="p">):</span>
+                <span class="n">output</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">buffer_id_map</span><span class="p">[</span><span class="n">i</span><span class="o">*</span><span class="mi">8</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">j</span><span class="p">]</span><span class="si">:</span><span class="s2">02x</span><span class="si">}</span><span class="s2"> &quot;</span>
+            <span class="n">output</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="k">return</span> <span class="n">output</span></div>
+
+<div class="viewcode-block" id="PLIN.get_response_remap"><a class="viewcode-back" href="../../plin.html#plin.plin.PLIN.get_response_remap">[docs]</a>    <span class="k">def</span> <span class="nf">get_response_remap</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">visual_output</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Gets the publisher response remap.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">!=</span> <span class="n">PLINMode</span><span class="o">.</span><span class="n">SLAVE</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Response remap only valid in slave mode.&quot;</span><span class="p">)</span>
+        <span class="n">buffer</span> <span class="o">=</span> <span class="n">PLINUSBResponseRemap</span><span class="p">()</span>
+        <span class="n">buffer</span><span class="o">.</span><span class="n">set_get</span> <span class="o">=</span> <span class="n">PLINUSBResponseRemapType</span><span class="o">.</span><span class="n">GET</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ioctl</span><span class="p">(</span><span class="n">PLIOSETGETRSPMAP</span><span class="p">,</span> <span class="n">buffer</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">visual_output</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_visual_response_remap</span><span class="p">(</span><span class="n">buffer</span><span class="o">.</span><span class="n">id</span><span class="p">))</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="nb">bytearray</span><span class="p">(</span><span class="n">buffer</span><span class="p">))</span>
+        <span class="n">remap</span> <span class="o">=</span> <span class="p">{</span><span class="n">i</span><span class="p">:</span> <span class="n">buffer</span><span class="o">.</span><span class="n">id</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">buffer</span><span class="o">.</span><span class="n">id</span><span class="p">))</span> <span class="k">if</span> <span class="n">buffer</span><span class="o">.</span><span class="n">id</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">}</span>
+        <span class="k">return</span> <span class="n">remap</span></div>
+
+<div class="viewcode-block" id="PLIN.set_led_state"><a class="viewcode-back" href="../../plin.html#plin.plin.PLIN.set_led_state">[docs]</a>    <span class="k">def</span> <span class="nf">set_led_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">enable</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Sets the state of the LED on the PLIN device.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">buffer</span> <span class="o">=</span> <span class="n">PLINUSBLEDState</span><span class="p">(</span><span class="n">on_off</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">enable</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ioctl</span><span class="p">(</span><span class="n">PLIOSETLEDSTATE</span><span class="p">,</span> <span class="n">buffer</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="PLIN.read"><a class="viewcode-back" href="../../plin.html#plin.plin.PLIN.read">[docs]</a>    <span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">PLINMessage</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Reads a PLINMessage from the LIN bus with an optional timeout in seconds.</span>
+<span class="sd">        </span>
+<span class="sd">        A timeout value of 0 blocks until data is read. If the timeout is reached before data is read, None is returned.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">fd</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">interface</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">O_RDONLY</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">timeout</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">set_blocking</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+            <span class="n">timeout_start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+            <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+                <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">&gt;=</span> <span class="n">timeout_start</span> <span class="o">+</span> <span class="n">timeout</span><span class="p">:</span>
+                    <span class="n">result</span> <span class="o">=</span> <span class="kc">None</span>
+                    <span class="k">break</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">try</span><span class="p">:</span>
+                        <span class="n">result</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span> <span class="n">PLINMessage</span><span class="o">.</span><span class="n">buffer_length</span><span class="p">)</span>
+                        <span class="k">break</span>
+                    <span class="k">except</span><span class="p">:</span>
+                        <span class="k">pass</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span> <span class="n">PLINMessage</span><span class="o">.</span><span class="n">buffer_length</span><span class="p">)</span>
+
+        <span class="n">os</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">fd</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">result</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">PLINMessage</span><span class="o">.</span><span class="n">from_buffer_copy</span><span class="p">(</span><span class="n">result</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="PLIN.write"><a class="viewcode-back" href="../../plin.html#plin.plin.PLIN.write">[docs]</a>    <span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="n">PLINMessage</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Writes a PLINMessage to the LIN bus.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">buffer</span> <span class="o">=</span> <span class="nb">bytearray</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+
+        <span class="n">fd</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">interface</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">O_WRONLY</span><span class="p">)</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span> <span class="n">buffer</span><span class="p">)</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">fd</span><span class="p">)</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Rivian Automotive, Inc..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
