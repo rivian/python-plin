@@ -22,23 +22,22 @@ print(master.get_firmware_version())
 print(master.get_status())
 
 # Add a publisher frame entry
-master.set_frame_entry(id=0x01,
+master.set_frame_entry(id=0x22,
                        direction=PLINFrameDirection.PUBLISHER,
                        checksum_type=PLINFrameChecksumType.CLASSIC,
-                       flags=PLINFrameFlag.RSP_ENABLE,
-                       data=bytearray([0x01, 0x02, 0x03]))
+                       data=bytearray([0x01, 0x02, 0x03, 0x04]))
 
 # Add a subscriber frame entry
-master.set_frame_entry(id=0x02,
+master.set_frame_entry(id=0x23,
                        direction=PLINFrameDirection.SUBSCRIBER_AUTO_LEN,
                        checksum_type=PLINFrameChecksumType.CLASSIC)
 
 # Get frame entry
-print(master.get_frame_entry(id=0x01))
+print(master.get_frame_entry(id=0x22))
 
 # Add unconditional slot to schedule 0
-master.add_unconditional_schedule_slot(schedule=0, delay_ms=10, id=0x01)
-master.add_unconditional_schedule_slot(schedule=0, delay_ms=10, id=0x02)
+master.add_unconditional_schedule_slot(schedule=0, delay_ms=10, id=0x22)
+master.add_unconditional_schedule_slot(schedule=0, delay_ms=10, id=0x23)
 
 # Get schedule 0 slots
 print(master.get_schedule_slots(0))
@@ -52,6 +51,26 @@ master.set_id_filter(bytearray([0xff] * 8))
 # Read frames
 while True:
     result = master.read()
+    print(result)
+
+```
+
+### Slave Example
+```python
+from plin.plin import PLIN
+from plin.enums import PLINMode
+
+# Initializes /dev/plin0 as a LIN slave
+slave = PLIN(interface="/dev/plin0")
+
+slave.start(mode=PLINMode.SLAVE, baudrate=19200)
+
+# Set ID filter
+slave.set_id_filter(bytearray([0xff] * 8))
+
+# Read frames
+while True:
+    result = slave.read()
     print(result)
 
 ```

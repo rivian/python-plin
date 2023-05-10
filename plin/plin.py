@@ -1,7 +1,8 @@
+import fcntl as fnctl
 import math
 import os
+import time
 from ctypes import *
-from fcntl import ioctl
 from typing import Dict, List, Union
 
 from ioctl_opt import IO, IOW, IOWR
@@ -335,10 +336,16 @@ PLIOSETLEDSTATE = IOW(ord('u'), 40, PLINUSBLEDState)
 class PLIN:
     def __init__(self, interface: str):
         self.interface = interface
-        self.fd = os.open(interface, os.O_RDWR)
         self.response_remap = [-1] * PLIN_USB_RSP_REMAP_ID_LEN
-
         self.reset()
+
+    def _ioctl(self, *args, **kwargs):
+        '''
+        Generic ioctl function to wrap open/closing the file descriptor.
+        '''
+        fd = os.open(self.interface, os.O_RDWR)
+        fnctl.ioctl(fd, *args, **kwargs)
+        os.close(fd)
 
     def start(self, mode: PLINMode, baudrate: int = 19200):
         '''
@@ -348,21 +355,15 @@ class PLIN:
         self.baudrate = baudrate
 
         buffer = PLINUSBInitHardware(self.baudrate, self.mode, 0)
-        ioctl(self.fd, PLIOHWINIT, buffer)
-
-    def stop(self):
-        '''
-        Closes connection to the PLIN device.
-        '''
-        os.close(self.fd)
+        self._ioctl(PLIOHWINIT, buffer)
 
     def reset(self):
         '''
         Resets the PLIN device.
         '''
-        ioctl(self.fd, PLIORSTHW)
+        self._ioctl(PLIORSTHW)
 
-    def set_frame_entry(self, 
+    def set_frame_entry(self,
                         id: int,
                         direction: PLINFrameDirection,
                         checksum_type: PLINFrameChecksumType,
@@ -383,21 +384,21 @@ class PLIN:
             buffer.d = data
         if len > 0:
             buffer.len = len
-        ioctl(self.fd, PLIOSETFRMENTRY, buffer)
+        self._ioctl(PLIOSETFRMENTRY, buffer)
 
     def set_frame_entry_data(self, id: int, index: int, data: bytearray, len: int):
         '''
         Sets or updates the data for the frame entry corresponding to the specified ID.
         '''
         buffer = PLINUSBUpdateData(id=id, idx=index, d=data, len=len)
-        ioctl(self.fd, PLIOCHGBYTEARRAY, buffer)
+        self._ioctl(PLIOCHGBYTEARRAY, buffer)
 
     def get_frame_entry(self, id: int) -> PLINUSBFrameEntry:
         '''
         Gets the frame entry corresponding to the specified ID.
         '''
         buffer = PLINUSBFrameEntry(id=id)
-        ioctl(self.fd, PLIOGETFRMENTRY, buffer)
+        self._ioctl(PLIOGETFRMENTRY, buffer)
         return buffer
 
     def start_autobaud(self, timeout: int) -> int:
@@ -407,7 +408,7 @@ class PLIN:
         IMPORTANT NOTE: The LIN hardware must not be active (i.e. start() has not been called yet).
         '''
         buffer = PLINUSBAutoBaud(timeout=timeout)
-        ioctl(self.fd, PLIOSTARTAUTOBAUD, buffer)
+        self._ioctl(PLIOSTARTAUTOBAUD, buffer)
         return buffer.err
 
     def get_baudrate(self) -> int:
@@ -415,7 +416,7 @@ class PLIN:
         Gets the baudrate.
         '''
         buffer = PLINUSBGetBaudrate()
-        ioctl(self.fd, PLIOGETBAUDRATE, buffer)
+        self._ioctl(PLIOGETBAUDRATE, buffer)
         return buffer.baudrate
 
     def set_id_filter(self, filter: bytearray):
@@ -424,14 +425,14 @@ class PLIN:
         '''
         buffer = PLINUSBIDFilter()
         buffer.id_mask = (c_ubyte * 8)(*filter.ljust(8, b'\x00'))
-        ioctl(self.fd, PLIOSETIDFILTER, buffer)
+        self._ioctl(PLIOSETIDFILTER, buffer)
 
     def get_id_filter(self) -> bytearray:
         '''
         Gets the ID filter.
         '''
         buffer = PLINUSBIDFilter()
-        ioctl(self.fd, PLIOGETIDFILTER, buffer)
+        self._ioctl(PLIOGETIDFILTER, buffer)
         return bytearray(buffer.id_mask)
 
     def get_mode(self) -> PLINMode:
@@ -439,7 +440,7 @@ class PLIN:
         Gets the mode.
         '''
         buffer = PLINUSBGetMode()
-        ioctl(self.fd, PLIOGETMODE, buffer)
+        self._ioctl(PLIOGETMODE, buffer)
         return PLINMode(buffer.mode)
 
     def set_id_string(self, id_string: str):
@@ -448,28 +449,28 @@ class PLIN:
         '''
         buffer = PLINUSBIDString()
         buffer.str = id_string.encode("utf-8")
-        ioctl(self.fd, PLIOSETIDSTR, buffer)
+        self._ioctl(PLIOSETIDSTR, buffer)
 
     def get_id_string(self) -> str:
         '''
         Gets the ID string.
         '''
         buffer = PLINUSBIDString()
-        ioctl(self.fd, PLIOGETIDSTR, buffer)
+        self._ioctl(PLIOGETIDSTR, buffer)
         return buffer.str.decode("utf-8")
 
     def identify(self):
         '''
         Identifies the PLIN device by flashing the LED.
         '''
-        ioctl(self.fd, PLIOIDENTIFY)
+        self._ioctl(PLIOIDENTIFY)
 
     def get_firmware_version(self) -> str:
         '''
         Gets the firmware version.
         '''
         buffer = PLINUSBFirmwareVersion()
-        ioctl(self.fd, PLIOGETFWVER, buffer)
+        self._ioctl(PLIOGETFWVER, buffer)
         return '.'.join([str(buffer.major), str(buffer.minor), str(buffer.sub)])
 
     def start_keep_alive(self, id: int, period_ms: int) -> int:
@@ -477,7 +478,7 @@ class PLIN:
         Sets the specified ID as a keep-alive frame and starts sending it with the specified period.
         '''
         buffer = PLINUSBKeepAlive(id=id, period_ms=period_ms)
-        ioctl(self.fd, PLIOSTARTHB, buffer)
+        self._ioctl(PLIOSTARTHB, buffer)
         return buffer.err
 
     def resume_keep_alive(self) -> int:
@@ -485,7 +486,7 @@ class PLIN:
         Resumes the sending of keep-alive frames.
         '''
         buffer = PLINUSBKeepAlive()
-        ioctl(self.fd, PLIORESUMEHB, buffer)
+        self._ioctl(PLIORESUMEHB, buffer)
         return buffer.err
 
     def suspend_keep_alive(self) -> int:
@@ -493,7 +494,7 @@ class PLIN:
         Suspends the sending of keep-alive frames.
         '''
         buffer = PLINUSBKeepAlive()
-        ioctl(self.fd, PLIOPAUSEHB, buffer)
+        self._ioctl(PLIOPAUSEHB, buffer)
         return buffer.err
 
     def add_unconditional_schedule_slot(self, schedule: int, delay_ms: int, id: int) -> int:
@@ -510,7 +511,7 @@ class PLIN:
             schedule=schedule, delay=delay_ms, type=PLINUSBSlotType.UNCOND)
         # ID idx 1 - 7 reserved for sporadic frames only.
         buffer.id[0] = id
-        ioctl(self.fd, PLIOADDSCHDSLOT, buffer)
+        self._ioctl(PLIOADDSCHDSLOT, buffer)
         return buffer.err
 
     def add_event_triggered_schedule_slot(self, schedule: int, delay_ms: int, id: int, count_resolve: int):
@@ -531,7 +532,7 @@ class PLIN:
             schedule=schedule, delay=delay_ms, type=PLINUSBSlotType.EVENT, count_resolve=count_resolve)
         # ID idx 1 - 7 reserved for sporadic frames only.
         buffer.id[0] = id
-        ioctl(self.fd, PLIOADDSCHDSLOT, buffer)
+        self._ioctl(PLIOADDSCHDSLOT, buffer)
         return buffer.err
 
     def add_sporadic_schedule_slot(self, schedule: int, delay_ms: int, ids: List[int], count_resolve: int):
@@ -552,7 +553,7 @@ class PLIN:
         buffer = PLINUSBAddScheduleSlot(
             schedule=schedule, delay=delay_ms, type=PLINUSBSlotType.SPORADIC, count_resolve=count_resolve)
         buffer.id = (c_uint8 * PLINUSBSlotNumber.MAX)(*ids)
-        ioctl(self.fd, PLIOADDSCHDSLOT, buffer)
+        self._ioctl(PLIOADDSCHDSLOT, buffer)
         return buffer.err
 
     def add_diagnostic_schedule_slot(self, schedule: int, delay_ms: int, type: PLINUSBSlotType):
@@ -566,7 +567,7 @@ class PLIN:
             schedule=schedule, delay=delay_ms, type=type)
         # ID idx 1 - 7 reserved for sporadic frames only.
         buffer.id[0] = PLINFrameID.DIAG_MASTER_REQ if type == PLINUSBSlotType.MASTER_REQ else PLINFrameID.DIAG_SLAVE_RSP
-        ioctl(self.fd, PLIOADDSCHDSLOT, buffer)
+        self._ioctl(PLIOADDSCHDSLOT, buffer)
         return buffer.err
 
     def add_master_request_schedule_slot(self, schedule: int, delay_ms: int):
@@ -589,7 +590,7 @@ class PLIN:
             raise ValueError(
                 f"Schedule out of range [{PLINScheduleIndex.MIN}..{PLINScheduleIndex.MAX}].")
         buffer = PLINUSBDeleteSchedule(schedule=schedule)
-        ioctl(self.fd, PLIODELSCHD, buffer)
+        self._ioctl(PLIODELSCHD, buffer)
         return buffer.err
 
     def get_slot_count(self, schedule: int) -> int:
@@ -600,7 +601,7 @@ class PLIN:
             raise ValueError(
                 f"Schedule out of range [{PLINScheduleIndex.MIN}..{PLINScheduleIndex.MAX}].")
         buffer = PLINUSBGetSlotCount(schedule=schedule)
-        ioctl(self.fd, PLIOGETSLOTSCNT, buffer)
+        self._ioctl(PLIOGETSLOTSCNT, buffer)
         return buffer.count
 
     def get_schedule_slots(self, schedule: int) -> List[Dict[str, Union[int, bytearray]]]:
@@ -615,7 +616,7 @@ class PLIN:
         result = []
         for i in range(count):
             buffer = PLINUSBGetScheduleSlot(schedule=schedule, slot_idx=i)
-            ioctl(self.fd, PLIOGETSCHDSLOT, buffer)
+            self._ioctl(PLIOGETSCHDSLOT, buffer)
             result.append(buffer._asdict())
         return result
 
@@ -624,7 +625,7 @@ class PLIN:
         Enables or disables a breakpoint on a schedule slot with the given handle.
         '''
         buffer = PLINUSBSetScheduleBreakpoint(brkpt=int(enable), handle=handle)
-        ioctl(self.fd, PLIOSETSCHDBP, buffer)
+        self._ioctl(PLIOSETSCHDBP, buffer)
 
     def start_schedule(self, schedule: int) -> int:
         '''
@@ -634,7 +635,7 @@ class PLIN:
             raise ValueError(
                 f"Schedule out of range [{PLINScheduleIndex.MIN}..{PLINScheduleIndex.MAX}].")
         buffer = PLINUSBStartSchedule(schedule=schedule)
-        ioctl(self.fd, PLIOSTARTSCHD, buffer)
+        self._ioctl(PLIOSTARTSCHD, buffer)
         return buffer.err
 
     def resume_schedule(self) -> int:
@@ -642,7 +643,7 @@ class PLIN:
         Resumes the specified schedule.
         '''
         buffer = PLINUSBResumeSchedule()
-        ioctl(self.fd, PLIORESUMESCHD, buffer)
+        self._ioctl(PLIORESUMESCHD, buffer)
         return buffer.err
 
     def suspend_schedule(self, schedule: int) -> int:
@@ -653,7 +654,7 @@ class PLIN:
             raise ValueError(
                 f"Schedule out of range [{PLINScheduleIndex.MIN}..{PLINScheduleIndex.MAX}].")
         buffer = PLINUSBSuspendSchedule(schedule=schedule)
-        ioctl(self.fd, PLIOPAUSESCHD, buffer)
+        self._ioctl(PLIOPAUSESCHD, buffer)
         return buffer.err
 
     def get_status(self) -> Dict[str, int]:
@@ -661,20 +662,20 @@ class PLIN:
         Gets the status of the PLIN device.
         '''
         buffer = PLINUSBGetStatus()
-        ioctl(self.fd, PLIOGETSTATUS, buffer)
+        self._ioctl(PLIOGETSTATUS, buffer)
         return buffer._asdict()
 
     def reset_tx_queue(self):
         '''
         Resets the outgoing queue.
         '''
-        ioctl(self.fd, PLIORSTUSBTX)
+        self._ioctl(PLIORSTUSBTX)
 
     def wakeup(self):
         '''
         Wakes up the LIN bus.
         '''
-        ioctl(self.fd, PLIOXMTWAKEUP)
+        self._ioctl(PLIOXMTWAKEUP)
 
     def set_response_remap(self, id_map: Dict[int, int]):
         '''
@@ -700,7 +701,7 @@ class PLIN:
         for i in range(PLIN_USB_RSP_REMAP_ID_LEN):
             if self.response_remap[i] >= 0:
                 buffer.id[i] = self.response_remap[i]
-        ioctl(self.fd, PLIOSETGETRSPMAP, buffer)
+        self._ioctl(PLIOSETGETRSPMAP, buffer)
 
     def get_visual_response_remap(self, buffer_id_map: List[int]) -> str:
         '''
@@ -726,11 +727,12 @@ class PLIN:
             raise Exception("Response remap only valid in slave mode.")
         buffer = PLINUSBResponseRemap()
         buffer.set_get = PLINUSBResponseRemapType.GET
-        ioctl(self.fd, PLIOSETGETRSPMAP, buffer)
+        self._ioctl(PLIOSETGETRSPMAP, buffer)
 
         if visual_output:
             print(self.get_visual_response_remap(buffer.id))
 
+        print(bytearray(buffer))
         remap = {i: buffer.id[i]
                  for i in range(len(buffer.id)) if buffer.id[i] != 0}
         return remap
@@ -740,18 +742,46 @@ class PLIN:
         Sets the state of the LED on the PLIN device.
         '''
         buffer = PLINUSBLEDState(on_off=int(enable))
-        ioctl(self.fd, PLIOSETLEDSTATE, buffer)
+        self._ioctl(PLIOSETLEDSTATE, buffer)
 
-    def read(self) -> PLINMessage:
+    def read(self, timeout=0) -> Union[PLINMessage, None]:
         '''
-        Reads a PLINMessage from the LIN bus.
+        Reads a PLINMessage from the LIN bus with an optional timeout in seconds.
+        
+        A timeout value of 0 blocks until data is read. If the timeout is reached before data is read, None is returned.
         '''
-        result = os.read(self.fd, PLINMessage.buffer_length)
-        return PLINMessage.from_buffer_copy(result)
+        fd = os.open(self.interface, os.O_RDONLY)
+
+        if timeout > 0:
+            os.set_blocking(fd, False)
+            timeout_start = time.time()
+            while True:
+                time.sleep(0.1)
+                if time.time() >= timeout_start + timeout:
+                    result = None
+                    break
+                else:
+                    try:
+                        result = os.read(fd, PLINMessage.buffer_length)
+                        break
+                    except:
+                        pass
+        else:
+            result = os.read(fd, PLINMessage.buffer_length)
+
+        os.close(fd)
+
+        if result is None:
+            return None
+        else:
+            return PLINMessage.from_buffer_copy(result)
 
     def write(self, message: PLINMessage):
         '''
         Writes a PLINMessage to the LIN bus.
         '''
         buffer = bytearray(message)
-        os.write(self.fd, buffer)
+
+        fd = os.open(self.interface, os.O_WRONLY)
+        os.write(fd, buffer)
+        os.close(fd)

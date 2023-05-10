@@ -4,7 +4,7 @@ import sys
 
 from plin.enums import (PLINFrameChecksumType, PLINFrameDirection,
                         PLINFrameFlag, PLINMode)
-from plin.plin import PLIN, PLINMessage
+from plin.plin import PLIN
 
 pp = pprint.PrettyPrinter(indent=4)
 
