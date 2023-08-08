@@ -2,7 +2,7 @@
 import sys
 
 from plin.enums import PLINFrameChecksumType, PLINFrameDirection, PLINMode
-from plin.plin import PLIN
+from plin.device import PLIN
 
 
 def main():

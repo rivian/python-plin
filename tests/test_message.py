@@ -1,5 +1,5 @@
 import pytest
-from plin.plin import PLINMessage
+from plin.structs import PLINMessage
 
 @pytest.fixture
 def test_message():

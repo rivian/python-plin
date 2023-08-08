@@ -1,5 +1,8 @@
 # Python PLIN library
-The plin module provides a Python interface for interacting with PEAK devices such as the PCAN-USB Pro and PLIN-USB on Linux using the chardev API provided by the PEAK LIN Linux Beta. The PEAK Linux beta driver is required to use this library and is available [here](https://forum.peak-system.com/viewtopic.php?t=5875).
+This library provides a Python interface for interacting with PEAK devices such as the PCAN-USB Pro and PLIN-USB on Linux using the chardev API provided by the PEAK LIN Linux Beta. The PEAK Linux beta driver is required to use this library and is available [here](https://forum.peak-system.com/viewtopic.php?t=5875).
+
+## Installation
+The `plin-linux` package is available on [PyPI](https://pypi.org/project/plin-linux/) and can be directly installed with `pip install plin-linux`.
 
 ## Examples
 Runnable examples are located in the `examples/` directory.
@@ -76,7 +79,9 @@ while True:
 ```
 
 ## Unit Tests
-Unit tests are located in the `unit_tests/` directory and require a PEAK LIN device connected to run.
+* Unit tests are located in the `unit_tests/` directory.
+* Requires a PEAK LIN device connected to run.
+* Can be run with `pytest`.
 
 ## License
 

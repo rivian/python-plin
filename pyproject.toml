@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "plin-linux"
+version = "0.0.2"
+authors = [
+  { name="William Zhang", email="williamzhang@rivian.com" },
+]
+description = "The python-plin package is a Python wrapper for the chardev API provided by the PEAK LIN Linux Beta."
+readme = "README.md"
+requires-python = ">=3.7"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: POSIX :: Linux",
+]
+dependencies = [
+    "ioctl_opt",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/rivian/python-plin"
+"Bug Tracker" = "https://github.com/rivian/python-plin/issues"

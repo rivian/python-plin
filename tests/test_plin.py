@@ -1,6 +1,7 @@
 import pytest
+from plin.device import PLIN
 from plin.enums import PLINMode, PLINMessageType, PLINFrameDirection, PLINFrameChecksumType
-from plin.plin import *
+from plin.structs import *
 
 @pytest.fixture
 def plin_interface():
