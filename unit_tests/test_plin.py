@@ -1,33 +1,33 @@
 import pytest
-import time
 from plin.enums import PLINMode, PLINMessageType, PLINFrameDirection, PLINFrameChecksumType
-from plin.plin import PLIN, PLINMessage
-
+from plin.plin import *
 
 @pytest.fixture
-def test_interface():
+def plin_interface():
     return "/dev/plin0"
 
 
 @pytest.fixture
-def test_plin(test_interface):
-    return PLIN(test_interface)
+def plin(plin_interface):
+    return PLIN(plin_interface)
 
 
 @pytest.fixture
-def test_plin_slave_1000(test_plin):
-    test_plin.start(mode=PLINMode.SLAVE, baudrate=1000)
-    return test_plin
+def plin_slave_1000(plin):
+    plin.start(mode=PLINMode.SLAVE, baudrate=1000)
+    yield plin
+    plin.stop()
 
 
 @pytest.fixture
-def test_plin_master_19200(test_plin):
-    test_plin.start(mode=PLINMode.MASTER, baudrate=19200)
-    return test_plin
+def plin_master_19200(plin):
+    plin.start(mode=PLINMode.MASTER, baudrate=19200)
+    yield plin
+    plin.stop()
 
 
 @pytest.fixture
-def test_master_request_frame():
+def master_request_frame():
     return PLINMessage(type=PLINMessageType.FRAME,
                        id=0x3c,
                        len=8,
@@ -36,78 +36,110 @@ def test_master_request_frame():
                        data=bytearray([0x7f, 0x6, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff]))
 
 
-def test_read_timeout(test_plin_master_19200):
-    # test 1 second timeout
-    expected_timeout = 1
-    start = time.time()
-    test_plin_master_19200.read(timeout=expected_timeout)
-    diff = time.time() - start
-    assert diff >= expected_timeout
-    assert diff < expected_timeout + 1
-
-
-def test_write_master_request_frame(test_plin_master_19200, test_master_request_frame):
-    test_plin_master_19200.write(test_master_request_frame)
-
-
-def test_start(test_plin):
+def test_start(plin_interface, plin):
     expected_baudrate = 1000
     expected_mode = PLINMode.SLAVE
 
-    test_plin.start(mode=expected_mode, baudrate=expected_baudrate)
-    assert test_plin.get_baudrate() == expected_baudrate
-    assert test_plin.get_mode() == expected_mode
+    plin.start(mode=expected_mode, baudrate=expected_baudrate)
+    assert plin.get_baudrate() == expected_baudrate
+    assert plin.get_mode() == expected_mode
+    plin.stop()
 
 
-def test_reset(test_plin_slave_1000):
+def test_read_nonblocking(plin_master_19200):
+    assert None == plin_master_19200.read(block=False)
+
+
+def test_write_master_request_frame(plin_master_19200, master_request_frame):
+    plin_master_19200.write(master_request_frame)
+
+
+def test_reset(plin_slave_1000):
     expected_baudrate = 0
     expected_mode = PLINMode.NONE
 
-    test_plin_slave_1000.reset()
-    assert test_plin_slave_1000.get_baudrate() == expected_baudrate
-    assert test_plin_slave_1000.get_mode() == expected_mode
+    plin_slave_1000.reset()
+    assert plin_slave_1000.get_baudrate() == expected_baudrate
+    assert plin_slave_1000.get_mode() == expected_mode
 
 
-def test_set_id_filter(test_plin_slave_1000):
+def test_set_id_filter(plin_slave_1000):
     expected_id_filter = bytearray([0xff] * 8)
 
-    test_plin_slave_1000.set_id_filter(expected_id_filter)
-    assert test_plin_slave_1000.get_id_filter() == expected_id_filter
+    plin_slave_1000.set_id_filter(expected_id_filter)
+    assert plin_slave_1000.get_id_filter() == expected_id_filter
 
 
-def test_set_id_string(test_plin_slave_1000):
+def test_block_id(plin_slave_1000):
+    expected_id_filter = bytearray([0xf0] + [0xff] * 7)
+
+    plin_slave_1000.set_id_filter(bytearray([0xff] * 8))
+    plin_slave_1000.block_id(0)
+    plin_slave_1000.block_id(1)
+    plin_slave_1000.block_id(2)
+    plin_slave_1000.block_id(3)
+    assert plin_slave_1000.get_id_filter() == expected_id_filter
+
+
+def test_register_id(plin_slave_1000):
+    expected_id_filter = bytearray([0x0f] + [0x0] * 7)
+
+    plin_slave_1000.set_id_filter(bytearray([0x0] * 8))
+    plin_slave_1000.register_id(0)
+    plin_slave_1000.register_id(1)
+    plin_slave_1000.register_id(2)
+    plin_slave_1000.register_id(3)
+    print(plin_slave_1000.get_id_filter())
+    assert plin_slave_1000.get_id_filter() == expected_id_filter
+
+
+def test_clear_id_filter_allow_all(plin_slave_1000):
+    expected_id_filter = bytearray([0xff] * 8)
+
+    plin_slave_1000.clear_id_filter(allow_all=True)
+    assert plin_slave_1000.get_id_filter() == expected_id_filter
+
+
+def test_clear_id_filter_block_all(plin_slave_1000):
+    expected_id_filter = bytearray([0x0] * 8)
+
+    plin_slave_1000.clear_id_filter(allow_all=False)
+    assert plin_slave_1000.get_id_filter() == expected_id_filter
+
+
+def test_set_id_string(plin_slave_1000):
     expected_id_string = "test ID"
 
-    test_plin_slave_1000.set_id_string(expected_id_string)
-    assert test_plin_slave_1000.get_id_string() == expected_id_string
+    plin_slave_1000.set_id_string(expected_id_string)
+    assert plin_slave_1000.get_id_string() == expected_id_string
 
 
-def test_identify(test_plin_slave_1000):
-    test_plin_slave_1000.identify()
+def test_identify(plin_slave_1000):
+    plin_slave_1000.identify()
 
 
-def test_get_firmware_version(test_plin_slave_1000):
+def test_get_firmware_version(plin_slave_1000):
     expected_num_subversions = 3
 
-    version = test_plin_slave_1000.get_firmware_version()
+    version = plin_slave_1000.get_firmware_version()
     assert len(version.split('.')) == expected_num_subversions
 
 
-def test_get_status(test_plin_slave_1000):
+def test_get_status(plin_slave_1000):
     expected_baudrate = 1000
     expected_mode = PLINMode.SLAVE
 
-    status = test_plin_slave_1000.get_status()
+    status = plin_slave_1000.get_status()
     assert status["mode"] == expected_mode
     assert status["baudrate"] == expected_baudrate
 
 
-def test_set_response_remap(test_plin_slave_1000):
+def test_set_response_remap(plin_slave_1000):
     expected_remap = {1: 2}
-    test_plin_slave_1000.set_response_remap(expected_remap)
-    assert test_plin_slave_1000.response_remap[1] == 2
-    assert test_plin_slave_1000.get_response_remap() == expected_remap
+    plin_slave_1000.set_response_remap(expected_remap)
+    assert plin_slave_1000.response_remap[1] == 2
+    assert plin_slave_1000.get_response_remap() == expected_remap
 
 
-def test_set_led_state(test_plin_slave_1000):
-    test_plin_slave_1000.set_led_state(enable=True)
+def test_set_led_state(plin_slave_1000):
+    plin_slave_1000.set_led_state(enable=True)

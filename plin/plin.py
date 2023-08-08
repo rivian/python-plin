@@ -1,15 +1,16 @@
-import fcntl as fnctl
+import fcntl
 import math
 import os
-import time
 from ctypes import *
-from typing import Dict, List, Union
+from typing import Any, Dict, List, Union
 
 from ioctl_opt import IO, IOW, IOWR
 
 from plin.enums import *
 
+PLIN_USB_FILTER_LEN = 8
 PLIN_DAT_LEN = 8
+PLIN_EMPTY_DATA = b'\xff' * PLIN_DAT_LEN
 
 
 class PLINMessage(Structure):
@@ -29,13 +30,12 @@ class PLINMessage(Structure):
         ("reserved", c_uint8 * 8)
     ]
 
-    def __setattr__(self, name, value):
+    def __setattr__(self, name: str, value: Any) -> None:
         if name == "data":
             buf = (c_uint8 * PLIN_DAT_LEN)(*value)
-            super().__setattr__("len", len(value))
-            super().__setattr__(name, buf)
+            return super().__setattr__(name, buf)
         else:
-            super().__setattr__(name, value)
+            return super().__setattr__(name, value)
 
     def __repr__(self) -> str:
         return str(self._asdict())
@@ -70,12 +70,12 @@ class PLINUSBFrameEntry(Structure):
         ("d", c_uint8 * PLIN_DAT_LEN)
     ]
 
-    def __setattr__(self, name, value):
+    def __setattr__(self, name: str, value: Any) -> None:
         if name == "d":
             buf = (c_uint8 * PLIN_DAT_LEN)(*value)
-            super().__setattr__(name, buf)
+            return super().__setattr__(name, buf)
         else:
-            super().__setattr__(name, value)
+            return super().__setattr__(name, value)
 
     def __repr__(self) -> str:
         return str(self._asdict())
@@ -108,7 +108,7 @@ class PLINUSBGetBaudrate(Structure):
 
 class PLINUSBIDFilter(Structure):
     _fields_ = [
-        ("id_mask", c_uint8 * 8)
+        ("id_mask", c_uint8 * PLIN_USB_FILTER_LEN)
     ]
 
 
@@ -247,10 +247,10 @@ class PLINUSBGetStatus(Structure):
                   for field, _ in self._fields_}
         result["mode"] = PLINMode(self.mode)
         if self.usb_filter == 0:
-            result["usb_filter"] = bytearray([0] * 8)
+            result["usb_filter"] = bytearray([0] * PLIN_USB_FILTER_LEN)
         else:
             result["usb_filter"] = bytearray.fromhex(
-                f"{self.usb_filter:x}").ljust(8, b'\x00')
+                f"{self.usb_filter:x}").ljust(PLIN_USB_FILTER_LEN, b'\x00')
         result["bus_state"] = PLINBusState(self.bus_state)
         del result["unused"]
         return result
@@ -265,12 +265,12 @@ class PLINUSBUpdateData(Structure):
         ("d", c_uint8 * PLIN_DAT_LEN)   # new data bytes
     ]
 
-    def __setattr__(self, name, value):
+    def __setattr__(self, name: str, value: Any) -> None:
         if name == "d":
             buf = (c_uint8 * PLIN_DAT_LEN)(*value)
-            super().__setattr__(name, buf)
+            return super().__setattr__(name, buf)
         else:
-            super().__setattr__(name, value)
+            return super().__setattr__(name, value)
 
     def __repr__(self) -> str:
         return str(self._asdict())
@@ -337,15 +337,25 @@ class PLIN:
     def __init__(self, interface: str):
         self.interface = interface
         self.response_remap = [-1] * PLIN_USB_RSP_REMAP_ID_LEN
-        self.reset()
+        self.fd = None
 
     def _ioctl(self, *args, **kwargs):
         '''
         Generic ioctl function to wrap open/closing the file descriptor.
         '''
-        fd = os.open(self.interface, os.O_RDWR)
-        fnctl.ioctl(fd, *args, **kwargs)
-        os.close(fd)
+        if self.fd:
+            try:
+                fcntl.ioctl(self.fd, *args, **kwargs)
+            except:
+                print("File descriptor busy!")
+        else:
+            raise Exception("PLIN not connected!")
+
+    def reset(self):
+        '''
+        Resets the PLIN device.
+        '''
+        self._ioctl(PLIORSTHW)
 
     def start(self, mode: PLINMode, baudrate: int = 19200):
         '''
@@ -354,14 +364,19 @@ class PLIN:
         self.mode = mode
         self.baudrate = baudrate
 
+        if not self.fd:
+            self.fd = os.open(self.interface, os.O_RDWR)
+
+        self.reset()
         buffer = PLINUSBInitHardware(self.baudrate, self.mode, 0)
         self._ioctl(PLIOHWINIT, buffer)
 
-    def reset(self):
+    def stop(self):
         '''
-        Resets the PLIN device.
+        Disconnects from the PLIN device by closing the file descriptor.
         '''
-        self._ioctl(PLIORSTHW)
+        if self.fd:
+            os.close(self.fd)
 
     def set_frame_entry(self,
                         id: int,
@@ -424,7 +439,8 @@ class PLIN:
         Sets the ID filter.
         '''
         buffer = PLINUSBIDFilter()
-        buffer.id_mask = (c_ubyte * 8)(*filter.ljust(8, b'\x00'))
+        buffer.id_mask = (c_ubyte * PLIN_USB_FILTER_LEN)(*
+                                                         filter.ljust(PLIN_USB_FILTER_LEN, b'\x00'))
         self._ioctl(PLIOSETIDFILTER, buffer)
 
     def get_id_filter(self) -> bytearray:
@@ -434,6 +450,41 @@ class PLIN:
         buffer = PLINUSBIDFilter()
         self._ioctl(PLIOGETIDFILTER, buffer)
         return bytearray(buffer.id_mask)
+
+    def block_id(self, id: int):
+        '''
+        Add ID to filter (block ID).
+        '''
+        if id > PLINFrameID.MAX or id < PLINFrameID.MIN:
+            raise ValueError(
+                f"ID {id} out of range [{PLINFrameID.MIN}..{PLINFrameID.MAX}].")
+        current_filter = int.from_bytes(self.get_id_filter(), 'little')
+        mask = ~(1 << id)
+        current_filter &= mask
+        self.set_id_filter(current_filter.to_bytes(
+            PLIN_USB_FILTER_LEN, 'little'))
+
+    def register_id(self, id: int):
+        '''
+        Remove ID from filter (allow ID through).
+        '''
+        if id > PLINFrameID.MAX or id < PLINFrameID.MIN:
+            raise ValueError(
+                f"ID {id} out of range [{PLINFrameID.MIN}..{PLINFrameID.MAX}].")
+        current_filter = int.from_bytes(self.get_id_filter(), 'little')
+        mask = (1 << id)
+        current_filter |= mask
+        self.set_id_filter(current_filter.to_bytes(
+            PLIN_USB_FILTER_LEN, 'little'))
+
+    def clear_id_filter(self, allow_all=True):
+        '''
+        Clear ID filter to either allow all IDs or disallow all IDs.
+        '''
+        if allow_all:
+            self.set_id_filter(bytearray([0xff] * PLIN_USB_FILTER_LEN))
+        else:
+            self.set_id_filter(bytearray([0] * PLIN_USB_FILTER_LEN))
 
     def get_mode(self) -> PLINMode:
         '''
@@ -744,44 +795,36 @@ class PLIN:
         buffer = PLINUSBLEDState(on_off=int(enable))
         self._ioctl(PLIOSETLEDSTATE, buffer)
 
-    def read(self, timeout=0) -> Union[PLINMessage, None]:
+    def read(self, block=True) -> Union[PLINMessage, None]:
         '''
-        Reads a PLINMessage from the LIN bus with an optional timeout in seconds.
-        
+        Reads a PLINMessage from the LIN bus with an optional timeout in milliseconds.
+
         A timeout value of 0 blocks until data is read. If the timeout is reached before data is read, None is returned.
         '''
-        fd = os.open(self.interface, os.O_RDONLY)
-
-        if timeout > 0:
-            os.set_blocking(fd, False)
-            timeout_start = time.time()
-            while True:
-                time.sleep(0.1)
-                if time.time() >= timeout_start + timeout:
-                    result = None
-                    break
-                else:
-                    try:
-                        result = os.read(fd, PLINMessage.buffer_length)
-                        break
-                    except:
-                        pass
+        if self.fd:
+            blocking = os.get_blocking(self.fd)
+            os.set_blocking(self.fd, block)
+            try:
+                result = os.read(self.fd, PLINMessage.buffer_length)
+                message = PLINMessage.from_buffer_copy(result)
+                # If bytes read was invalid.
+                if bytes(message.data) == PLIN_EMPTY_DATA:
+                    message = None
+            except:
+                message = None
+            os.set_blocking(self.fd, blocking)
+            return message
         else:
-            result = os.read(fd, PLINMessage.buffer_length)
-
-        os.close(fd)
-
-        if result is None:
-            return None
-        else:
-            return PLINMessage.from_buffer_copy(result)
+            raise Exception("PLIN not connected!")
 
     def write(self, message: PLINMessage):
         '''
         Writes a PLINMessage to the LIN bus.
         '''
-        buffer = bytearray(message)
-
-        fd = os.open(self.interface, os.O_WRONLY)
-        os.write(fd, buffer)
-        os.close(fd)
+        if self.fd:
+            if message.dir == PLINFrameDirection.PUBLISHER:
+                self.block_id(message.id)
+            buffer = bytearray(message)
+            os.write(self.fd, buffer)
+        else:
+            raise Exception("PLIN not connected!")
