@@ -9,7 +9,7 @@ Runnable examples are located in the `examples/` directory.
 
 ### Master Example
 ```python
-from plin.plin import PLIN
+from plin.device import PLIN
 from plin.enums import (PLINFrameChecksumType, PLINFrameDirection,
                         PLINFrameFlag, PLINMode)
 
@@ -60,7 +60,7 @@ while True:
 
 ### Slave Example
 ```python
-from plin.plin import PLIN
+from plin.device import PLIN
 from plin.enums import PLINMode
 
 # Initializes /dev/plin0 as a LIN slave
@@ -85,7 +85,7 @@ while True:
 
 ## License
 
-    Copyright 2023 Rivian Automotive, Inc.
+    Copyright 2024 Rivian Automotive, Inc.
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
