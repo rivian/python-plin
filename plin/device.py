@@ -99,10 +99,11 @@ class PLIN:
         IMPORTANT NOTE: For a publisher frame, the flag PLINFrameFlag.RSP_ENABLE must be set in order to allow a slave response.
         This flag is set by default if the frame direction is publisher for convenience.
         '''
-        buffer = PLINUSBFrameEntry(
-            id=id, direction=direction, checksum=checksum_type)
         if direction == PLINFrameDirection.PUBLISHER:
-            buffer.flags = flags & PLINFrameFlag.RSP_ENABLE
+            flags |= PLINFrameFlag.RSP_ENABLE
+
+        buffer = PLINUSBFrameEntry(
+            id=id, direction=direction, checksum=checksum_type, flags=flags)
         if data:
             buffer.d = data
         if len > 0:
