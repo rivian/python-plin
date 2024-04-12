@@ -2,9 +2,9 @@
 import pprint
 import sys
 
+from plin.device import PLIN
 from plin.enums import (PLINFrameChecksumType, PLINFrameDirection,
                         PLINFrameFlag, PLINMode)
-from plin.device import PLIN
 
 pp = pprint.PrettyPrinter(indent=4)
 

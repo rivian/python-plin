@@ -1,6 +1,7 @@
 import pytest
 from plin.structs import PLINMessage
 
+
 @pytest.fixture
 def test_message():
     return PLINMessage()

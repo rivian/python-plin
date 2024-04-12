@@ -80,7 +80,7 @@ while True:
 
 ## Unit Tests
 * Unit tests are located in the `unit_tests/` directory.
-* Requires a PEAK LIN device connected to run.
+* Tests in `unit_tests/integration/` require a PEAK LIN device connected to run.
 * Can be run with `pytest`.
 
 ## License

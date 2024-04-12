@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 import sys
 
-from plin.enums import PLINFrameChecksumType, PLINFrameDirection, PLINMode
 from plin.device import PLIN
+from plin.enums import PLINFrameChecksumType, PLINFrameDirection, PLINMode
 
 
 def main():
