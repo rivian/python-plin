@@ -41,6 +41,10 @@ PLIOSETGETRSPMAP = IOWR(ord('u'), 39, PLINUSBResponseRemap)
 PLIOSETLEDSTATE = IOW(ord('u'), 40, PLINUSBLEDState)
 
 
+class PLINException(Exception):
+    pass
+
+
 class PLIN:
     def __init__(self, interface: str):
         self.interface = interface
@@ -72,12 +76,13 @@ class PLIN:
         self.mode = mode
         self.baudrate = baudrate
 
-        if not self.fd:
+        if self.fd:
+            raise PLINException("Already connected to PLIN device!")
+        else:
             self.fd = os.open(self.interface, os.O_RDWR)
-
-        self.reset()
-        buffer = PLINUSBInitHardware(self.baudrate, self.mode, 0)
-        self._ioctl(PLIOHWINIT, buffer)
+            self.reset()
+            buffer = PLINUSBInitHardware(self.baudrate, self.mode, 0)
+            self._ioctl(PLIOHWINIT, buffer)
 
     def stop(self):
         '''
@@ -85,6 +90,9 @@ class PLIN:
         '''
         if self.fd:
             os.close(self.fd)
+            self.fd = None
+        else:
+            raise PLINException("Not connected to PLIN device!")
 
     def set_frame_entry(self,
                         id: int,

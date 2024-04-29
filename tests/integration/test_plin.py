@@ -3,6 +3,7 @@ from plin.device import PLIN
 from plin.enums import PLINMode, PLINMessageType, PLINFrameDirection, PLINFrameChecksumType
 from plin.structs import *
 
+
 @pytest.fixture
 def plin_interface():
     return "/dev/plin0"
@@ -40,6 +41,24 @@ def master_request_frame():
 def test_start(plin_interface, plin):
     expected_baudrate = 1000
     expected_mode = PLINMode.SLAVE
+
+    plin.start(mode=expected_mode, baudrate=expected_baudrate)
+    assert plin.get_baudrate() == expected_baudrate
+    assert plin.get_mode() == expected_mode
+    plin.stop()
+
+
+def test_start_stop_start(plin_interface, plin):
+    expected_baudrate = 1000
+    expected_mode = PLINMode.SLAVE
+
+    plin.start(mode=expected_mode, baudrate=expected_baudrate)
+    assert plin.get_baudrate() == expected_baudrate
+    assert plin.get_mode() == expected_mode
+    plin.stop()
+
+    expected_baudrate = 19200
+    expected_mode = PLINMode.MASTER
 
     plin.start(mode=expected_mode, baudrate=expected_baudrate)
     assert plin.get_baudrate() == expected_baudrate
