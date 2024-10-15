@@ -1,0 +1,238 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Welcome to python-plin’s documentation! &mdash; python-plin 0.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=d45e8c67"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="plin package" href="plin.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="#" class="icon icon-home">
+            python-plin
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="plin.html">plin package</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">python-plin</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="#" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Welcome to python-plin’s documentation!</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="welcome-to-python-plin-s-documentation">
+<h1>Welcome to python-plin’s documentation!<a class="headerlink" href="#welcome-to-python-plin-s-documentation" title="Link to this heading"></a></h1>
+<section id="python-plin-library">
+<h2>Python PLIN library<a class="headerlink" href="#python-plin-library" title="Link to this heading"></a></h2>
+<p>This library provides a Python interface for interacting with PEAK devices such as the PCAN-USB Pro and PLIN-USB on Linux using the chardev API provided by the PEAK LIN Linux Driver. The PEAK LIN Linux driver is required to use this library and is available <a class="reference external" href="https://www.peak-system.com/fileadmin/media/linux/lin.php">here</a>.</p>
+<section id="installation">
+<h3>Installation<a class="headerlink" href="#installation" title="Link to this heading"></a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">plin-linux</span></code> package is available on <a class="reference external" href="https://pypi.org/project/plin-linux/">PyPI</a> and can be directly installed with <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">plin-linux</span></code>.</p>
+</section>
+<section id="examples">
+<h3>Examples<a class="headerlink" href="#examples" title="Link to this heading"></a></h3>
+<p>Runnable examples are located in the <code class="docutils literal notranslate"><span class="pre">examples/</span></code> directory.</p>
+<section id="master-example">
+<h4>Master Example<a class="headerlink" href="#master-example" title="Link to this heading"></a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">plin.device</span> <span class="kn">import</span> <span class="n">PLIN</span>
+<span class="kn">from</span> <span class="nn">plin.enums</span> <span class="kn">import</span> <span class="p">(</span><span class="n">PLINFrameChecksumType</span><span class="p">,</span> <span class="n">PLINFrameDirection</span><span class="p">,</span>
+                        <span class="n">PLINFrameFlag</span><span class="p">,</span> <span class="n">PLINMode</span><span class="p">)</span>
+
+<span class="c1"># Initializes /dev/plin0 as a LIN master</span>
+<span class="n">master</span> <span class="o">=</span> <span class="n">PLIN</span><span class="p">(</span><span class="n">interface</span><span class="o">=</span><span class="s2">&quot;/dev/plin0&quot;</span><span class="p">)</span>
+
+<span class="n">master</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="n">PLINMode</span><span class="o">.</span><span class="n">MASTER</span><span class="p">,</span> <span class="n">baudrate</span><span class="o">=</span><span class="mi">19200</span><span class="p">)</span>
+
+<span class="c1"># Get firmware version of the PEAK device</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">master</span><span class="o">.</span><span class="n">get_firmware_version</span><span class="p">())</span>
+
+<span class="c1"># Get current status of the PEAK device</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">master</span><span class="o">.</span><span class="n">get_status</span><span class="p">())</span>
+
+<span class="c1"># Add a publisher frame entry</span>
+<span class="n">master</span><span class="o">.</span><span class="n">set_frame_entry</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="mh">0x22</span><span class="p">,</span>
+                       <span class="n">direction</span><span class="o">=</span><span class="n">PLINFrameDirection</span><span class="o">.</span><span class="n">PUBLISHER</span><span class="p">,</span>
+                       <span class="n">checksum_type</span><span class="o">=</span><span class="n">PLINFrameChecksumType</span><span class="o">.</span><span class="n">CLASSIC</span><span class="p">,</span>
+                       <span class="n">data</span><span class="o">=</span><span class="nb">bytearray</span><span class="p">([</span><span class="mh">0x01</span><span class="p">,</span> <span class="mh">0x02</span><span class="p">,</span> <span class="mh">0x03</span><span class="p">,</span> <span class="mh">0x04</span><span class="p">]))</span>
+
+<span class="c1"># Add a subscriber frame entry</span>
+<span class="n">master</span><span class="o">.</span><span class="n">set_frame_entry</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="mh">0x23</span><span class="p">,</span>
+                       <span class="n">direction</span><span class="o">=</span><span class="n">PLINFrameDirection</span><span class="o">.</span><span class="n">SUBSCRIBER_AUTO_LEN</span><span class="p">,</span>
+                       <span class="n">checksum_type</span><span class="o">=</span><span class="n">PLINFrameChecksumType</span><span class="o">.</span><span class="n">CLASSIC</span><span class="p">)</span>
+
+<span class="c1"># Get frame entry</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">master</span><span class="o">.</span><span class="n">get_frame_entry</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="mh">0x22</span><span class="p">))</span>
+
+<span class="c1"># Add unconditional slot to schedule 0</span>
+<span class="n">master</span><span class="o">.</span><span class="n">add_unconditional_schedule_slot</span><span class="p">(</span><span class="n">schedule</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">delay_ms</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="mh">0x22</span><span class="p">)</span>
+<span class="n">master</span><span class="o">.</span><span class="n">add_unconditional_schedule_slot</span><span class="p">(</span><span class="n">schedule</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">delay_ms</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="mh">0x23</span><span class="p">)</span>
+
+<span class="c1"># Get schedule 0 slots</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">master</span><span class="o">.</span><span class="n">get_schedule_slots</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+
+<span class="c1"># Start schedule 0</span>
+<span class="n">master</span><span class="o">.</span><span class="n">start_schedule</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="c1"># Set ID filter</span>
+<span class="n">master</span><span class="o">.</span><span class="n">set_id_filter</span><span class="p">(</span><span class="nb">bytearray</span><span class="p">([</span><span class="mh">0xff</span><span class="p">]</span> <span class="o">*</span> <span class="mi">8</span><span class="p">))</span>
+
+<span class="c1"># Read frames</span>
+<span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">master</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+
+</pre></div>
+</div>
+</section>
+<section id="slave-example">
+<h4>Slave Example<a class="headerlink" href="#slave-example" title="Link to this heading"></a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">plin.device</span> <span class="kn">import</span> <span class="n">PLIN</span>
+<span class="kn">from</span> <span class="nn">plin.enums</span> <span class="kn">import</span> <span class="n">PLINMode</span>
+
+<span class="c1"># Initializes /dev/plin0 as a LIN slave</span>
+<span class="n">slave</span> <span class="o">=</span> <span class="n">PLIN</span><span class="p">(</span><span class="n">interface</span><span class="o">=</span><span class="s2">&quot;/dev/plin0&quot;</span><span class="p">)</span>
+
+<span class="n">slave</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="n">PLINMode</span><span class="o">.</span><span class="n">SLAVE</span><span class="p">,</span> <span class="n">baudrate</span><span class="o">=</span><span class="mi">19200</span><span class="p">)</span>
+
+<span class="c1"># Set ID filter</span>
+<span class="n">slave</span><span class="o">.</span><span class="n">set_id_filter</span><span class="p">(</span><span class="nb">bytearray</span><span class="p">([</span><span class="mh">0xff</span><span class="p">]</span> <span class="o">*</span> <span class="mi">8</span><span class="p">))</span>
+
+<span class="c1"># Read frames</span>
+<span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">slave</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+
+</pre></div>
+</div>
+</section>
+</section>
+<section id="unit-tests">
+<h3>Unit Tests<a class="headerlink" href="#unit-tests" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Unit tests are located in the <code class="docutils literal notranslate"><span class="pre">unit_tests/</span></code> directory.</p></li>
+<li><p>Tests in <code class="docutils literal notranslate"><span class="pre">unit_tests/integration/</span></code> require a PEAK LIN device connected to run.</p></li>
+<li><p>Can be run with <code class="docutils literal notranslate"><span class="pre">pytest</span></code>.</p></li>
+</ul>
+</section>
+<section id="license">
+<h3>License<a class="headerlink" href="#license" title="Link to this heading"></a></h3>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Copyright 2024 Rivian Automotive, Inc.
+
+Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+   http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+</pre></div>
+</div>
+</section>
+</section>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="plin.html">plin package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="plin.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plin.html#module-plin.enums">plin.enums module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plin.html#plin-plin-module">plin.plin module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plin.html#module-plin">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Link to this heading"></a></h1>
+<ul class="simple">
+<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
+<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
+<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
+</ul>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="plin.html" class="btn btn-neutral float-right" title="plin package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Rivian Automotive, Inc..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

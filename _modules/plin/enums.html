@@ -1,0 +1,285 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>plin.enums &mdash; python-plin 0.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=d45e8c67"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            python-plin
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../plin.html">plin package</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">python-plin</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">plin.enums</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for plin.enums</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">IntEnum</span><span class="p">,</span> <span class="n">IntFlag</span>
+
+
+<div class="viewcode-block" id="PLINError">
+<a class="viewcode-back" href="../../plin.html#plin.enums.PLINError">[docs]</a>
+<span class="k">class</span> <span class="nc">PLINError</span><span class="p">(</span><span class="n">IntEnum</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    LIN error.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">OK</span> <span class="o">=</span> <span class="mi">0</span>                              <span class="c1"># success</span>
+    <span class="n">FAIL</span> <span class="o">=</span> <span class="mi">1</span>                            <span class="c1"># (PCAN-USB Pro) failure</span>
+    <span class="n">INITIALIZE</span> <span class="o">=</span> <span class="mi">2</span>                      <span class="c1"># hw initialized</span>
+    <span class="n">SCHEDULER</span> <span class="o">=</span> <span class="mi">3</span>                       <span class="c1"># scheduler bad state</span>
+    <span class="n">FRAME</span> <span class="o">=</span> <span class="mi">4</span>                           <span class="c1"># bad frame config</span>
+    <span class="n">SLOTPOOL</span> <span class="o">=</span> <span class="mi">5</span>                        <span class="c1"># slots global pool full</span>
+    <span class="n">ILL_SCHEDULE</span> <span class="o">=</span> <span class="mi">6</span>                    <span class="c1"># no schedule present</span>
+    <span class="n">ILL_MODE</span> <span class="o">=</span> <span class="mi">7</span>                        <span class="c1"># bad mode</span></div>
+
+
+
+<div class="viewcode-block" id="PLINMode">
+<a class="viewcode-back" href="../../plin.html#plin.enums.PLINMode">[docs]</a>
+<span class="k">class</span> <span class="nc">PLINMode</span><span class="p">(</span><span class="n">IntEnum</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    LIN mode.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">NONE</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">SLAVE</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">MASTER</span> <span class="o">=</span> <span class="mi">2</span></div>
+
+
+
+<div class="viewcode-block" id="PLINBusState">
+<a class="viewcode-back" href="../../plin.html#plin.enums.PLINBusState">[docs]</a>
+<span class="k">class</span> <span class="nc">PLINBusState</span><span class="p">(</span><span class="n">IntEnum</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    LIN Bus hardware state.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">UNINIT</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">AUTOBAUD</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">ACTIVE</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">SLEEP</span> <span class="o">=</span> <span class="mi">3</span>
+    <span class="n">GND_SHORT</span> <span class="o">=</span> <span class="mi">6</span>
+    <span class="n">VBAT_MISSING</span> <span class="o">=</span> <span class="mi">7</span></div>
+
+
+
+<div class="viewcode-block" id="PLINMessageType">
+<a class="viewcode-back" href="../../plin.html#plin.enums.PLINMessageType">[docs]</a>
+<span class="k">class</span> <span class="nc">PLINMessageType</span><span class="p">(</span><span class="n">IntEnum</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    LIN message type.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">FRAME</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">SLEEP</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">WAKEUP</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">AUTOBAUD_TO</span> <span class="o">=</span> <span class="mi">3</span>
+    <span class="n">AUTOBAUD_OK</span> <span class="o">=</span> <span class="mi">4</span>
+    <span class="n">OVERRUN</span> <span class="o">=</span> <span class="mi">5</span></div>
+
+
+
+<div class="viewcode-block" id="PLINFrameDirection">
+<a class="viewcode-back" href="../../plin.html#plin.enums.PLINFrameDirection">[docs]</a>
+<span class="k">class</span> <span class="nc">PLINFrameDirection</span><span class="p">(</span><span class="n">IntEnum</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    LIN frame direction.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">DISABLED</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">PUBLISHER</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">SUBSCRIBER</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">SUBSCRIBER_AUTO_LEN</span> <span class="o">=</span> <span class="mi">3</span></div>
+
+
+
+<div class="viewcode-block" id="PLINFrameChecksumType">
+<a class="viewcode-back" href="../../plin.html#plin.enums.PLINFrameChecksumType">[docs]</a>
+<span class="k">class</span> <span class="nc">PLINFrameChecksumType</span><span class="p">(</span><span class="n">IntEnum</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    LIN frame checksum type.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">CUSTOM</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">CLASSIC</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">ENHANCED</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">AUTO</span> <span class="o">=</span> <span class="mi">3</span>                            <span class="c1"># not for publisher</span></div>
+
+
+
+<div class="viewcode-block" id="PLINFrameFlag">
+<a class="viewcode-back" href="../../plin.html#plin.enums.PLINFrameFlag">[docs]</a>
+<span class="k">class</span> <span class="nc">PLINFrameFlag</span><span class="p">(</span><span class="n">IntFlag</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    LIN frame flags for frame table entry.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">NONE</span> <span class="o">=</span> <span class="mh">0x0000</span>
+    <span class="n">RSP_ENABLE</span> <span class="o">=</span> <span class="mh">0x0001</span>                 <span class="c1"># publisher</span>
+    <span class="n">SINGLE_SHOT</span> <span class="o">=</span> <span class="mh">0x0002</span>                <span class="c1"># publisher</span>
+    <span class="n">IGNORE_DATA</span> <span class="o">=</span> <span class="mh">0x0004</span></div>
+
+
+
+<div class="viewcode-block" id="PLINFrameErrorFlag">
+<a class="viewcode-back" href="../../plin.html#plin.enums.PLINFrameErrorFlag">[docs]</a>
+<span class="k">class</span> <span class="nc">PLINFrameErrorFlag</span><span class="p">(</span><span class="n">IntFlag</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    LIN frame received (error) flags.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">INC_SYNC</span> <span class="o">=</span> <span class="mh">0x0001</span>
+    <span class="n">PARITY0</span> <span class="o">=</span> <span class="mh">0x0002</span>
+    <span class="n">PARITY1</span> <span class="o">=</span> <span class="mh">0x0004</span>
+    <span class="n">SLV_NOT_RSP</span> <span class="o">=</span> <span class="mh">0x0008</span>
+    <span class="n">TIMEOUT</span> <span class="o">=</span> <span class="mh">0x0010</span>
+    <span class="n">BAD_CS</span> <span class="o">=</span> <span class="mh">0x0020</span>
+    <span class="n">BUS_SHORT_GND</span> <span class="o">=</span> <span class="mh">0x0040</span>
+    <span class="n">BUS_SHORT_VBAT</span> <span class="o">=</span> <span class="mh">0x0080</span>
+    <span class="n">RESERVED</span> <span class="o">=</span> <span class="mh">0x0100</span>
+    <span class="n">OTHER_RSP</span> <span class="o">=</span> <span class="mh">0x0200</span></div>
+
+
+
+<div class="viewcode-block" id="PLINFrameID">
+<a class="viewcode-back" href="../../plin.html#plin.enums.PLINFrameID">[docs]</a>
+<span class="k">class</span> <span class="nc">PLINFrameID</span><span class="p">(</span><span class="n">IntEnum</span><span class="p">):</span>
+    <span class="n">UNC_MIN</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">UNC_MAX</span> <span class="o">=</span> <span class="mi">59</span>
+    <span class="n">DIAG_MASTER_REQ</span> <span class="o">=</span> <span class="mi">60</span>
+    <span class="n">DIAG_SLAVE_RSP</span> <span class="o">=</span> <span class="mi">61</span>
+    <span class="n">USER</span> <span class="o">=</span> <span class="mi">62</span>
+    <span class="n">RESERVED</span> <span class="o">=</span> <span class="mi">63</span>
+    <span class="n">MIN</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">MAX</span> <span class="o">=</span> <span class="mi">63</span></div>
+
+
+
+<div class="viewcode-block" id="PLINUSBSlotType">
+<a class="viewcode-back" href="../../plin.html#plin.enums.PLINUSBSlotType">[docs]</a>
+<span class="k">class</span> <span class="nc">PLINUSBSlotType</span><span class="p">(</span><span class="n">IntEnum</span><span class="p">):</span>
+    <span class="n">UNCOND</span> <span class="o">=</span> <span class="mi">0</span>                          <span class="c1"># id0 is sent</span>
+    <span class="n">EVENT</span> <span class="o">=</span> <span class="mi">1</span>                           <span class="c1"># id0 is sent</span>
+    <span class="n">SPORADIC</span> <span class="o">=</span> <span class="mi">2</span>                        <span class="c1"># id0 highest priority</span>
+    <span class="n">MASTER_REQ</span> <span class="o">=</span> <span class="mi">3</span>                      <span class="c1"># 60h implicit</span>
+    <span class="n">SLAVE_RSP</span> <span class="o">=</span> <span class="mi">4</span>                       <span class="c1"># 61h implicit</span></div>
+
+
+
+<div class="viewcode-block" id="PLINUSBResponseRemapType">
+<a class="viewcode-back" href="../../plin.html#plin.enums.PLINUSBResponseRemapType">[docs]</a>
+<span class="k">class</span> <span class="nc">PLINUSBResponseRemapType</span><span class="p">(</span><span class="n">IntEnum</span><span class="p">):</span>
+    <span class="n">GET</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">SET</span> <span class="o">=</span> <span class="mi">1</span></div>
+
+
+
+<div class="viewcode-block" id="PLINUSBSlotNumber">
+<a class="viewcode-back" href="../../plin.html#plin.enums.PLINUSBSlotNumber">[docs]</a>
+<span class="k">class</span> <span class="nc">PLINUSBSlotNumber</span><span class="p">(</span><span class="n">IntEnum</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Slot number range.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">MIN</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">MAX</span> <span class="o">=</span> <span class="mi">8</span></div>
+
+
+
+<div class="viewcode-block" id="PLINBaudrate">
+<a class="viewcode-back" href="../../plin.html#plin.enums.PLINBaudrate">[docs]</a>
+<span class="k">class</span> <span class="nc">PLINBaudrate</span><span class="p">(</span><span class="n">IntEnum</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    LIN baudrate range.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">MIN</span> <span class="o">=</span> <span class="mi">1000</span>
+    <span class="n">MAX</span> <span class="o">=</span> <span class="mi">20000</span></div>
+
+
+
+<div class="viewcode-block" id="PLINScheduleIndex">
+<a class="viewcode-back" href="../../plin.html#plin.enums.PLINScheduleIndex">[docs]</a>
+<span class="k">class</span> <span class="nc">PLINScheduleIndex</span><span class="p">(</span><span class="n">IntEnum</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    LIN schedule index range.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">MIN</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">MAX</span> <span class="o">=</span> <span class="mi">7</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Rivian Automotive, Inc..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
