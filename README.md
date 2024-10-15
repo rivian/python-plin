@@ -1,5 +1,5 @@
 # Python PLIN library
-This library provides a Python interface for interacting with PEAK devices such as the PCAN-USB Pro and PLIN-USB on Linux using the chardev API provided by the PEAK LIN Linux Beta. The PEAK Linux beta driver is required to use this library and is available [here](https://forum.peak-system.com/viewtopic.php?t=5875).
+This library provides a Python interface for interacting with PEAK devices such as the PCAN-USB Pro and PLIN-USB on Linux using the chardev API provided by the PEAK LIN Linux Driver. The PEAK LIN Linux driver is required to use this library and is available [here](https://www.peak-system.com/fileadmin/media/linux/lin.php).
 
 ## Installation
 The `plin-linux` package is available on [PyPI](https://pypi.org/project/plin-linux/) and can be directly installed with `pip install plin-linux`.
