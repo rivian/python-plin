@@ -527,6 +527,8 @@ class PLIN:
                 # If bytes read was invalid.
                 if bytes(message.data) == PLIN_EMPTY_DATA:
                     message = None
+            except KeyboardInterrupt:
+                raise KeyboardInterrupt
             except:
                 message = None
             os.set_blocking(self.fd, blocking)

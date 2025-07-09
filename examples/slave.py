@@ -10,10 +10,10 @@ def main():
     slave.start(PLINMode.SLAVE)
     slave.set_id_filter(bytearray([0xff] * 8))
 
-    slave.set_frame_entry(id=0x22, direction=PLINFrameDirection.PUBLISHER,
+    slave.set_frame_entry(id=0x02, direction=PLINFrameDirection.PUBLISHER,
                           checksum_type=PLINFrameChecksumType.ENHANCED, data=bytearray([0xff] * 3))
 
-    slave.set_response_remap({0x21: 0x22})
+    slave.set_response_remap({0x01: 0x02})
     result = slave.get_response_remap(visual_output=True)
     print(result)
 
