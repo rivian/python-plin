@@ -135,3 +135,59 @@ def test_get_status(plin_master, mock_ioctl):
     mock_ioctl.assert_called_once()
     _, ioctl_num, arg = mock_ioctl.mock_calls[0].args
     assert ioctl_num == PLIOGETSTATUS
+
+
+def _record(id: int, flags: int, data: bytes, msg_type: int = 0, length: int = 8) -> bytes:
+    msg = PLINMessage(type=msg_type, flags=flags, id=id, len=length, dir=PLINFrameDirection.SUBSCRIBER,
+                      cs_type=PLINFrameChecksumType.CLASSIC, ts_us=1234, data=bytearray(data))
+    return bytes(msg)
+
+
+def test_read_keeps_unanswered_header(plin_master):
+    # A header no slave answers arrives with recessive 0xFF data and SLV_NOT_RSP | TIMEOUT set. It
+    # used to be discarded as "invalid", which hid every empty poll from a passive logger.
+    plin, _ = plin_master
+    record = _record(0x3D, PLINFrameErrorFlag.SLV_NOT_RSP | PLINFrameErrorFlag.TIMEOUT, b"\xff" * 8)
+
+    with patch("os.get_blocking", return_value=True), patch("os.set_blocking"), \
+         patch("os.read", return_value=record):
+        message = plin.read()
+
+    assert message is not None
+    assert message.id == 0x3D
+    assert message.flags == (PLINFrameErrorFlag.SLV_NOT_RSP | PLINFrameErrorFlag.TIMEOUT)
+    assert bytes(message.data) == b"\xff" * 8
+
+
+def test_read_returns_non_frame_records(plin_master):
+    plin, _ = plin_master
+    record = _record(0x00, 0, b"\x00" * 8, msg_type=1, length=0)  # SLEEP
+
+    with patch("os.get_blocking", return_value=True), patch("os.set_blocking"), \
+         patch("os.read", return_value=record):
+        message = plin.read()
+
+    assert message is not None
+    assert message.type == 1
+
+
+def test_read_nonblocking_empty_returns_none(plin_master):
+    plin, _ = plin_master
+
+    with patch("os.get_blocking", return_value=True), patch("os.set_blocking") as set_blocking, \
+         patch("os.read", side_effect=BlockingIOError):
+        message = plin.read(block=False)
+
+    assert message is None
+    # Blocking mode is restored even when nothing was queued.
+    set_blocking.assert_called_with(plin.fd, True)
+
+
+def test_read_short_record_returns_none(plin_master):
+    plin, _ = plin_master
+
+    with patch("os.get_blocking", return_value=True), patch("os.set_blocking"), \
+         patch("os.read", return_value=b"\x00" * 4):
+        message = plin.read()
+
+    assert message is None
