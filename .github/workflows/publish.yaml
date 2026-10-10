@@ -2,39 +2,43 @@ name: Publish
 on:
   push:
     tags: ['*']
+# Org policy only allows actions from rivian-owned repos, so every step here is
+# a plain shell command instead of a `uses:` action.
 jobs:
-  build:
+  publish:
     runs-on: ubuntu-latest
+    environment: pypi
+    permissions:
+      contents: read
+      id-token: write
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.x'
+      - name: Checkout
+        run: |
+          git init .
+          git remote add origin "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY"
+          git fetch --depth 1 origin "$GITHUB_SHA"
+          git checkout FETCH_HEAD
       - name: Check tag matches package version
         run: |
-          version=$(python -c "import tomllib; print(tomllib.load(open('pyproject.toml', 'rb'))['project']['version'])")
+          version=$(python3 -c "import tomllib; print(tomllib.load(open('pyproject.toml', 'rb'))['project']['version'])")
           if [ "$version" != "$GITHUB_REF_NAME" ]; then
             echo "Tag $GITHUB_REF_NAME does not match pyproject.toml version $version"
             exit 1
           fi
       - name: Build
         run: |
-          pip install build twine
-          python -m build
-          twine check dist/*
-      - uses: actions/upload-artifact@v4
-        with:
-          name: dist
-          path: dist/
-  publish:
-    needs: build
-    runs-on: ubuntu-latest
-    environment: pypi
-    permissions:
-      id-token: write
-    steps:
-      - uses: actions/download-artifact@v4
-        with:
-          name: dist
-          path: dist/
-      - uses: pypa/gh-action-pypi-publish@release/v1
+          python3 -m venv .venv
+          .venv/bin/pip install build twine
+          .venv/bin/python -m build
+          .venv/bin/twine check dist/*
+      - name: Publish to PyPI
+        # Trusted publishing: exchange the GitHub OIDC token for a short-lived
+        # PyPI upload token (what pypa/gh-action-pypi-publish does internally).
+        run: |
+          set -euo pipefail
+          oidc=$(curl -sSf -H "Authorization: bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" \
+            "$ACTIONS_ID_TOKEN_REQUEST_URL&audience=pypi" | jq -r .value)
+          token=$(curl -sSf -X POST https://pypi.org/_/oidc/mint-token \
+            -d "{\"token\": \"$oidc\"}" | jq -r .token)
+          echo "::add-mask::$token"
+          TWINE_USERNAME=__token__ TWINE_PASSWORD="$token" .venv/bin/twine upload dist/*

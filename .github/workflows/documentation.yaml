@@ -2,23 +2,35 @@ name: Docs
 on: [push, pull_request, workflow_dispatch]
 permissions:
     contents: write
+# Org policy only allows actions from rivian-owned repos, so every step here is
+# a plain shell command instead of a `uses:` action.
 jobs:
   docs:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v3
+      - name: Checkout
+        run: |
+          git init .
+          git remote add origin "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY"
+          git fetch --depth 1 origin "$GITHUB_SHA"
+          git checkout FETCH_HEAD
       - name: Install dependencies
         run: |
-          pip install sphinx sphinx_rtd_theme myst-parser
+          python3 -m venv .venv
+          .venv/bin/pip install sphinx sphinx_rtd_theme myst-parser
       - name: Sphinx build
         run: |
-          sphinx-build docs/source build
+          .venv/bin/sphinx-build docs/source build
       - name: Deploy
-        uses: peaceiris/actions-gh-pages@v3
         if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
-        with:
-          publish_branch: gh-pages
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: build/
-          force_orphan: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          cd build
+          touch .nojekyll
+          git init -b gh-pages .
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Deploy docs from $GITHUB_SHA"
+          git push --force "https://x-access-token:$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY" gh-pages
