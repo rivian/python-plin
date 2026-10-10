@@ -514,25 +514,29 @@ class PLIN:
 
     def read(self, block=True) -> Union[PLINMessage, None]:
         '''
-        Reads a PLINMessage from the LIN bus with an optional timeout in milliseconds.
+        Reads the next PLINMessage the driver has queued.
 
-        A timeout value of 0 blocks until data is read. If the timeout is reached before data is read, None is returned.
+        Every record is returned as the device reported it, including frames whose data is all 0xFF:
+        that is what an unanswered header looks like (flags carry SLV_NOT_RSP / TIMEOUT), and it is
+        indistinguishable from a slave that answered with recessive bytes, so the caller must decide
+        from the flags, not the data. Non-FRAME records (SLEEP, WAKEUP, OVERRUN, ...) are returned
+        too; check message.type.
+
+        Returns None when a non-blocking read finds nothing queued.
         '''
         if self.fd:
             blocking = os.get_blocking(self.fd)
             os.set_blocking(self.fd, block)
             try:
                 result = os.read(self.fd, PLINMessage.buffer_length)
-                message = PLINMessage.from_buffer_copy(result)
-                # If bytes read was invalid.
-                if bytes(message.data) == PLIN_EMPTY_DATA:
-                    message = None
-            except KeyboardInterrupt:
-                raise KeyboardInterrupt
-            except:
-                message = None
-            os.set_blocking(self.fd, blocking)
-            return message
+            except BlockingIOError:
+                return None
+            finally:
+                os.set_blocking(self.fd, blocking)
+
+            if len(result) < PLINMessage.buffer_length:
+                return None
+            return PLINMessage.from_buffer_copy(result)
         else:
             raise Exception("PLIN not connected!")
 
