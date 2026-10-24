@@ -1,6 +1,6 @@
 import sys
 import os
-#Configuration file for the Sphinx documentation builder.
+# Configuration file for the Sphinx documentation builder.
 #
 # For the full list of built-in configuration values, see the documentation:
 # https://www.sphinx-doc.org/en/master/usage/configuration.html
@@ -23,7 +23,7 @@ autodoc_mock_imports = ['ioctl_opt']
 templates_path = ['_templates']
 
 # The suffix(es) of source filenames.
-# You can specify multiple suffix as a list of string:
+# You can specify multiple suffixes as a list of strings:
 #
 # source_suffix = ['.rst', '.md']
 source_suffix = '.rst'
